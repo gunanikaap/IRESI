@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const facts = [
+	'€9.5M+ Competitive Funding',
+	'Maynooth University, Ireland',
+	'Interdisciplinary Research Centre',
+	'Horizon Europe, SFI, SEAI',
+];
+
+const sections = [
+	{
+		title: 'Our Role & Expertise',
+		text: 'The Centre addresses pressing national and global challenges in decarbonisation and climate resilience, energy systems integration, digital innovation, education, and environmental stewardship, bringing together expertise across engineering, computer science, business, and social science to deliver impactful and scalable solutions.',
+	},
+	{
+		title: 'Strategic Alignment',
+		text: 'Aligned with Maynooth University’s strategic Research Beacons — Sustainability and Climate Change and Data Science and Digital Transformation — IRESI embeds education, digitalisation, and stakeholder engagement as its core pillars. Its mission reflects the University’s emphasis on partnerships, community connection, and policy engagement, directly contributing to the institution’s leadership in climate action, digital innovation, and societal transformation.',
+	},
+	{
+		title: 'Research & Innovation Scope',
+		text: 'The Centre’s activities bridge the full innovation spectrum — from applying advanced AI, data analytics, and digital twin technologies for optimising energy and transport systems, to co-creating community-driven solutions for decarbonisation, energy efficiency, and climate resilience.',
+	},
+	{
+		title: 'National & European Contribution',
+		text: 'Each research strand contributes to Ireland’s Climate Action Plan (2024), National Energy and Climate Plan (NECP 2021–2030), and Smart Specialisation Strategy, while also supporting the European Union’s Green Deal, REPowerEU, and Horizon Europe Mission on Climate-Neutral and Smart Cities.',
+	},
+	{
+		title: 'Research Capacity & Collaboration',
+		text: 'By establishing IRESI as a Designated Research Centre, Maynooth University will consolidate an existing critical mass of €9.5 million in competitively secured funding, enhance its visibility within national and international research ecosystems (including Horizon Europe, SFI, SEAI, and Enterprise Ireland programmes), and institutionalise a proven model of cross-faculty and cross-sector collaboration.',
+	},
+	{
+		title: 'Our Vision & Impact',
+		text: 'In doing so, IRESI will position Maynooth University as a recognised leader in connecting energy, innovation, environment, and education — driving research excellence with tangible impact on policy, industry, and communities.',
+	},
+];
+
+const collage = Array.from({ length: 16 }, (_, i) => `/images/about/collage-${i + 1}.jpg`);
+---
+
+<BaseLayout
+	title="About Us"
+	description="IRESI is a leading interdisciplinary research hub at Maynooth University advancing sustainable, data-driven and community-centred approaches to the clean energy transition."
+	image="/images/about/lead.jpg"
+>
+	<section class="page-hero">
+		<div class="container">
+			<h1>About Us</h1>
+			<ul class="facts">
+				{facts.map((fact) => <li>{fact}</li>)}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<p class="lead intro">
+				The International Research on Energy system integration, Education, and Environment for
+				Sustainability and Innovation (IRESI) Centre serves as a leading interdisciplinary hub at
+				Maynooth University, dedicated to advancing sustainable, data-driven, and community-centred
+				approaches to the clean energy transition.
+			</p>
+			<img class="lead-image" src="/images/about/lead.jpg" alt="" width="1024" height="768" />
+		</div>
+	</section>
+
+	<section class="section section--alt">
+		<div class="container">
+			<ul class="detail-list">
+				{
+					sections.map((section) => (
+						<li>
+							<h2>{section.title}</h2>
+							<p>{section.text}</p>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<h2 class="visually-hidden">Life at IRESI</h2>
+			<ul class="collage">
+				{
+					collage.map((src) => (
+						<li>
+							<img src={src} alt="" width="256" height="256" loading="lazy" />
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.page-hero {
+		background: linear-gradient(180deg, #5a5a5a 0%, #1c1c1c 100%);
+		color: #fff;
+		padding-block: clamp(3rem, 6vw, 4.5rem);
+	}
+
+	.page-hero h1 {
+		color: #fff;
+	}
+
+	.facts {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+		gap: 1rem;
+		list-style: none;
+		margin: 2rem 0 0;
+		padding: 0;
+	}
+
+	.facts li {
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		padding: 1rem 1.15rem;
+		border: 1px solid rgba(255, 255, 255, 0.28);
+		border-radius: var(--radius);
+	}
+
+	.intro {
+		max-width: 74ch;
+	}
+
+	.lead-image {
+		display: block;
+		width: 100%;
+		margin-top: 2.5rem;
+		border-radius: var(--radius);
+	}
+
+	.detail-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+		gap: 2.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.detail-list h2 {
+		font-size: 1.25rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.detail-list p {
+		margin: 0;
+		color: var(--color-text-muted);
+	}
+
+	.collage {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		gap: 0.85rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.collage img {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
+		border-radius: 6px;
+		display: block;
+	}
+</style>

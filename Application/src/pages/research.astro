@@ -1,0 +1,187 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const topics = (await getCollection('research')).sort((a, b) => a.data.order - b.data.order);
+
+// Divisions in the order the live Research page presents them, with the
+// longer-form summary each one carries there.
+const divisions = [
+	{
+		slug: 'renewables',
+		title: 'Renewables',
+		text: 'In the realm of renewable energy, our research at IRESI is dedicated to harnessing the full potential of sources like solar, wind, and hydro power. We’re not content with just their existence; we strive to optimize their efficiency, storage capabilities, and seamless integration into established energy grids. Our goal is clear: to position renewable energy as the bedrock of a sustainable future.',
+		images: ['/images/research/renewables-1.jpg', '/images/research/renewables-2.jpg'],
+	},
+	{
+		slug: 'transport',
+		title: 'Transportation',
+		text: 'At IRESI, our dedication to revolutionizing transportation is unwavering. Through rigorous research and innovation, we focus on electric vehicles, alternative fuels, and sustainable urban mobility solutions. Our goal is to drive a seismic shift away from fossil fuel dependency, mitigating emissions, and ushering in a cleaner, greener era of transportation.',
+		images: [],
+	},
+	{
+		slug: 'buildings',
+		title: 'Buildings',
+		text: 'In the realm of building research, IRESI delves deep into the development of sustainable building materials, the creation of energy-efficient architectural designs, and the integration of smart technologies. Our aim is to foster the construction of environmentally responsible structures that substantially reduce their carbon footprint.',
+		images: ['/images/research/buildings-1.jpg', '/images/research/buildings-2.jpg'],
+	},
+	{
+		slug: 'engage-research',
+		title: 'Engaged Research',
+		text: 'Our commitment to impactful research extends beyond the confines of academia. Through collaborative projects with industry partners and local communities, we bridge the gap between theory and practice. These partnerships enable us to tackle real-world challenges head-on, harnessing the power of our research to effect tangible change in society.',
+		images: [],
+	},
+	{
+		slug: 'green-upskilling',
+		title: 'Green Technologies Upskilling',
+		text: 'IRESI’s dedication to education extends to a crucial facet: upskilling the workforce in green technologies. Through specialized training programs, workshops, and collaborations with industry partners, we equip individuals with the knowledge and practical skills needed to thrive in the ever-evolving green technology landscape.',
+		images: ['/images/research/upskilling-1.jpg', '/images/research/upskilling-2.jpg'],
+	},
+	{
+		slug: 'electricity-and-power-system',
+		title: 'Electricity and Power Systems',
+		text: 'In the domain of electricity and power systems, our research endeavors at IRESI focus on the development of cutting-edge solutions. We delve into advanced grid management strategies, harnessing smart technologies and data analytics to enhance grid reliability and efficiency, and pioneer storage solutions that facilitate the integration of renewable energy sources.',
+		images: [],
+	},
+	{
+		slug: 'heating-and-cooling-systems',
+		title: 'Heating and Cooling Systems',
+		text: 'Within the Heating and Cooling Systems division, our research is dedicated to exploring sustainable methods that significantly reduce energy consumption and carbon emissions. We delve into innovative approaches such as harnessing geothermal energy, utilizing solar thermal systems, and optimizing HVAC technologies.',
+		images: ['/images/research/heating-cooling-1.jpg'],
+	},
+];
+
+const topicTitles = new Map(topics.map((topic) => [topic.id, topic.data.title]));
+---
+
+<BaseLayout
+	title="Research"
+	description="IRESI's research divisions span renewables, transport, buildings, engaged research, green upskilling, electricity and power systems, and heating and cooling."
+	image="/images/research/renewables-1.jpg"
+>
+	<PageHero
+		title="Research"
+		subtitle="Research at IRESI: Pioneering Sustainable Solutions"
+	/>
+
+	<section class="section">
+		<div class="container">
+			<p class="lead">
+				At the International Renewables and Energy Systems Integration Group (IRESI), research is at
+				the forefront of our mission to transform the energy landscape and drive sustainable change.
+				Our dedicated team of experts spans various research divisions, each focused on advancing
+				knowledge and innovation in specific areas of sustainable energy. Explore our diverse
+				research divisions below.
+			</p>
+
+			<ul class="divisions">
+				{
+					divisions.map((division) => (
+						<li class="division">
+							<div class="division__body">
+								<h2>{division.title}</h2>
+								<p>{division.text}</p>
+								<a class="division__link" href={`/${division.slug}`}>
+									More on {topicTitles.get(division.slug) ?? division.title} &rsaquo;
+								</a>
+							</div>
+							{division.images.length > 0 && (
+								<ul class="division__images">
+									{division.images.map((src) => (
+										<li>
+											<img src={src} alt="" loading="lazy" />
+										</li>
+									))}
+								</ul>
+							)}
+						</li>
+					))
+				}
+			</ul>
+
+			<p class="closing">
+				At IRESI, our research isn’t just theoretical; it’s a driving force for change. We actively
+				collaborate with partners worldwide, embrace interdisciplinary approaches, and push the
+				boundaries of knowledge to create a more sustainable and equitable future. Join us in our
+				journey to make a difference through research that matters.
+			</p>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.divisions {
+		display: grid;
+		gap: 3rem;
+		list-style: none;
+		margin: 3rem 0 0;
+		padding: 0;
+	}
+
+	.division {
+		display: grid;
+		grid-template-columns: 1.4fr 1fr;
+		gap: 2.5rem;
+		align-items: center;
+		padding-bottom: 3rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.division:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+
+	.division:not(:has(.division__images)) {
+		grid-template-columns: 1fr;
+	}
+
+	.division__body h2 {
+		font-size: 1.375rem;
+		margin-bottom: 0.85rem;
+	}
+
+	.division__body p {
+		color: var(--color-text-muted);
+		max-width: 68ch;
+	}
+
+	.division__link {
+		display: inline-block;
+		margin-top: 1rem;
+		font-family: var(--font-heading);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.division__images {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+		gap: 1rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.division__images img {
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-radius: var(--radius);
+		display: block;
+	}
+
+	.closing {
+		max-width: 74ch;
+		margin-top: 3rem;
+	}
+
+	@media (max-width: 900px) {
+		.division {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

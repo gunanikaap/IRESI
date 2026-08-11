@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+Application/dist/
+Application/.astro/
+
+# Source archives of the previous WordPress/Astro attempts (reference only)
+*.zip
+
+# Environment
+.env
+.env.production
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

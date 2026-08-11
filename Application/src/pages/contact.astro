@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+	title="Contact"
+	description="Get in touch with the IRESI Centre at Maynooth University — info@iresi.eu."
+>
+	<PageHero title="Contact Us" />
+
+	<section class="section">
+		<div class="container contact-grid">
+			<div>
+				<p>
+					Thank you for your interest in the International Research on Energy System Integration,
+					Education, and Environment for Sustainability and Innovation (IRESI) Centre.
+				</p>
+				<p>
+					We welcome your questions and enquiries and are happy to provide further information about
+					our research, projects, and collaborations. Please use the form below to contact us.
+				</p>
+
+				<ul class="contact-details">
+					<li>
+						<span class="contact-details__label">Email</span>
+						<a href={`mailto:${site.email}`}>{site.email}</a>
+					</li>
+					<li>
+						<span class="contact-details__label">Address</span>
+						<span>{site.address}</span>
+					</li>
+				</ul>
+			</div>
+
+			<form id="contact-form" novalidate>
+				<div class="field">
+					<label for="name">Name</label>
+					<input type="text" id="name" name="name" autocomplete="name" required />
+				</div>
+				<div class="field">
+					<label for="organisation">Name of Organisation</label>
+					<input type="text" id="organisation" name="organisation" autocomplete="organization" />
+				</div>
+				<div class="field">
+					<label for="email">Email</label>
+					<input type="email" id="email" name="email" autocomplete="email" required />
+				</div>
+				<div class="field">
+					<label for="phone">Phone</label>
+					<input type="tel" id="phone" name="phone" autocomplete="tel" />
+				</div>
+				<div class="field">
+					<label for="message">Message</label>
+					<textarea id="message" name="message" rows="6" required></textarea>
+				</div>
+				<button class="button" type="submit">Send</button>
+				<p class="form-note">
+					Submitting opens your email application with the message ready to send to {site.email}.
+					If nothing happens, email us directly at <a href={`mailto:${site.email}`}>{site.email}</a>.
+				</p>
+			</form>
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	.contact-grid {
+		display: grid;
+		grid-template-columns: 1fr 1.1fr;
+		gap: 3.5rem;
+		align-items: start;
+	}
+
+	.contact-details {
+		list-style: none;
+		margin: 2rem 0 0;
+		padding: 0;
+	}
+
+	.contact-details li {
+		padding: 1.1rem 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.contact-details__label {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+		margin-bottom: 0.3rem;
+	}
+
+	.field {
+		margin-bottom: 1.25rem;
+	}
+
+	label {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		margin-bottom: 0.4rem;
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		font-family: inherit;
+		font-size: 1rem;
+		color: var(--color-text);
+		padding: 0.8rem 1rem;
+		background: #fff;
+		border: 1px solid var(--color-border);
+		border-radius: 6px;
+	}
+
+	input:focus,
+	textarea:focus {
+		border-color: var(--color-accent);
+		outline: 2px solid rgba(0, 112, 178, 0.2);
+		outline-offset: 0;
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	.form-note {
+		margin-top: 1.25rem;
+		font-size: 0.8125rem;
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 860px) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5rem;
+		}
+	}
+</style>
+
+<script is:inline define:vars={{ recipient: site.email }}>
+	// The site is statically hosted with no form backend, so the form composes a
+	// pre-filled email instead of posting anywhere.
+	const form = document.getElementById('contact-form');
+
+	form?.addEventListener('submit', (event) => {
+		event.preventDefault();
+
+		if (!form.checkValidity()) {
+			form.reportValidity();
+			return;
+		}
+
+		const data = new FormData(form);
+		const get = (key) => String(data.get(key) ?? '').trim();
+
+		const subject = `Website enquiry from ${get('name')}`;
+		const body = [
+			`Name: ${get('name')}`,
+			`Organisation: ${get('organisation') || '—'}`,
+			`Email: ${get('email')}`,
+			`Phone: ${get('phone') || '—'}`,
+			'',
+			get('message'),
+		].join('\n');
+
+		window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(
+			subject
+		)}&body=${encodeURIComponent(body)}`;
+	});
+</script>

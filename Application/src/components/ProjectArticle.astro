@@ -1,0 +1,161 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+
+interface Props {
+	project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, pageTitle, tags, intro, image, website, websiteLabel, vimeoId } = project.data;
+const { Content } = await render(project);
+---
+
+<article>
+	<section class="project-hero">
+		<div class="container">
+			<h1>{pageTitle ?? title}</h1>
+			{
+				tags.length > 0 && (
+					<ul class="tags">
+						{tags.map((tag) => (
+							<li>{tag}</li>
+						))}
+					</ul>
+				)
+			}
+			{intro.map((paragraph) => <p class="project-hero__intro">{paragraph}</p>)}
+			<div class="project-hero__actions">
+				{vimeoId && <a class="button" href="#video">Watch Demo</a>}
+				{
+					website && (
+						<a
+							class="button-outline"
+							href={website}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{websiteLabel}
+						</a>
+					)
+				}
+			</div>
+		</div>
+	</section>
+
+	{
+		image && (
+			<section class="section">
+				<div class="container">
+					<img class="project-image" src={image} alt={`${title} project`} loading="lazy" />
+				</div>
+			</section>
+		)
+	}
+
+	{
+		vimeoId && (
+			<section class="section" id="video">
+				<div class="container">
+					<h2>Watch the demo</h2>
+					<div class="video">
+						<iframe
+							src={`https://player.vimeo.com/video/${vimeoId}`}
+							title={`${title} demo video`}
+							allow="autoplay; fullscreen; picture-in-picture"
+							allowfullscreen
+							loading="lazy"
+						/>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	<section class="section section--alt">
+		<div class="container">
+			<h2>About project</h2>
+			<div class="prose project-body">
+				<Content />
+			</div>
+			<p class="back"><a href="/projects">&larr; All projects</a></p>
+		</div>
+	</section>
+</article>
+
+<style>
+	.project-hero {
+		background: linear-gradient(180deg, #5a5a5a 0%, #1c1c1c 100%);
+		color: #fff;
+		padding-block: clamp(3rem, 6vw, 4.5rem);
+	}
+
+	.project-hero h1 {
+		color: #fff;
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.6rem;
+		list-style: none;
+		margin: 1.5rem 0;
+		padding: 0;
+	}
+
+	.tags li {
+		font-family: var(--font-heading);
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		padding: 0.45rem 1rem;
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		border-radius: 999px;
+	}
+
+	.project-hero__intro {
+		max-width: 68ch;
+		color: rgba(255, 255, 255, 0.88);
+	}
+
+	.project-hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+
+	.project-image {
+		display: block;
+		width: 100%;
+		border-radius: var(--radius);
+	}
+
+	.video {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		border-radius: var(--radius);
+		overflow: hidden;
+		background: #000;
+	}
+
+	.video iframe {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: 0;
+	}
+
+	.project-body {
+		max-width: 74ch;
+	}
+
+	.back {
+		margin-top: 2.5rem;
+		font-family: var(--font-heading);
+		font-size: 0.8125rem;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+	}
+</style>

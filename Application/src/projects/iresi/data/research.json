@@ -1,0 +1,297 @@
+[
+	{
+		"slug": "renewables",
+		"title": "Renewables",
+		"summary": "Renewable energy sources, such as solar, wind, hydro, and bioenergy, are the bedrock of a sustainable future. They offer a path away from fossil fuels, mitigating climate change, and reducing environmental impacts. At International Renewables and Energy Systems Integration (IRESI), we recognize the critical role renewables play in reshaping our energy landscape.",
+		"order": 1,
+		"sections": [
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"Despite their promise, renewables face challenges like intermittency, grid integration, and scalability. IRESI is committed to addressing these challenges head-on. We aim to harness the full potential of renewable resources while minimizing their environmental impact. Our efforts have a direct and positive impact on reducing carbon emissions and securing a cleaner, more sustainable energy future."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"In our relentless pursuit of sustainable energy, IRESI's Renewables division focuses on cutting-edge research in renewable technologies. We investigate advanced solar panel designs, wind turbine efficiency, biofuel development, and grid integration solutions. Our interdisciplinary approach combines expertise in engineering, environmental science, and policy to drive innovation."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"We believe in the power of collaboration. IRESI actively seeks partnerships with industry leaders, research institutions, and government agencies. Together, we can accelerate the development and deployment of renewable technologies. Explore our collaboration opportunities to join us in shaping a greener future."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"The transition to renewable energy is a global imperative. At IRESI, we are determined to meet this challenge head-on. Through rigorous research, innovative solutions, and collaborative efforts, we aim to make renewables the cornerstone of a sustainable energy landscape. Together, we can make a profound impact on the world's energy future, reducing our carbon footprint and safeguarding the planet for generations to come.",
+					"Join us in our mission to usher in a renewable energy revolution. Explore our research, learn about our ongoing projects, and discover how you can contribute to a greener and more sustainable world through renewables at IRESI."
+				],
+				"bullets": []
+			}
+		]
+	},
+	{
+		"slug": "transport",
+		"title": "Transport",
+		"summary": "Transportation is a vital aspect of modern life, but it poses significant challenges to sustainability. Traditional transportation systems heavily rely on fossil fuels, contributing to environmental pollution and climate change. At IRESI, we are committed to revolutionizing the way we move people and goods, aiming to make transportation more efficient, eco-friendly, and accessible.",
+		"order": 2,
+		"sections": [
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"The challenges posed by the transportation sector are vast and pressing. These challenges include carbon emissions, air quality, congestion, and the dependence on finite fossil fuel resources. Addressing these issues is crucial for creating a sustainable future. The impact of sustainable transportation solutions extends beyond reducing carbon footprints; it also improves air quality, enhances mobility, and fosters economic growth."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"Our research in the Transportation division is centered on innovative solutions to these challenges. We investigate electric vehicles (EVs), alternative fuels, public transportation improvements, and sustainable urban planning. Our goal is to reduce emissions, enhance efficiency, and promote eco-friendly mobility options."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"Collaboration is at the heart of our research efforts. We actively seek partnerships with industry leaders, policymakers, and local communities to implement and scale sustainable transportation solutions. Together, we can drive change on a global scale."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"Meeting the challenge of sustainable transportation requires innovation, education, and collective action. We're dedicated to advancing knowledge through research, educating the next generation of transportation leaders, and working hand-in-hand with stakeholders to implement practical solutions. Join us in reshaping transportation for a more sustainable future.",
+					"Explore our ongoing projects, publications, and opportunities for collaboration within the Transportation division to learn more about our efforts to shape a greener, more efficient, and accessible transportation landscape. Together, we're steering the course toward a sustainable and equitable mobility future."
+				],
+				"bullets": []
+			}
+		]
+	},
+	{
+		"slug": "buildings",
+		"title": "Buildings",
+		"summary": "Buildings are central to the energy landscape, accounting for a substantial portion of energy consumption and carbon emissions globally. At International Renewables and Energy Systems Integration (IRESI), we recognize the pivotal role buildings play in shaping a sustainable future. Our research in this domain is driven by a deep commitment to redefining the way we design, construct, and operate buildings to minimize environmental impact and enhance energy efficiency.",
+		"order": 3,
+		"sections": [
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"The challenges posed by traditional building practices are significant, including high energy consumption, resource depletion, and carbon emissions. However, the potential for positive change is equally significant. By addressing these challenges, we can create buildings that are not only environmentally friendly but also provide healthier and more comfortable spaces for occupants. The impact of sustainable building practices extends beyond energy efficiency; it encompasses improved indoor air quality, reduced operating costs, and a smaller ecological footprint."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"IRESI's research in the \"Buildings\" domain encompasses a wide range of areas:"
+				],
+				"bullets": [
+					"**Energy-Efficient Design:** We explore innovative architectural and engineering designs that prioritize energy efficiency, including passive design techniques and advanced insulation materials.",
+					"**Smart Technologies:** Our research delves into the integration of smart technologies for building automation, optimizing energy consumption and enhancing occupant comfort.",
+					"**Renewable Energy Integration:** We investigate the seamless integration of renewable energy sources such as solar panels and wind turbines into building structures.",
+					"**Materials Innovation:** We study sustainable building materials and construction methods that reduce environmental impact and enhance building longevity."
+				]
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"We believe in the power of collaboration. If you share our passion for sustainable building practices and are interested in partnering with us, we welcome collaboration opportunities with industry, academia, and other organizations. Together, we can accelerate the adoption of sustainable building solutions and make a tangible impact on the way buildings are designed, constructed, and operated."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"The challenge of sustainable buildings is substantial, but it is one we are determined to meet head-on. By leveraging cutting-edge research, interdisciplinary collaboration, and a commitment to innovation, IRESI is dedicated to shaping a future where buildings are not just structures but vital components of a sustainable and harmonious world.",
+					"Join us in our journey to transform the building industry and create a more sustainable built environment for generations to come."
+				],
+				"bullets": []
+			}
+		]
+	},
+	{
+		"slug": "electricity-and-power-system",
+		"title": "Electricity and Power Systems",
+		"summary": "The electricity and power systems that sustain our modern world are undergoing a transformative shift towards sustainability. At International Renewables and Energy Systems Integration (IRESI), we recognize the pivotal role that these systems play in shaping our energy future. Our dedicated research division focuses on understanding, innovating, and optimizing electricity and power systems for a greener and more sustainable world.",
+		"order": 4,
+		"sections": [
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"The challenges facing electricity and power systems are multifaceted, from grid reliability and energy storage to grid integration and electrification of industries. Addressing these challenges is paramount to reducing carbon emissions, increasing energy efficiency, and ensuring a resilient energy infrastructure. Our research in this domain has a far-reaching impact, not only in reducing environmental harm but also in enhancing energy accessibility and affordability for all."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"Within our Electricity and Power Systems division, we delve into critical areas such as:"
+				],
+				"bullets": [
+					"**Grid Management:** Developing advanced techniques for grid optimization, stability, and resilience.",
+					"**Energy Storage Solutions:** Exploring innovative energy storage technologies to balance supply and demand.",
+					"**Grid Integration:** Integrating renewable energy sources seamlessly into existing grids.",
+					"**Electrification:** Promoting electrification of transportation and industrial processes to reduce reliance on fossil fuels."
+				]
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"Collaboration is at the heart of our research approach. We actively seek partnerships with academic institutions, industry leaders, and governmental bodies to foster innovation and drive positive change. Together, we can address the complex challenges facing electricity and power systems and create scalable solutions for a sustainable energy future."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"The transition to sustainable electricity and power systems is not only necessary but also achievable. Through rigorous research, innovation, and collaboration, IRESI is committed to meeting this challenge head-on. Join us in our mission to shape a brighter, cleaner, and more sustainable energy landscape. Together, we can empower the future of energy and leave a lasting legacy for generations to come."
+				],
+				"bullets": []
+			}
+		]
+	},
+	{
+		"slug": "engage-research",
+		"title": "Engaged Research",
+		"summary": "At the core of IRESI's research mission lies a commitment to engaged research across our projects to ensure that all societal stakeholders are empowered in the transition to renewable energy systems.",
+		"order": 5,
+		"sections": [
+			{
+				"heading": null,
+				"paragraphs": [
+					"Engaged research describes a wide range of research approaches and methodologies that share a common interest in collaboration with societal partners, to address sustainability challenges. It is advanced with societal partners rather than for them (Campus Engage, 2022). At IRESI, our societal partners include service users, product users, policymakers, civil and civic society organizations, industry partners, members of the public, NGOs and other relevant stakeholders. Our societal partners are involved in the co-creation of knowledge, to address sustainable energy challenges."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"The challenges we face in achieving a sustainable energy future are complex and interconnected. Engagement research allows us to confront these challenges head-on and measure our impact on the world. From reducing carbon emissions to enhancing energy efficiency, our research initiatives drive positive change."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"Our engagement research spans a wide range of areas, including renewable energy adoption, sustainable urban planning, community-driven projects, and more. We collaborate with diverse stakeholders to tackle pressing issues and develop innovative solutions. Our interdisciplinary approach ensures comprehensive, effective, and lasting outcomes."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"IRESI thrives on collaboration. We welcome partnerships with industry, government agencies, nonprofits, and local communities. Together, we can leverage our combined expertise and resources to create sustainable solutions that transcend boundaries."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"IRESI is committed to developing relationships with our societal stakeholders through a variety of ways including dialogic workshops, community engagement initiatives, family outreach days, conference presentations, and contributions to government policy calls. In nurturing and developing these relationships, IRESI aims to provide all stakeholders with a voice to contribute to our research agenda. At IRESI, societal stakeholders have the opportunity to be involved throughout the research process, from the development of a research question to the dissemination of results and implementation of practical recommendations.",
+					"At IRESI, we recognize that research should be more than just an academic exercise. It should be a force for positive transformation. Explore our engagement research initiatives, learn about our ongoing projects, and discover how you can collaborate with us to make a tangible difference in the world of sustainable energy. Together, we can meet the challenges, forge solutions, and create a brighter, more sustainable future.",
+					"Several members of IRESI are Irish University Association (IUA) Campus Engage, Engaged Research Facilitators. The team is committed to providing Engaged Research Training and Development for all societal stakeholders involved in our projects."
+				],
+				"bullets": []
+			}
+		]
+	},
+	{
+		"slug": "green-upskilling",
+		"title": "Green Upskilling",
+		"summary": "At IRESI, we recognize that one of the critical drivers of a sustainable energy future is a skilled workforce adept in green technologies. Our \"Green Technologies Upskilling\" initiative is designed to address this imperative need.",
+		"order": 6,
+		"sections": [
+			{
+				"heading": "Background",
+				"paragraphs": [
+					"The transition to sustainable energy systems demands a workforce equipped with cutting-edge knowledge and expertise. The Green Technologies Upskilling program was established to bridge the skills gap, ensuring that individuals and industries are prepared to embrace and thrive in a rapidly evolving green technology landscape."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"The challenges are significant but surmountable. Rapid advancements in green technologies require continuous learning and adaptation. Our upskilling programs empower individuals and organizations to navigate these changes effectively. By acquiring skills in renewable energy, sustainable construction, and green technology integration, participants can actively contribute to reducing carbon emissions and fostering a more sustainable world."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"Our upskilling efforts are informed by rigorous research. We stay at the forefront of industry trends and emerging technologies, tailoring our programs to address the evolving needs of the green technology sector. Our research ensures that participants receive the most up-to-date knowledge and practical skills required to excel in their roles."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"We actively seek collaboration with educational institutions, businesses, and organizations interested in upskilling their workforce or individuals looking to enhance their career prospects in green technologies. Together, we can design customized programs, offer certifications, and develop a workforce prepared to meet the challenges of a sustainable future."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"The transition to green technologies is not just a transition; it's a transformation. Through upskilling, we are equipping individuals with the tools they need to be part of this transformation. By acquiring the skills to design, implement, and maintain sustainable energy systems and technologies, participants in our programs become change-makers, contributing to a greener, more resilient world.",
+					"Join us in the journey towards a sustainable future. Explore our Green Technologies Upskilling programs and partnership opportunities. Together, we can rise to the challenge and build a workforce ready to lead the way in green technology innovation and implementation."
+				],
+				"bullets": []
+			}
+		]
+	},
+	{
+		"slug": "heating-and-cooling-systems",
+		"title": "Heating and Cooling Systems",
+		"summary": "The challenges posed by conventional heating and cooling systems are twofold. First, their energy consumption has a significant environmental impact, contributing to greenhouse gas emissions and climate change. Second, the growing demand for heating and cooling in a rapidly urbanizing world strains energy resources and infrastructure, leading to energy inefficiency and increased costs.",
+		"order": 7,
+		"sections": [
+			{
+				"heading": null,
+				"paragraphs": [
+					"At IRESI, we recognize the urgent need to address these challenges head-on."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Challenges and Impact",
+				"paragraphs": [
+					"The challenges are significant but surmountable. Rapid advancements in green technologies require continuous learning and adaptation. Our upskilling programs empower individuals and organizations to navigate these changes effectively. By acquiring skills in renewable energy, sustainable construction, and green technology integration, participants can actively contribute to reducing carbon emissions and fostering a more sustainable world."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Research Focus",
+				"paragraphs": [
+					"Our research in Heating and Cooling Systems is dedicated to finding innovative and sustainable solutions. We explore a range of technologies and methods, including:",
+					"Our research aims to not only reduce energy consumption but also improve indoor air quality, increase energy resilience, and create cost-effective solutions for a wide range of applications."
+				],
+				"bullets": [
+					"**Geothermal Systems:** Harnessing the Earth's natural heat reservoirs for efficient heating and cooling.",
+					"**Solar Thermal:** Utilizing solar energy to provide heating for both residential and industrial applications.",
+					"**Efficient HVAC Systems:** Developing advanced HVAC technologies that significantly reduce energy consumption while maintaining optimal comfort."
+				]
+			},
+			{
+				"heading": "Collaboration Opportunities",
+				"paragraphs": [
+					"We believe that collaborative efforts are essential to drive meaningful change. IRESI welcomes partnerships with industry leaders, researchers, and organizations committed to sustainable heating and cooling solutions. Together, we can leverage expertise and resources to accelerate the development and adoption of innovative technologies."
+				],
+				"bullets": []
+			},
+			{
+				"heading": "Meeting the Challenge",
+				"paragraphs": [
+					"Meeting the challenge of sustainable heating and cooling systems is not only an environmental imperative but also an economic opportunity. By reducing energy consumption, lowering operational costs, and mitigating environmental impact, we can create a more resilient and sustainable future.",
+					"Join us at IRESI as we work tirelessly to transform the heating and cooling landscape. Together, we can pioneer solutions that enhance comfort, reduce energy consumption, and combat climate change. Together, we can meet the challenge of sustainable heating and cooling systems head-on, making a positive impact on our planet and future generations."
+				],
+				"bullets": []
+			}
+		]
+	}
+]

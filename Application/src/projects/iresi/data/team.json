@@ -1,0 +1,290 @@
+[
+	{
+		"name": "Prof. Fabiano Pallonetto",
+		"role": "Director",
+		"photo": "/images/team/fabiano-pallonetto.jpg",
+		"email": "Fabiano.Pallonetto@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/fabianopallonetto/",
+		"order": 1
+	},
+	{
+		"name": "Dr Amy Fahy",
+		"role": "Vice Director",
+		"photo": "/images/team/amy-fahy.jpg",
+		"email": "amy.fahy@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/amy-fahy-7236baba/",
+		"order": 2
+	},
+	{
+		"name": "Nicky Dawkins",
+		"role": "Lab Manager",
+		"photo": "/images/team/nicky-dawkins.jpg",
+		"email": "Nicolene.Dawkins@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/nicky-dawkins-0b895b212/",
+		"order": 3
+	},
+	{
+		"name": "Prof. John Ringwood",
+		"role": "Academic & Scientific Advisor",
+		"photo": "/images/team/john-ringwood.jpg",
+		"email": "john.ringwood@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/john-ringwood-783ab818/",
+		"order": 4
+	},
+	{
+		"name": "Dr Jean Cushen",
+		"role": "Academic Member",
+		"photo": "/images/team/jean-cushen.jpg",
+		"email": "Jean.Cushen@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/jean-cushen-44b48454/",
+		"order": 5
+	},
+	{
+		"name": "Dr Muhammad Waseem",
+		"role": "Academic Member",
+		"photo": "/images/team/muhammad-waseem.png",
+		"email": null,
+		"linkedin": "https://www.linkedin.com/in/muhammad-waseem-97a073226/",
+		"order": 6
+	},
+	{
+		"name": "Dr Bob Lawlor",
+		"role": "Scientific Advisor",
+		"photo": "/images/team/bob-lawlor.jpg",
+		"email": "Bob.Lawlor@mu.ie",
+		"linkedin": "https://www.maynoothuniversity.ie/faculty-science-engineering/our-people/bob-lawlor",
+		"order": 7
+	},
+	{
+		"name": "Dr Elisabetta Barone",
+		"role": "Academic Member",
+		"photo": "/images/team/elisabetta-barone.jpg",
+		"email": "Elisabetta.Barone@mu.ie",
+		"linkedin": "https://www.maynoothuniversity.ie/people/elisabetta-barone",
+		"order": 8
+	},
+	{
+		"name": "Dr Amr Mahfouz",
+		"role": "Academic Member",
+		"photo": "/images/team/amr-mahfouz.jpg",
+		"email": "Amr.Mahfouz@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/amrmahfouz/",
+		"order": 9
+	},
+	{
+		"name": "Dr CarrieAnne Barry",
+		"role": "Project Manager",
+		"photo": "/images/team/carrieanne-barry.jpg",
+		"email": "CarrieAnne.Barry@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/carrie-anne-barry-9b192616/",
+		"order": 10
+	},
+	{
+		"name": "Dr Erivelton Nepomuceno",
+		"role": "Scientific Advisor",
+		"photo": "/images/team/erivelton-nepomuceno.jpg",
+		"email": "Erivelton.Nepomuceno@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/egnepomuceno/",
+		"order": 11
+	},
+	{
+		"name": "Dr Amir Hossein Azadnia",
+		"role": "Academic Member",
+		"photo": "/images/team/amir-hossein-azadnia.jpg",
+		"email": "amir.azadnia@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/amir-azadnia-966ab951/",
+		"order": 12
+	},
+	{
+		"name": "Dr Shivam Agarwal",
+		"role": "Academic Member",
+		"photo": "/images/team/shivam-agarwal.jpg",
+		"email": "Shivam.Agarwal@mu.ie",
+		"linkedin": "https://ie.linkedin.com/in/shivam-agarwal-8a625a5b",
+		"order": 13
+	},
+	{
+		"name": "Dr Ciara Fitzgerald",
+		"role": "Senior Researcher",
+		"photo": "/images/team/ciara-fitzgerald.jpg",
+		"email": "Ciara.Fitzgerald@mu.ie",
+		"linkedin": null,
+		"order": 14
+	},
+	{
+		"name": "Dr Brendan Keegan",
+		"role": "Academic Member",
+		"photo": "/images/team/brendan-keegan.jpg",
+		"email": "brendan.keegan@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/brendankeegan/",
+		"order": 15
+	},
+	{
+		"name": "Dr Michael Hayden",
+		"role": "Academic Member",
+		"photo": "/images/team/michael-hayden.jpg",
+		"email": "michael.hayden@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/michael-hayden-phd-fca-a0362b79/",
+		"order": 16
+	},
+	{
+		"name": "Dr Patrick Rigot-Müller",
+		"role": "Academic Member",
+		"photo": "/images/team/patrick-rigot-muller.jpg",
+		"email": "patrick.rigotmuller@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/patrick-rigot-muller-9a39411/",
+		"order": 17
+	},
+	{
+		"name": "Dr Michael Hanley",
+		"role": "Academic Member",
+		"photo": "/images/team/michael-hanley.jpg",
+		"email": "Michael.Hanley@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/mihanley/",
+		"order": 18
+	},
+	{
+		"name": "Dr Steven McCartney",
+		"role": "Academic Member",
+		"photo": "/images/team/steven-mccartney.jpg",
+		"email": "Steven.McCartney@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/stevemccartney/",
+		"order": 19
+	},
+	{
+		"name": "David McLoughlin",
+		"role": "Project Manager",
+		"photo": "/images/team/david-mcloughlin.jpg",
+		"email": "David.Mcloughlin@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/davidgmcloughlin/",
+		"order": 20
+	},
+	{
+		"name": "Axel Frederik Penzo",
+		"role": "Project Manager",
+		"photo": "/images/team/axel-frederik-penzo.jpg",
+		"email": "axel.penzo@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/axelfrederikpenzo/",
+		"order": 21
+	},
+	{
+		"name": "Swarit Gaur",
+		"role": "Project Manager",
+		"photo": "/images/team/swarit-gaur.jpg",
+		"email": "Swarit.Gaur@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/swaritgaur/",
+		"order": 22
+	},
+	{
+		"name": "Ciaran Bannon",
+		"role": "Project Manager",
+		"photo": "/images/team/ciaran-bannon.jpg",
+		"email": "Ciaran.Bannon@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/ciaran-bannon/",
+		"order": 23
+	},
+	{
+		"name": "Dr Adarsh Sunil",
+		"role": "Senior Researcher",
+		"photo": "/images/team/adarsh-sunil.jpg",
+		"email": "Adarsh.S@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/adarshsunil/",
+		"order": 24
+	},
+	{
+		"name": "Dr Gráinne Mulcahy",
+		"role": "Senior Researcher",
+		"photo": "/images/team/grainne-mulcahy.jpg",
+		"email": "grainne.mulcahy.2022@mumail.ie",
+		"linkedin": "https://www.linkedin.com/in/dr-gráinne-mulcahy-7326499a/",
+		"order": 25
+	},
+	{
+		"name": "Amir Cicak",
+		"role": "Senior Software Developer",
+		"photo": "/images/team/amir-cicak.jpg",
+		"email": "Amir.Cicak@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/amircicak/",
+		"order": 26
+	},
+	{
+		"name": "Sadhbh Crean",
+		"role": "Researcher",
+		"photo": "/images/team/sadhbh-crean.jpg",
+		"email": "Sadhbh.Crean@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/sadhbhcrean/",
+		"order": 27
+	},
+	{
+		"name": "Paolo Cammardella",
+		"role": "Researcher",
+		"photo": "/images/team/paolo-cammardella.jpg",
+		"email": "paolo.cammardella@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/paolocammardella/",
+		"order": 28
+	},
+	{
+		"name": "Dr Annunziata Esposito Amideo",
+		"role": "Researcher",
+		"photo": "/images/team/annunziata-esposito-amideo.png",
+		"email": "Annunziata.espositoamideo@ucd.ie",
+		"linkedin": "https://ie.linkedin.com/in/annunziata-esposito-amideo-1131b7136",
+		"order": 29
+	},
+	{
+		"name": "Roy Bellingan",
+		"role": "Researcher",
+		"photo": "/images/team/roy-bellingan.jpg",
+		"email": "Roy.Bellingan@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/roybellingan/",
+		"order": 30
+	},
+	{
+		"name": "Aisling McAndrew",
+		"role": "Researcher",
+		"photo": "/images/team/aisling-mcandrew.jpg",
+		"email": "Aisling.Mcandrew@mu.ie",
+		"linkedin": "https://www.linkedin.com/in/aisling-mcandrew-742411274/",
+		"order": 31
+	},
+	{
+		"name": "Behnam Mohseni Gharyehsafa",
+		"role": "Researcher",
+		"photo": "/images/team/behnam-mohseni-gharyehsafa.jpg",
+		"email": "BEHNAM.MOHSENIGHARYEHSAFA.2023@mumail.ie",
+		"linkedin": "https://www.linkedin.com/in/behnam-mohseni-gharyehsafa-507442261/",
+		"order": 32
+	},
+	{
+		"name": "Annalisa Bringiotti",
+		"role": "Researcher",
+		"photo": "/images/team/annalisa-bringiotti.jpg",
+		"email": "annalisa.bringiotti@libero.it",
+		"linkedin": "https://www.linkedin.com/in/annalisa-bringiotti-8509b8232/",
+		"order": 33
+	},
+	{
+		"name": "Pietro Luigi Desole",
+		"role": "Researcher",
+		"photo": "/images/team/pietro-luigi-desole.jpg",
+		"email": "PIETRO.DESOLE.2023@mumail.ie",
+		"linkedin": "https://www.linkedin.com/in/pietro-luigi-desole-940148292",
+		"order": 34
+	},
+	{
+		"name": "Dr Muhammad Paend Bakht",
+		"role": "Researcher",
+		"photo": "/images/team/muhammad-paend-bakht.png",
+		"email": null,
+		"linkedin": "https://www.linkedin.com/in/muhammad-p-bakht-2313a621a/",
+		"order": 35
+	},
+	{
+		"name": "Muhammad Akram",
+		"role": "Visiting PhD Student",
+		"photo": "/images/team/muhammad-akram.png",
+		"email": null,
+		"linkedin": null,
+		"order": 36
+	}
+]

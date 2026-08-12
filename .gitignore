@@ -1,15 +1,17 @@
 # Dependencies
 node_modules/
 
-# Build output
-Application/dist/
-Application/.astro/
+# Next.js build output
+Application/.next/
+Application/out/
+next-env.d.ts
 
-# Source archives of the previous WordPress/Astro attempts (reference only)
+# Source archives of the previous WordPress site and earlier attempts
 *.zip
 
-# Environment
+# Environment — these hold database and mail credentials
 .env
+.env.local
 .env.production
 
 # Logs
@@ -23,3 +25,4 @@ pnpm-debug.log*
 Thumbs.db
 .vscode/
 .idea/
+*.tsbuildinfo

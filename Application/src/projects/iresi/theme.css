@@ -1,0 +1,44 @@
+/*
+ * IRESI theme.
+ *
+ * Values carried over from the previous WordPress/Elementor kit so the rebuild
+ * matches the live site: Montserrat headings (uppercase, weight 500), Work Sans
+ * body copy, #0070B2 accent, 1140px container, h1 50/45/35px.
+ *
+ * Token *names* are generic on purpose. A project theme is this one block; no
+ * component references a project by name.
+ */
+
+.theme-iresi {
+	--color-heading: #272727;
+	--color-heading-alt: #2e2e2e;
+	--color-text: #383838;
+	--color-text-muted: #6b6b6b;
+	--color-accent: #0070b2;
+	--color-accent-dark: #005589;
+	--color-accent-contrast: #ffffff;
+	--color-bg: #ffffff;
+	--color-bg-alt: #f6f8fa;
+	--color-border: #e4e7eb;
+	--color-inverse: #ffffff;
+	--color-footer-bg: #1c1c1c;
+
+	/* The banner gradient used by every page header. */
+	--gradient-banner: linear-gradient(180deg, #5a5a5a 0%, #1c1c1c 100%);
+	/* The same gradient at reduced opacity, laid over the home page photograph. */
+	--gradient-banner-overlay: linear-gradient(
+		180deg,
+		rgba(90, 90, 90, 0.5) 0%,
+		rgba(28, 28, 28, 0.85) 100%
+	);
+
+	/* `--font-*-loaded` come from next/font in the root layout. */
+	--font-heading: var(--font-heading-loaded), system-ui, -apple-system, "Segoe UI", sans-serif;
+	--font-body: var(--font-body-loaded), system-ui, -apple-system, "Segoe UI", sans-serif;
+	--heading-transform: uppercase;
+	--heading-weight: 500;
+
+	--container: 1140px;
+	--header-height: 92px;
+	--radius: 10px;
+}

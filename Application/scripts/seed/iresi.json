@@ -1,0 +1,928 @@
+{
+	"projects": [
+		{
+			"slug": "renew",
+			"title": "RENEW",
+			"pageTitle": "Renew — Smart Energy Platform",
+			"summary": "Empowering communities to save energy, reduce carbon, and embrace renewables.",
+			"intro": [
+				"Empowering citizens to become prosumers — individuals who both produce and consume renewable energy — through education, engagement, and accessible digital tools."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Community Energy",
+				"Renewable Adoption",
+				"Accessible Technology"
+			],
+			"cardImage": "/images/projects/renew-card.jpg",
+			"image": "/images/projects/renew.jpg",
+			"website": "https://www.renewchallenge.eu/",
+			"vimeoId": "1124173899",
+			"externalOnly": false,
+			"order": 1,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"The main goal of RENEW is to encourage carbon reduction, increase renewable energy adoption, and improve energy efficiency at the local level. By connecting technology, awareness, and participation, RENEW helps communities take ownership of their energy future."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"The project aims to create a replicable model for sustainable energy communities, demonstrating how digital innovation can drive both environmental and social benefits — paving the way for a cleaner, more resilient Europe."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"Through interactive dashboards, learning modules, and real-time data visualization, RENEW supports citizens in managing their energy production and consumption effectively.",
+						"The platform is designed to be intuitive and inclusive — accessible to both younger audiences learning about sustainability and older users who may be less familiar with digital technologies. By combining simplicity with educational value, RENEW makes renewable energy understandable and engaging for everyone."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "res4city",
+			"title": "RES4CITY",
+			"pageTitle": "RES4CITY — Sustainable Urban Development",
+			"summary": "Advancing sustainable cities through education, innovation, and renewable energy.",
+			"intro": [
+				"RES4CITY drives sustainable urban transformation through innovation, education, and technology.",
+				"The project promotes renewable energy adoption, resource circularity, and low-carbon solutions tailored for cities and densely populated areas — building the foundation for a greener, smarter future."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Urban Energy",
+				"Circular Economy",
+				"Green Education"
+			],
+			"cardImage": "/images/projects/res4city-card.jpg",
+			"image": "/images/projects/res4city.jpg",
+			"website": "https://www.res4city.eu/",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 2,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"The main goal of RES4CITY is to strengthen sustainable renewable energy and fuel technologies within urban areas. The project focuses on promoting sustainability, circularity, and innovative education designed together with stakeholders. By developing highly skilled human capital, RES4CITY supports the widespread adoption of renewable solutions across different educational systems."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"RES4CITY aims to create a scalable framework that accelerates the deployment of renewable energy technologies in cities. With increasing resource consumption in densely populated areas, the project provides tools and knowledge that support low-carbon urban development and contribute directly to Europe's green transition."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"With a consortium of 18 partners across eight EU countries and Switzerland, RES4CITY works to close the skills gap in renewable energy and circularity.",
+						"The project combines research, education, and innovation to prepare professionals capable of driving sustainable change in modern cities."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "flow",
+			"title": "FLOW",
+			"pageTitle": "FLOW — V2X Smart Charging Solutions",
+			"summary": "Boosting smart EV charging and seamless V2X integration into energy systems.",
+			"intro": [
+				"FLOW boosts and demonstrates multifaceted EV smart charging and V2X integration into energy systems.",
+				"It provides user-centric, interoperable solutions for seamless energy exchange between vehicles, buildings, and the grid — optimising operations, enhancing grid flexibility, and supporting large-scale decarbonisation."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Grid Flexibility",
+				"Smart Charging",
+				"Interoperable Technology"
+			],
+			"cardImage": "/images/projects/flow-card.jpg",
+			"image": "/images/projects/flow.jpg",
+			"website": "https://theflowproject.eu/",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 3,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"FLOW boosts and demonstrates multifaceted EV smart charging and V2X integration into energy systems thanks to a range of comprehensive solutions providing answers to the needs of all actors involved.",
+						"These solutions include highly replicable user-centric products, concepts, configurations and mechanisms to optimise operation. Cross-sector harmonisation and standardisation is delivered to facilitate activities of stakeholders and EV users.",
+						"Advanced interoperable solutions enhance planning, operation and assessment of EV charging for seamless integration into the energy system and identification of the most appropriate scenario based on a multi-criteria model, leveraging appropriate business models and tailored services.",
+						"FLOW also delivers multi-actor orchestration to ensure data exchange and synchronisation across actors for VGI and EV flexibility services.",
+						"These solutions are deployed in 5 demonstrations (including 2 testbeds and 3 large-scale demos) in CZ, IE, IT, DK, and ES covering a wide range of applications (e.g., V1G/V2B/V2H/V2G, public/private/semi-public, urban/rural/touristic, car/small- & medium-commerce) to validate and quantify the benefits associated with enabling and valorising EV flexibility, alleviating grid challenges, and fostering mobility and energy decarbonization."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"Expected impacts include GHG emission reduction of 6 MtCO2eq/y, grid reinforcement saving up to 13 B€/country, increase local RES by 14% and avoid RES curtailment by 41 TWh."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"The consortium includes 26 partners from 9 European countries covering the entire value chain, including OEM, technology providers, CPOs, aggregators, DSOs, TSO, ICT developers, RTOs experts in users, mobility, harmonisation, optimisation tools, energy integration and leveraging the networks of umbrella associations from the electromobility and the DSOs.",
+						"These ensure replicability and scalability to foster the EV penetration trends, thanks also to comprehensive communication, dissemination and exploitation actions."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "sherlock",
+			"title": "SHERLOCK",
+			"pageTitle": null,
+			"summary": "Upskilling professionals with green and digital skills for building renovation.",
+			"intro": [
+				"SHERLOCK designs and implements an innovative educational framework based on microcredentials to upskill the workforce and promote lifelong learning.",
+				"It focuses on green and digital skills for the building renovation sector, bridging the gap between education, finance, and energy efficiency to support the EU decarbonisation goals."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Microcredentials",
+				"Green Skills",
+				"Lifelong Learning"
+			],
+			"cardImage": "/images/projects/sherlock-card.jpg",
+			"image": "/images/projects/sherlock.jpg",
+			"website": "https://www.sherlockproject.eu/national-kc/the-irish-knowledge-centre",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 4,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"The SHERLOCK project aims to boost innovation at European level by designing and implementing an original and advanced educational framework based on microcredentials for upskilling the workforce and lifelong learning.",
+						"It will integrate and combine a multidisciplinary green and digital skills portfolio to foster cooperation and knowledge exchange across stakeholders, supporting job creation and the EU's mass energy building retrofitting targets. SHERLOCK addresses the urgent need for a skilled workforce capable of managing the technical, financial and societal aspects of building energy retrofitting."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"The project contributes to the EU decarbonisation goals by 2050, addressing the building sector which accounts for 40% of energy consumption and 35% of carbon emissions.",
+						"By equipping professionals with green and digital skills, SHERLOCK helps bridge the gap between financial operators and energy project developers, ensuring a skilled workforce for the building renovation wave."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"SHERLOCK will develop and deliver a MOOC-based MicroMaster programme and a VET-oriented training course designed with stakeholders and VET providers. The project will establish SHERLOCK Knowledge Centres as long-term hubs for collaboration between universities, businesses, and public institutions.",
+						"It will define learning objectives, design materials, and produce guidelines for educators on implementing innovative MicroMaster programmes that support lifelong learning and workforce upskilling."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "streacs",
+			"title": "STREACS",
+			"pageTitle": null,
+			"summary": "Enhancing Armenia's research capacity for clean and secure energy transition.",
+			"intro": [
+				"STREACS strengthens Armenia's research capacity to accelerate the transition toward clean and renewable energy while enhancing energy security.",
+				"It fosters collaboration and knowledge exchange between Armenian and European institutions to support sustainable energy development."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Energy Transition",
+				"Research Capacity",
+				"Knowledge Exchange"
+			],
+			"cardImage": "/images/projects/streacs-card.jpg",
+			"image": "/images/projects/streacs.jpg",
+			"website": "https://ace.aua.am/projects/streacs/",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 5,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"STREACS aims to enhance Armenia's research capacity to accelerate the country's transition toward clean and renewable energy, while ensuring energy security.",
+						"The project supports the implementation of the European Green Deal by promoting a sustainable, decarbonised, and resilient energy system adapted to Armenia's specific geopolitical and technical context."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"By strengthening research capacity and fostering cooperation, STREACS contributes to Armenia's long-term decarbonisation and energy transition goals.",
+						"It enables better integration of Armenia into the European Research Area and enhances its ability to produce innovative, sustainable energy solutions through shared expertise and best practices."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"STREACS facilitates the transfer of knowledge and exchange of best practices between research institutions, universities, and partners across the EU.",
+						"The project builds networks for academic and policy collaboration, supporting Armenia in developing clean-energy research and innovation aligned with European standards."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "ai-effect",
+			"title": "AI-EFFECT",
+			"pageTitle": "AI-Effect",
+			"summary": "Advancing reliable AI applications for Europe's clean energy future.",
+			"intro": [
+				"AI-EFFECT establishes a European hub for testing and validating AI solutions in the energy sector — ensuring interoperability, trust, and compliance with the EU AI Act."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Artificial Intelligence",
+				"Energy Innovation",
+				"AI in Energy"
+			],
+			"cardImage": "/images/projects/ai-effect-card.jpg",
+			"image": "/images/projects/ai-effect.jpg",
+			"website": "https://ai-effect.eu/",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 6,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"AI-EFFECT aims to establish a European Testing and Experimentation Facility (TEF) for developing, testing, and validating AI applications in the energy sector.",
+						"The project connects existing facilities into a distributed digital platform to foster interoperability, flexibility, and scalability, becoming a central hub for collaboration across utilities, academia, and regulatory authorities."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"AI-EFFECT strengthens Europe's capacity for safe, interoperable, and certified AI technologies in the energy domain.",
+						"It promotes transparency, data integrity, and cross-sector innovation while aligning with the EU AI Act and Energy Data Spaces to ensure trustworthy and sustainable AI adoption."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"The project develops and tests AI-driven use cases for district heating, grid congestion, distributed energy integration, and energy communities.",
+						"The consortium designs governance, certification, and business models ensuring AI-EFFECT's long-term sustainability beyond EU funding."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "resskill",
+			"title": "RESSKILL",
+			"pageTitle": null,
+			"summary": "Building skills for Europe's sustainable and digital energy future.",
+			"intro": [
+				"RESSKILL empowers Europe's workforce with AI-driven, gamified education and microcredentials to accelerate the green and digital energy transition."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Green Skills",
+				"Microcredentials",
+				"Energy Transition"
+			],
+			"cardImage": "/images/projects/resskill-card.jpg",
+			"image": "/images/projects/resskill.jpg",
+			"website": "https://www.resskill.eu/",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 7,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"The RESSKILL project is a comprehensive and transformative initiative strategically positioned to catapult the European Union into a more sustainable and resilient future. RESSKILL places a critical emphasis on human capital, understanding that skilled professionals are integral to achieving a sustainable energy future.",
+						"Going beyond traditional educational efforts, the project is a multifaceted endeavor designed to meet the evolving needs of the renewable energy sector, with a specific focus on energy system integration and digitalisation for buildings and districts. This aligns with the broader vision of creating intelligent, energy-efficient urban spaces."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"By investing in skills, knowledge, and digital proficiency, the project is steering the EU towards a more sustainable, energy-efficient, and technologically advanced future.",
+						"RESSKILL incorporates Artificial Intelligence (AI) for skill needs identification, to ensure that the educational programs are dynamically tailored to the evolving demands of the construction industry, making the workforce not just competent but also agile in response to changing technologies and requirements."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"A distinctive feature of RESSKILL is the development of Micro Credentials, providing tangible validation of an individual's expertise and ensuring alignment with industry standards. Case study education, based on real-world scenarios and success stories, is adopted to ensure that the workforce emerging from the RESSKILL program can apply theoretical concepts in practical situations.",
+						"By incorporating gamification, RESSKILL transforms the educational process into an immersive and enjoyable journey, fostering a deeper understanding and retention of complex concepts. RESSKILL is not merely an educational initiative; it is a dynamic and adaptive force, leveraging AI, gamification, and case study education to empower the workforce."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "nexsys",
+			"title": "NEXSYS",
+			"pageTitle": "NexSys",
+			"summary": "Advancing energy modelling and optimisation to achieve net-zero and sustainable living.",
+			"intro": [
+				"NexSys advances research in energy modelling and optimisation to support the transition toward Net Zero Carbon Energy Systems and sustainable living."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Net Zero Systems",
+				"Decarbonisation",
+				"Energy Modelling"
+			],
+			"cardImage": "/images/projects/nexsys-card.jpg",
+			"image": "/images/projects/nexsys.jpg",
+			"website": "https://www.nexsys-energy.ie/",
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 8,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"The energy system is a vital pillar of national infrastructure in all economies, and the research in this programme entails advanced modelling and optimisation of this system, investigating its future development and role in addressing the major energy challenges which face society.",
+						"The research programme is firmly within the energy field, addressing some of the major engineering research questions within the field of power and energy engineering, with the potential to significantly advance the state of the art and, through mathematical modelling, deliver key new insights into the challenges surrounding the decarbonisation of energy systems and pathways to the achievement of Net Zero Carbon Energy Systems."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"The programme also draws together a diverse range of disciplines to tackle the challenge of net zero from a technical, economic, and social point of view.",
+						"This interdisciplinary approach aims to provide a deeper understanding of decarbonisation pathways and contribute to the achievement of sustainable, net-zero energy systems."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"In line with SFI's legal remit, the NexSys research programme comprises oriented basic research in the hub with complementary applied research in the targeted projects fully aligned with the Energy, Climate Action and Sustainability Refreshed Priority Theme, covering both the priority areas Decarbonising the Energy System and Sustainable Living."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "adflex",
+			"title": "ADFLEX",
+			"pageTitle": null,
+			"summary": "Enabling communities to enhance energy flexibility, validate smart solutions, and accelerate renewables integration.",
+			"intro": [
+				"ADFLEX develops and validates smart energy solutions that enhance flexibility, integrate digital technologies, and empower Sustainable Energy Communities to participate in local energy markets."
+			],
+			"tags": [
+				"EU-Funded Project",
+				"Energy Flexibility",
+				"Digital Integration",
+				"Scalability & Impact"
+			],
+			"cardImage": "/images/projects/adflex-card.jpg",
+			"image": "/images/projects/adflex.png",
+			"website": null,
+			"vimeoId": null,
+			"externalOnly": false,
+			"order": 9,
+			"sections": [
+				{
+					"heading": "Objective",
+					"paragraphs": [
+						"The ADFLEX project addresses key challenges in supporting Sustainable Energy Communities to provide energy flexibility and participate in local energy markets within mixed-use buildings. It integrates expertise from energy management, digital technology, and stakeholder engagement to develop an integrated, scalable solution validated through on-site pilot testing."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Impact",
+					"paragraphs": [
+						"ADFLEX contributes to national and EU energy goals by reducing emissions, enhancing renewable energy penetration, and improving grid flexibility at distribution and transmission levels. Its outcomes aim to accelerate the clean-energy transition and deliver high-impact, scalable results for communities across Europe."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "Our Role",
+					"paragraphs": [
+						"ADFLEX brings together partners and stakeholders to co-develop and implement digital tools and smart energy frameworks that enhance coordination between communities, DSOs and TSOs. Through collaboration and validation within the Ringsend Sustainable Energy Community, the project ensures robust, real-world testing of its solutions."
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "lero",
+			"title": "LERO",
+			"pageTitle": null,
+			"summary": "Positioning Ireland as a global leader in software research and innovation.",
+			"intro": [],
+			"tags": [],
+			"cardImage": "/images/projects/lero-card.jpg",
+			"image": null,
+			"website": "https://lero.ie/",
+			"vimeoId": null,
+			"externalOnly": true,
+			"order": 10,
+			"sections": []
+		},
+		{
+			"slug": "co-creative-lab",
+			"title": "CO-CREATIVE LAB",
+			"pageTitle": null,
+			"summary": "Bringing people and ideas together to co-create sustainable, connected communities.",
+			"intro": [],
+			"tags": [],
+			"cardImage": "/images/projects/co-creative-lab-card.jpg",
+			"image": null,
+			"website": "https://www.co-creativelab.eu/",
+			"vimeoId": null,
+			"externalOnly": true,
+			"order": 11,
+			"sections": []
+		}
+	],
+	"publications": [
+		{
+			"slug": "demand-response-algorithms-smart-grid-ready-residential-buildings",
+			"title": "Demand response algorithms for smart-grid ready residential buildings using machine learning models",
+			"authors": [
+				"Fabiano Pallonetto",
+				"Mattia De Rosa",
+				"Federico Milano",
+				"Donal P Finn"
+			],
+			"date": "2019/4/1",
+			"year": 2019,
+			"journal": "Applied Energy",
+			"volume": "239",
+			"pages": "1265-1282",
+			"publisher": "Elsevier",
+			"description": "This paper assesses the performance of control algorithms for the implementation of demand response strategies in the residential sector. A typical house, representing the most common building category in Ireland, was fully instrumented and utilised as a test-bed.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=rjTXciYAAAAJ&citation_for_view=rjTXciYAAAAJ:QIV2ME_5wuYC",
+			"researcher": "fabiano-pallonetto",
+			"order": 1
+		},
+		{
+			"slug": "assessment-control-optimisation-demand-response-residential-buildings",
+			"title": "On the assessment and control optimisation of demand response programs in residential buildings",
+			"authors": [
+				"Fabiano Pallonetto",
+				"Mattia De Rosa",
+				"Francesco D'Ettorre",
+				"Donal P Finn"
+			],
+			"date": "2020/7/1",
+			"year": 2020,
+			"journal": "Renewable and Sustainable Energy Reviews",
+			"volume": "127",
+			"pages": "109861",
+			"publisher": "Pergamon",
+			"description": "The ability to control and optimise energy consumption at end-user level is of increasing interest as a means to achieve a balance between supply and demand, particularly when large penetration of distributed renewable energy sources is being considered.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=rjTXciYAAAAJ&citation_for_view=rjTXciYAAAAJ:qUcmZB5y_30C",
+			"researcher": "fabiano-pallonetto",
+			"order": 2
+		},
+		{
+			"slug": "diversification-concentration-renewability-energy-supply-eu",
+			"title": "Diversification, concentration and renewability of the energy supply in the European Union",
+			"authors": [
+				"Mattia De Rosa",
+				"Kenneth Gainsford",
+				"Fabiano Pallonetto",
+				"Donal P Finn"
+			],
+			"date": "2022/8/15",
+			"year": 2022,
+			"journal": "Energy",
+			"volume": "253",
+			"pages": "124097",
+			"publisher": "Pergamon",
+			"description": "Energy security assessment quantifies the energy supply to a population and the likelihood, or risk, of an energy disruption or shortage and represents an important aspect of national security, economic stability and prosperity. The quantification of the state of energy supply is context-dependent and involves multiple perspectives: infrastructural, technological, environmental, market, social and geopolitical. Among all the different and relevant aspects involved, diversity and dependence of the energy fuel mix are two of the main energy security dimensions.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=rjTXciYAAAAJ&citation_for_view=rjTXciYAAAAJ:r0BpntZqJG4C",
+			"researcher": "fabiano-pallonetto",
+			"order": 3
+		},
+		{
+			"slug": "forecast-electricity-demand-commercial-building-machine-learning",
+			"title": "Forecast electricity demand in commercial building with machine learning models to enable demand response programs",
+			"authors": [
+				"Fabiano Pallonetto",
+				"Changhong Jin",
+				"Eleni Mangina"
+			],
+			"date": "2022/1/1",
+			"year": 2022,
+			"journal": "Energy and AI",
+			"volume": "7",
+			"pages": "100121",
+			"publisher": "Elsevier",
+			"description": "Electricity load forecasting is an important part of power system dispatching. Accurately forecasting electricity load have great impact on a number of departments in power systems. Compared to electricity load simulation (white-box model), electricity load forecasting (black-box model) does not require expertise in building construction. The development cycle of the electricity load forecasting model is much shorter than the design cycle of the electricity load simulation.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=rjTXciYAAAAJ&citation_for_view=rjTXciYAAAAJ:RHpTSmoSYBkC",
+			"researcher": "fabiano-pallonetto",
+			"order": 4
+		},
+		{
+			"slug": "artificial-intelligence-enabled-demand-response",
+			"title": "Artificial Intelligence Enabled Demand Response: Prospects and Challenges in Smart Grid Environment",
+			"authors": [
+				"Muhammad Adnan Khan",
+				"Ahmed Mohammed Saleh",
+				"Muhammad Waseem",
+				"Intisar Ali Sajjad"
+			],
+			"date": "2023/1/6",
+			"year": 2023,
+			"journal": "IEEE Access",
+			"volume": "11",
+			"pages": "1477 – 1505",
+			"publisher": "IEEE",
+			"description": "Demand Response (DR) has gained popularity in recent years as a practical strategy to increase the sustainability of energy systems while reducing associated costs. Despite this, Artificial Intelligence (AI) and Machine Learning (ML), have recently developed as critical technologies for demand-side management and response due to the high complexity of tasks associated with DR, as well as huge amount of data management to take decisions very near to real time implications.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=xfGdCPwAAAAJ&citation_for_view=xfGdCPwAAAAJ:zA6iFVUQeVQC",
+			"researcher": "muhammad-waseem",
+			"order": 5
+		},
+		{
+			"slug": "review-optimization-strategies-hybrid-renewable-energy-hydrogen",
+			"title": "Review on recent optimization strategies for hybrid renewable energy system with hydrogen technologies: State of the art, trends and future directions",
+			"authors": [
+				"Tahir Khan",
+				"Miao Yu",
+				"Muhammad Waseem"
+			],
+			"date": "2022/7/15",
+			"year": 2022,
+			"journal": "International Journal of Hydrogen Energy",
+			"volume": "47",
+			"pages": "25081-25470",
+			"publisher": "Pergamon",
+			"description": "The world is currently facing a power shortage due to the inadequacy of conventional energy sources and increased energy requirements in almost all sectors of human life. To mitigate this issue, the researchers have taken the considerable interest of researchers over the past decade in enhancing energy efficiency and viability.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=xfGdCPwAAAAJ&citation_for_view=xfGdCPwAAAAJ:RGFaLdJalmkC",
+			"researcher": "muhammad-waseem",
+			"order": 6
+		},
+		{
+			"slug": "survey-iot-enabled-smart-grids",
+			"title": "A survey on IoT-enabled smart grids: emerging, applications, challenges, and outlook",
+			"authors": [
+				"Arman Goudarzi",
+				"Farzad Ghayoor",
+				"Muhammad Waseem",
+				"Shah Fahad",
+				"Issa Traore"
+			],
+			"date": "2022/9/23",
+			"year": 2022,
+			"journal": "Energies",
+			"volume": "15",
+			"pages": "6984",
+			"publisher": "MDPI",
+			"description": "Swift population growth and rising demand for energy in the 21st century have resulted in considerable efforts to make the electrical grid more intelligent and responsive to accommodate consumers' needs better while enhancing the reliability and efficiency of modern power systems. Internet of Things (IoT) has appeared as one of the enabling technologies for smart energy grids by delivering abundant cutting-edge solutions in various domains, including critical infrastructures.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=xfGdCPwAAAAJ&citation_for_view=xfGdCPwAAAAJ:2P1L_qKh6hAC",
+			"researcher": "muhammad-waseem",
+			"order": 7
+		},
+		{
+			"slug": "optimal-gwcso-home-appliances-scheduling-demand-response",
+			"title": "Optimal GWCSO-based home appliances scheduling for demand response considering end-users comfort",
+			"authors": [
+				"Muhammad Waseem",
+				"Zhenzhi Lin",
+				"Shengyuan Liu",
+				"Intisar Ali Sajjad",
+				"Tarique Aziz"
+			],
+			"date": "2020/10/1",
+			"year": 2020,
+			"journal": "Electric Power Systems Research",
+			"volume": "187",
+			"pages": "106477",
+			"publisher": "Elsevier",
+			"description": "Nowadays, the most notable uncertainty for an electricity utility lies in the electrical demand and generation in power systems. Demand response (DR) accomplishment due to the home appliances energy management has acquired considerable attention for the reliable and cost-optimized power grid.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=xfGdCPwAAAAJ&citation_for_view=xfGdCPwAAAAJ:_FxGoFyzp5QC",
+			"researcher": "muhammad-waseem",
+			"order": 8
+		},
+		{
+			"slug": "indirect-impact-transformational-leadership-performance-work-alienation",
+			"title": "Investigating the indirect impact of transformational leadership on performance and work alienation: evidence from school principals navigating COVID-19",
+			"authors": [
+				"Amy Fahy",
+				"Steven McCartney",
+				"Na Fu",
+				"Joseph Roche"
+			],
+			"date": "2024/6/19",
+			"year": 2024,
+			"journal": "Leadership & Organization Development Journal",
+			"volume": "45",
+			"pages": "877-898",
+			"publisher": "Emerald Publishing Limited",
+			"description": "Although significant research has examined the concept of transformational leadership, few studies have explored the indirect impact of transformational leadership on individual and organizational outcomes within the context of crisis. Accordingly, this study aims to advance our understanding of the indirect impact of transformational leadership on school performance and principals' work alienation within the context of the COVID-19 pandemic.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=biNQphwAAAAJ&citation_for_view=biNQphwAAAAJ:UeHWp8X0CEIC",
+			"researcher": "amy-fahy",
+			"order": 9
+		},
+		{
+			"slug": "interrogating-illusions-of-progress-citizen-science",
+			"title": "Interrogating illusions of progress: citizen science, science communication, and a call for inclusive reform",
+			"authors": [
+				"Joseph Roche",
+				"Gillian L Barber",
+				"Laura Bell",
+				"Autumn Brown",
+				"Sadhbh Crean",
+				"Orlaith Darling",
+				"Amy Fahy",
+				"Sylvia Healy",
+				"Theresa Heffernan",
+				"Mairéad Hurley",
+				"Anne Kearns",
+				"Angeliki Lima",
+				"Louise McAteer",
+				"Amelia McConville",
+				"Anna Mwakitalu",
+				"Eleanor Quasebarth Neil",
+				"Fiona Smyth",
+				"Aoife Taylor",
+				"Shaun Ussher",
+				"Anna Wedderburn",
+				"Caitlin White",
+				"Katerina Zouboulakis"
+			],
+			"date": "2023/10/10",
+			"year": 2023,
+			"journal": "Frontiers in Environmental Science",
+			"volume": "11",
+			"pages": "1269816",
+			"publisher": "Frontiers Media SA",
+			"description": "With their foundations in Ancient Greek symposia, progression to eighteenth-century French salons and coffeehouses, up to modern incarnations of large-scale international meetings, conferences have a rich history of bringing scholars together to communicate new views, opinions, and research findings (Nicolson, 2017; Roche, 2022).",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=biNQphwAAAAJ&citation_for_view=biNQphwAAAAJ:zYLM7Y9cAGgC",
+			"researcher": "amy-fahy",
+			"order": 10
+		},
+		{
+			"slug": "hybrid-gaussian-process-deep-learning-retrofitted-building-energy",
+			"title": "A hybrid Gaussian process-integrated deep learning model for retrofitted building energy optimization in smart city ecosystems",
+			"authors": [
+				"Behnam Mohseni-Gharyehsafa",
+				"Shahid Hussain",
+				"Amy Fahy",
+				"Mattia De Rosa",
+				"Fabiano Pallonetto"
+			],
+			"date": "2025/6/15",
+			"year": 2025,
+			"journal": "Applied Energy",
+			"volume": "388",
+			"pages": "125643",
+			"publisher": "Elsevier",
+			"description": "Traditional retrofitting methods need a considerable upgrade; therefore, they often require significant time and financial investment, and can disrupt the building operations and occupant activities during implementation. Consequently, developing fast-response retrofitting solutions to save energy on urban and large scales is critical for city planners and policymakers.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=biNQphwAAAAJ&citation_for_view=biNQphwAAAAJ:W7OEmFMy1HYC",
+			"researcher": "amy-fahy",
+			"order": 11
+		},
+		{
+			"slug": "national-study-irish-leadership-stem-education",
+			"title": "A National Study of Irish Leadership in STEM Education",
+			"authors": [
+				"Amy Fahy"
+			],
+			"date": "2022",
+			"year": 2022,
+			"journal": "Academy of Management Proceedings",
+			"volume": "2022",
+			"pages": "17923",
+			"publisher": "Academy of Management",
+			"description": "This study draws on AMO framework to explore principals' perceptions of leadership in STEM education in addition to their role as leaders within their schools. This study addresses the following research question: How do principals influence or promote STEM education? An online survey instrument was administered to 3200 Irish Elementary School Principals.",
+			"link": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=biNQphwAAAAJ&citation_for_view=biNQphwAAAAJ:qjMakFHDy7sC",
+			"researcher": "amy-fahy",
+			"order": 12
+		}
+	],
+	"news": [
+		{
+			"slug": "celebrating-science-night-at-maynooth-university",
+			"title": "Celebrating Science Night at Maynooth University!",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "The IRESI Group and School of Business Maynooth University staff and students were delighted to host a stand for Science Night.",
+			"image": "/images/news/science-night-1.jpeg",
+			"gallery": [
+				"/images/news/science-night-4.jpeg",
+				"/images/news/science-night-3.jpeg",
+				"/images/news/science-night-2.jpeg",
+				"/images/news/science-night-1.jpeg"
+			],
+			"unlisted": false,
+			"legacyPaths": [],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"The IRESI Group and [School of Business Maynooth University](https://www.linkedin.com/company/school-of-business-maynooth-university/) staff and students were delighted to host a stand for Science Night organised by [Maynooth University](https://www.linkedin.com/company/maynooth-university/) on November 15th. It was a fantastic evening dedicated to inspiring future generations about the wonders of science and their potential to shape a sustainable future.",
+						"At our stand, we focused on renewable energy and its vital role in achieving net-zero carbon emissions. Through hands-on activities and engaging discussions, we aimed to empower families with the knowledge that their actions can make a real difference in combating climate change and building a greener planet. 🌍✨",
+						"A big thank you to Maynooth University for organizing such an impactful event and to all the young minds who visited us, brimming with curiosity and enthusiasm! 😊",
+						"Let's keep inspiring and innovating for a brighter, more sustainable future 💡",
+						"With [Fabiano Pallonetto](https://www.linkedin.com/in/fabianopallonetto/), [Amy Fahy](https://www.linkedin.com/in/amy-fahy-7236baba/), [Carrie Anne Barry](https://www.linkedin.com/in/carrie-anne-barry-9b192616/), [Nicky Dawkins](https://www.linkedin.com/in/nicky-dawkins-0b895b212/), [Annalisa Bringiotti](https://www.linkedin.com/in/annalisa-bringiotti-8509b8232/), [Pietro Luigi Desole](https://www.linkedin.com/in/pietro-luigi-desole-940148292/) and [Christina Barry](https://www.linkedin.com/in/christina-barry-6ab734304/).",
+						"*#ScienceForFuture #RenewableEnergy #NetZero #Sustainability #STEMEducation #IRESI*"
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "celebrating-sustainability-and-stakeholder-engagement-at-the-kildare-business-awards",
+			"title": "Celebrating Sustainability and Stakeholder Engagement at the Kildare Business Awards!",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "The IRESI group at School of Business Maynooth University was proud to represent the RENEWchallenge Project at the prestigious Kildare Business Awards.",
+			"image": "/images/news/kildare-awards-1.jpeg",
+			"gallery": [
+				"/images/news/kildare-awards-3.jpeg",
+				"/images/news/kildare-awards-2.jpeg",
+				"/images/news/kildare-awards-1.jpeg"
+			],
+			"unlisted": false,
+			"legacyPaths": [],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"The IRESI group at [School of Business Maynooth University](https://www.linkedin.com/company/school-of-business-maynooth-university/) was proud to represent the [RENEWchallenge](https://www.linkedin.com/company/renewchallenge/) Project at the prestigious Kildare Business Awards, where we were nominated in the Decarbonization Category.",
+						"The RENEW Project stands out for its dedication to stakeholder engagement, fostering collaboration to address critical challenges in energy transition and decarbonization. This recognition highlights the collective efforts of our team and partners in building a more sustainable future.",
+						"We were delighted to have our leadership team in attendance, including our guest of honor [Joseph Coughlan](https://www.linkedin.com/in/joseph-coughlan-016276b/), Head of School; [Fabiano Pallonetto](https://www.linkedin.com/in/fabianopallonetto/), our Director; [Amy Fahy](https://www.linkedin.com/in/amy-fahy-7236baba/), our Vice Director; along with [Nicky Dawkins](https://www.linkedin.com/in/nicky-dawkins-0b895b212/), our Lab Manager; [Carrie Anne Barry](https://www.linkedin.com/in/carrie-anne-barry-9b192616/), COER's Lab Manager; [Rebecca Doolin](https://www.linkedin.com/in/rebecca-doolin-78aa175/), Vice President External Affairs; [Gordon Jamieson](https://www.linkedin.com/in/gjamieson/), Senior Development Manager; [Peter McNamara](https://www.linkedin.com/in/peter-mcnamara-2035ab9/), Dean of the Faculty of Social Science; and Peter Conlon, Director of [MaynoothWorks](https://www.linkedin.com/company/maynoothworks/).",
+						"A heartfelt thank you to everyone who has supported this project, and congratulations to all the nominees and winners who are driving positive change in their fields. Here's to continued collaboration and innovation for a greener tomorrow! 💚🌍",
+						"*#Sustainability #StakeholderEngagement #Decarbonization #Innovation #KildareBusinessAwards #RENEWProject #MaynoothUniversity*"
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "exciting-times-ahead-for-energy-system-integration",
+			"title": "🌍 Exciting times ahead for energy system integration! 🌍",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "Thrilled to see IRESI Group actively contributing to the future of energy system integration at Enlit Europe.",
+			"image": "/images/news/energy-system-integration.jpeg",
+			"gallery": [],
+			"unlisted": false,
+			"legacyPaths": [
+				"/🌍-exciting-times-ahead-for-energy-system-integration-🌍"
+			],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"Exciting times indeed!",
+						"Thrilled to see IRESI Group actively contributing to the future of energy system integration at [Enlit Europe](https://www.linkedin.com/company/enlit-europe/). The roundtable on semantic interoperability is a crucial step toward setting standards in IoT, data communication, and data spaces across Europe.",
+						"Collaboration like this is key to driving a unified and sustainable energy system for the future, and it's inspiring to see our work alongside key European projects and the EU Commission. Proud to be part of a team leading this important transformation! 🚀",
+						"*#EnergySystemIntegration #Interoperability #IoT #DataSpaces #Sustainability #EuropeanProjects #EUCommission #IRESIGroup*"
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "fostering-creativity-and-collaboration-at-maynooth-university",
+			"title": "Fostering Creativity and Collaboration at Maynooth University!",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "We’re thrilled to share that our Vice Director, Amy Fahy, Director Fabiano Pallonetto, and Lab Manager Nicky Dawkins hosted a co-creation workshop.",
+			"image": "/images/news/creativity-1.jpeg",
+			"gallery": [
+				"/images/news/creativity-6.jpeg",
+				"/images/news/creativity-5.jpeg",
+				"/images/news/creativity-4.jpeg",
+				"/images/news/creativity-3.jpeg",
+				"/images/news/creativity-2.jpeg",
+				"/images/news/creativity-1.jpeg"
+			],
+			"unlisted": false,
+			"legacyPaths": [],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"We're thrilled to share that our Vice Director, [Amy Fahy](https://www.linkedin.com/in/amy-fahy-7236baba/), Director [Fabiano Pallonetto](https://www.linkedin.com/in/fabianopallonetto/), and Lab Manager [Nicky Dawkins](https://www.linkedin.com/in/nicky-dawkins-0b895b212/) of the IRESI Group, recently hosted an engaging workshop at [School of Business Maynooth University](https://www.linkedin.com/company/school-of-business-maynooth-university/) as part of the [Creative Ireland](https://www.linkedin.com/company/creative-ireland/) Maynooth Climate Lab project. This session was focused on co-creation to drive innovative solutions for climate challenges.",
+						"Special thanks to [Christina Barry](https://www.linkedin.com/in/christina-barry-6ab734304/) and Philip O'Brien from the Creative Ireland project who shared their experiences of facilitating hands-on experiential learning workshops with local families, to explore concepts like sustainable energy, transport, circular economy, and biodiversity in a fun and interactive way.",
+						"The day ended on a festive and interactive note with a gingerbread-making competition! This unique activity brought participants together, fostering teamwork and showcasing how creativity can inspire collaboration in meaningful ways.",
+						"A heartfelt thank you to everyone who contributed to the success of this event. Your enthusiasm and ideas are driving forces in our mission for a more sustainable future.",
+						"*#Innovation #Sustainability #Collaboration #CreativeThinking #Leadership #MaynoothUniversity*"
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "introducing-the-concept-of-an-entrepreneurship-society",
+			"title": "Introducing the Concept of an Entrepreneurship Society!",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "Highlights from an event dedicated to fostering innovation, creativity, and business development through green technology.",
+			"image": "/images/news/entrepreneurship-society-1.jpeg",
+			"gallery": [
+				"/images/news/entrepreneurship-society-4.jpeg",
+				"/images/news/entrepreneurship-society-3.jpeg",
+				"/images/news/entrepreneurship-society-2.jpeg",
+				"/images/news/entrepreneurship-society-1.jpeg"
+			],
+			"unlisted": true,
+			"legacyPaths": [],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"We are thrilled to share highlights from an event dedicated to fostering innovation, creativity, and business development through green technology! 🚀 Hosted by the IRESI Group, Electronic Engineering Hamilton Institute, [MaynoothWorks](https://www.linkedin.com/company/maynoothworks/), and the Biology Human Health Institute, this initiative brought together brilliant minds from diverse disciplines to inspire the next generation of business leaders."
+					],
+					"bullets": []
+				},
+				{
+					"heading": "What is an Entrepreneurship Society?",
+					"paragraphs": [
+						"This student-led organization is a powerhouse of opportunities, promoting:",
+						"By empowering students to take bold steps, we aim to shape the leaders of tomorrow while championing sustainability and green technology. 🌍✨",
+						"Stay tuned for more updates on this inspiring journey! 🚀 Let's build a future where creativity meets impact.",
+						"Special thanks to [Aidan O'Driscoll](https://www.linkedin.com/in/aidan-o-driscoll-866472138/), founder of [Align Consultancy & Agency](https://www.linkedin.com/company/alignconsultancyagency/) and our guest speaker, who inspired the students to push beyond any limitations they may face.",
+						"*#EntrepreneurshipSociety #Innovation #GreenTechnology #Leadership #BusinessDevelopment #FutureLeaders*"
+					],
+					"bullets": [
+						"**Innovation and Business Development** through workshops, networking, and mentorship.",
+						"**Engagement with Industry Experts** via speaker sessions and competitions.",
+						"**Access to Resources and Funding** for turning creative ideas into reality."
+					]
+				}
+			]
+		},
+		{
+			"slug": "join-us-for-an-insightful-seminar-on-energy-transition",
+			"title": "🌍 Join Us for an Insightful Seminar on Energy Transition! 🌱",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "We are excited to invite you to “Carbon Emissions in EU: A Decomposition & Decoupling Analysis” seminar, hosted by STREACS in collaboration with International Renewables.",
+			"image": "/images/news/energy-transition-seminar.png",
+			"gallery": [],
+			"unlisted": false,
+			"legacyPaths": [
+				"/🌍-join-us-for-an-insightful-seminar-on-energy-transition-🌱"
+			],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"We are excited to invite you to “Carbon Emissions in EU: A Decomposition & Decoupling Analysis” seminar, hosted by STREACS in collaboration with International Renewables and Energy Systems Integration (IRESI) and Maynooth University, Ireland.",
+						"📅 **Date:** February 12 ⏰ **Time:** 5:00 PM – 6:00 PM GMT+4 📍 **Location:** Online",
+						"🔍 **Key Speaker**",
+						"Dr. Vincenzo Bianco, Professor of Energy & Thermal Sciences at the University of Naples Parthenope, will share his expertise on the critical topic of carbon emissions and energy transition.",
+						"This seminar is a fantastic opportunity to gain valuable insights into the latest research and strategies for strengthening the energy transition. Whether you're a professional in the field, a student, or simply passionate about sustainability, this event is for you!",
+						"👉 [Register here](https://docs.google.com/forms/d/e/1FAIpQLScrj24O5x8l7HKqhreRr7PM2LGvmvZAaRwKE3LgsSIfmKQ0Rg/viewform)",
+						"Don't miss out on this chance to be part of an important conversation about our planet's future. Let's work together towards a sustainable energy future!",
+						"*#EnergyTransition #Sustainability #CarbonEmissions #ClimateAction #RenewableEnergy #EUResearch #GreenFuture #STREACS #IRESI #MaynoothUniversity #HorizonEurope*"
+					],
+					"bullets": []
+				}
+			]
+		},
+		{
+			"slug": "renew-team-represented-at-discovery-exchange-event",
+			"title": "🌟 Renew Team Represented at Discovery Exchange Event! 🌟",
+			"date": "2025-02-01",
+			"author": "Paolo Cammardella",
+			"summary": "We’re excited to share that the RENEWchallenge project was proudly represented by Nicky Dawkins, IRESI Lab Manager, and Carrie Anne Barry, COER Center Manager.",
+			"image": "/images/news/discovery-exchange-1.jpeg",
+			"gallery": [
+				"/images/news/discovery-exchange-4.jpeg",
+				"/images/news/discovery-exchange-3.jpeg",
+				"/images/news/discovery-exchange-2.jpeg",
+				"/images/news/discovery-exchange-1.jpeg"
+			],
+			"unlisted": false,
+			"legacyPaths": [
+				"/🌟-renew-team-represented-at-discovery-exchange-event-🌟"
+			],
+			"sections": [
+				{
+					"heading": null,
+					"paragraphs": [
+						"We're excited to share that the [RENEWchallenge](https://www.linkedin.com/company/renewchallenge/) project was proudly represented by [Nicky Dawkins](https://www.linkedin.com/in/nicky-dawkins-0b895b212/), IRESI Lab Manager, and [Carrie Anne Barry](https://www.linkedin.com/in/carrie-anne-barry-9b192616/), COER Center Manager — both from [Maynooth University](https://www.linkedin.com/company/maynooth-university/) — at the recent Discovery Exchange event hosted by [Skillnet Innovation Exchange](https://www.linkedin.com/company/the-innovation-exchange/) and [Research Ireland](https://www.linkedin.com/company/research-ireland/).",
+						"As members of the RENEWchallenge team, Nicky and Carrie joined this initiative, which encourages industries to collaborate with research teams and explore new possibilities for innovation in the energy sector.",
+						"The RENEW project continues to drive energy innovation, and this event was a fantastic opportunity to foster research-industry partnerships and stakeholder engagement for a sustainable future. 🌍⚡",
+						"*#EnergyInnovation #ResearchCollaboration #Skillnet #ResearchIreland #RenewProject #MaynoothUniversity #InnovationForSustainability*"
+					],
+					"bullets": []
+				}
+			]
+		}
+	]
+}

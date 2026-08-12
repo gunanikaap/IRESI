@@ -1,0 +1,20 @@
+.notFound {
+	padding-block: clamp(4rem, 10vw, 7rem);
+}
+
+.code {
+	font-family: var(--font-heading);
+	font-size: 3rem;
+	font-weight: 700;
+	color: var(--color-accent);
+	margin-bottom: 0.5rem;
+}
+
+.links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	list-style: none;
+	margin: 2rem 0 0;
+	padding: 0;
+}

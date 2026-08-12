@@ -1,0 +1,46 @@
+.intro {
+	max-width: 74ch;
+}
+
+.leadImage {
+	display: block;
+	width: 100%;
+	margin-top: 2.5rem;
+	border-radius: var(--radius);
+}
+
+.detailList {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+	gap: 2.5rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.detailList h2 {
+	font-size: 1.25rem;
+	margin-bottom: 0.75rem;
+}
+
+.detailList p {
+	margin: 0;
+	color: var(--color-text-muted);
+}
+
+.collage {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 0.85rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.collage img {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: 6px;
+	display: block;
+}

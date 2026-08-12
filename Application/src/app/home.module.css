@@ -1,0 +1,204 @@
+.hero {
+	display: flex;
+	align-items: center;
+	min-height: min(90vh, 760px);
+	color: #fff;
+	background-size: cover;
+	background-position: center;
+	padding-block: 5rem;
+}
+
+.heroInner {
+	max-width: 900px;
+}
+
+.hero h1 {
+	color: #fff;
+	max-width: 18ch;
+}
+
+/* The second half of the headline is greyed, as on the live site. */
+.hero h1 span {
+	color: #bcbcbc;
+}
+
+.hero p {
+	max-width: 56ch;
+	font-size: 1.0625rem;
+	color: rgba(255, 255, 255, 0.9);
+	margin-bottom: 2rem;
+}
+
+.heroActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.statsSection {
+	padding-block: 3rem;
+}
+
+.stats {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 1rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.stats li {
+	text-align: center;
+	padding: 1.5rem 1rem;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.stats strong {
+	display: block;
+	font-family: var(--font-heading);
+	font-size: 1.75rem;
+	font-weight: 600;
+	color: var(--color-accent);
+	line-height: 1.2;
+}
+
+.stats span {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 0.8125rem;
+	color: var(--color-text-muted);
+}
+
+.aboutGrid,
+.focusGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 3rem;
+	align-items: center;
+}
+
+.focusGrid {
+	align-items: start;
+}
+
+.collage {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 0.75rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.collage img {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: 6px;
+	display: block;
+}
+
+.focusImage {
+	width: 100%;
+	border-radius: var(--radius);
+	margin-top: 1.5rem;
+}
+
+.focusList {
+	display: grid;
+	gap: 1.25rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.focusList li {
+	padding: 1.5rem;
+	background: #fff;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.focusList h3 {
+	margin-bottom: 0.5rem;
+}
+
+.focusList p {
+	margin: 0;
+	color: var(--color-text-muted);
+}
+
+.projectGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	gap: 1.75rem;
+	list-style: none;
+	margin: 2rem 0 0;
+	padding: 0;
+}
+
+.sectionCta {
+	margin-top: 2.5rem;
+	text-align: center;
+}
+
+.logoGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 1.25rem;
+	list-style: none;
+	margin: 2rem 0 0;
+	padding: 0;
+}
+
+.logoGrid li {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1.25rem;
+	background: #fff;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.logoGrid img {
+	max-height: 64px;
+	width: auto;
+	object-fit: contain;
+}
+
+.ctaBand {
+	background: var(--gradient-banner);
+	color: #fff;
+	text-align: center;
+	padding-block: var(--section-gap);
+}
+
+.ctaBand h2 {
+	color: #fff;
+}
+
+.ctaBand p {
+	max-width: 62ch;
+	margin: 0 auto 2rem;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+@media (max-width: 900px) {
+	.aboutGrid,
+	.focusGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.stats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 480px) {
+	.stats {
+		grid-template-columns: 1fr;
+	}
+}

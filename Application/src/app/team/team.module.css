@@ -1,0 +1,70 @@
+.intro {
+	max-width: 74ch;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+	gap: 1.75rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.member {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 1.5rem 1rem;
+	background: #fff;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+.photo {
+	width: 100%;
+	max-width: 190px;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	object-position: top center;
+	border-radius: 50%;
+	margin-bottom: 1.1rem;
+}
+
+.name {
+	font-size: 0.9375rem;
+	margin-bottom: 0.3rem;
+}
+
+.role {
+	font-size: 0.8125rem;
+	color: var(--color-text-muted);
+	margin-bottom: 0.9rem;
+}
+
+.links {
+	display: flex;
+	gap: 0.5rem;
+	list-style: none;
+	margin: auto 0 0;
+	padding: 0;
+}
+
+.links a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border: 1px solid var(--color-border);
+	border-radius: 50%;
+	color: var(--color-text-muted);
+	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.links a:hover {
+	background: var(--color-accent);
+	border-color: var(--color-accent);
+	color: #fff;
+}

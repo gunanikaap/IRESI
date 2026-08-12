@@ -1,0 +1,697 @@
+/*
+ * The admin surface.
+ *
+ * Deliberately plainer than the public site: it borrows the tokens so it looks
+ * like the same project, but it is a tool, not a brochure. No reveal animation,
+ * no illustration, no band rhythm — an editor loading this thirty times a day
+ * wants density and no motion.
+ */
+
+.shell {
+  min-height: 100dvh;
+  background: var(--adflex-color-background);
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-4);
+  align-items: center;
+  padding: var(--adflex-space-3) var(--adflex-space-5);
+  background: var(--adflex-color-surface);
+  border-bottom: 1px solid var(--adflex-color-border);
+}
+
+.brand {
+  font-family: var(--adflex-font-display);
+  font-weight: 700;
+  color: var(--adflex-color-ink);
+}
+
+.brandTag {
+  margin-left: var(--adflex-space-2);
+  padding: 2px 8px;
+  font-family: var(--adflex-font-body);
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+  border-radius: 999px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-1);
+  margin-inline-start: auto;
+  list-style: none;
+}
+
+.tab {
+  display: inline-block;
+  padding: var(--adflex-space-2) var(--adflex-space-3);
+  font-size: var(--adflex-text-sm);
+  font-weight: 600;
+  color: var(--adflex-color-text);
+  border-radius: var(--adflex-radius-sm);
+  text-decoration: none;
+}
+
+.tab:hover {
+  background: var(--adflex-color-surface-soft);
+}
+
+.tabCurrent {
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+}
+
+/* A count that is only worth showing when it is not zero. */
+.badge {
+  margin-left: 6px;
+  padding: 1px 7px;
+  font-size: var(--adflex-text-xs);
+  color: var(--adflex-color-surface);
+  background: var(--adflex-color-primary);
+  border-radius: 999px;
+}
+
+.who {
+  display: flex;
+  gap: var(--adflex-space-3);
+  align-items: center;
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+.linkButton {
+  padding: 0;
+  font: inherit;
+  color: var(--adflex-color-primary);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.main {
+  max-width: 1100px;
+  padding: var(--adflex-space-6) var(--adflex-space-5) var(--adflex-space-8);
+  margin-inline: auto;
+}
+
+.pageTitle {
+  font-size: var(--adflex-text-2xl);
+}
+
+.pageLead {
+  max-width: 70ch;
+  margin-top: var(--adflex-space-2);
+  color: var(--adflex-color-muted);
+}
+
+/* --- Panels ------------------------------------------------------------- */
+
+.panel {
+  padding: var(--adflex-space-5);
+  margin-top: var(--adflex-space-5);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+}
+
+.panelTitle {
+  font-size: var(--adflex-text-lg);
+}
+
+.panelNote {
+  max-width: 70ch;
+  margin-top: var(--adflex-space-1);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+/* --- Forms -------------------------------------------------------------- */
+
+.form {
+  display: grid;
+  gap: var(--adflex-space-4);
+  margin-top: var(--adflex-space-4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--adflex-space-4);
+}
+
+/*
+ * Keeps the inputs in a row on one baseline.
+ *
+ * Each `.field` is itself a grid, and side by side they are stretched to the
+ * tallest one. With `align-content` left at its default the slack is shared out
+ * between that field's own rows, so a field carrying a hint under its input —
+ * three rows — pushes its input higher than a field with only two. That was a
+ * 14–24px step between "Event date" and "Start time" once the time field gained
+ * its "Optional" note.
+ *
+ * Packing each field to the top instead means every label starts at the same
+ * height, so every input does too, and the hint hangs off the bottom where it
+ * belongs.
+ */
+.row > .field {
+  align-content: start;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+/*
+ * A named group of fields inside a form, with a rule above it.
+ *
+ * Only one thing uses it — "After the event" — and it exists because those
+ * fields answer a different question from the rest of the form and are filled
+ * in on a different day. Without the separation they read as more of the
+ * announcement, and an editor writing a new event wonders what they are
+ * supposed to put in them.
+ */
+.section {
+  display: grid;
+  gap: var(--adflex-space-4);
+  margin-top: var(--adflex-space-5);
+  padding-top: var(--adflex-space-4);
+  border-top: 1px solid var(--adflex-color-border);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--adflex-text-sm);
+  font-weight: 700;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-muted);
+}
+
+.label {
+  font-size: var(--adflex-text-sm);
+  font-weight: 600;
+  color: var(--adflex-color-ink);
+}
+
+.hint {
+  font-size: var(--adflex-text-xs);
+  color: var(--adflex-color-muted);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: var(--adflex-space-2) var(--adflex-space-3);
+  font: inherit;
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-ink);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-sm);
+}
+
+.textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--adflex-color-primary);
+  outline-offset: 1px;
+}
+
+.check {
+  display: flex;
+  gap: var(--adflex-space-2);
+  align-items: center;
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-ink);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-3);
+  align-items: center;
+}
+
+/* --- Messages ----------------------------------------------------------- */
+
+.error,
+.success {
+  padding: var(--adflex-space-3) var(--adflex-space-4);
+  font-size: var(--adflex-text-sm);
+  border: 1px solid;
+  border-radius: var(--adflex-radius-sm);
+}
+
+/* Not colour alone: each carries a word as well, so it survives a monochrome
+   screen and does not depend on distinguishing red from green. */
+.error {
+  color: #7a1b12;
+  background: #fdf2f0;
+  border-color: #e7b4ab;
+}
+
+.success {
+  color: #0c4a3e;
+  background: #eaf6f2;
+  border-color: #a8d5c6;
+}
+
+/* --- Lists -------------------------------------------------------------- */
+
+.list {
+  display: grid;
+  gap: var(--adflex-space-3);
+  margin-top: var(--adflex-space-4);
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) auto;
+  gap: var(--adflex-space-4);
+  align-items: start;
+  padding: var(--adflex-space-3);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-md);
+}
+
+.itemNoImage {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+/* `contain` here too, so the editor's thumbnail shows the same framing the
+   public page will — a cropped preview of an uncropped image is misleading. */
+.thumb {
+  width: 84px;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  background: var(--adflex-plate-media-light);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-sm);
+}
+
+.itemBody {
+  min-width: 0;
+}
+
+.itemTitle {
+  font-size: var(--adflex-text-base);
+  font-weight: 600;
+  color: var(--adflex-color-ink);
+}
+
+.itemMeta {
+  margin-top: 2px;
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+  overflow-wrap: anywhere;
+}
+
+.itemActions {
+  display: flex;
+  gap: var(--adflex-space-2);
+  align-items: center;
+}
+
+/* A contact message, shown exactly as it was typed. `pre-wrap` keeps the
+   sender's line breaks; `anywhere` stops a pasted URL with no spaces in it
+   pushing the whole layout sideways. */
+.messageBody {
+  margin-top: var(--adflex-space-2);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Status is a word, never a colour on its own. */
+.pill {
+  padding: 2px 9px;
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+
+.pillLive {
+  color: #0c4a3e;
+  background: #eaf6f2;
+}
+
+.pillDraft {
+  color: #5b4708;
+  background: #fdf6e3;
+}
+
+.empty {
+  padding: var(--adflex-space-5);
+  margin-top: var(--adflex-space-4);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+  text-align: center;
+  border: 1px dashed var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-md);
+}
+
+.danger {
+  padding: var(--adflex-space-2) var(--adflex-space-3);
+  font: inherit;
+  font-size: var(--adflex-text-sm);
+  font-weight: 600;
+  color: #7a1b12;
+  background: none;
+  border: 1px solid #e7b4ab;
+  border-radius: var(--adflex-radius-sm);
+  cursor: pointer;
+}
+
+.danger:hover {
+  background: #fdf2f0;
+}
+
+/* --- Confirmation dialogue ---------------------------------------------- */
+
+/*
+ * A native `<dialog>` opened with `showModal()`.
+ *
+ * The default user-agent styling is a thin border and a hard-coded margin, so
+ * the box, the centring and the backdrop are all restated here. `max-width` is
+ * in `ch` because the content is a sentence, not a layout.
+ */
+.dialog {
+  width: min(30rem, calc(100vw - 2rem));
+  padding: 0;
+  color: var(--adflex-color-text);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+  box-shadow: 0 20px 50px -12px rgba(13, 26, 24, 0.35);
+  /*
+   * `margin: auto` is what centres a modal dialog, and restating it here is not
+   * redundant. The browser's own stylesheet sets it, but globals.css has a
+   * `* { margin: 0 }` reset that wins — so the dialogue opened pinned to the
+   * top-left corner of the viewport instead of the middle of the screen.
+   */
+  margin: auto;
+}
+
+.dialog::backdrop {
+  background: rgba(13, 26, 24, 0.45);
+}
+
+/* Only inside `no-preference`: a dialogue that animates in is the last thing
+   someone with vestibular sensitivity wants, and it must never delay the
+   confirmation appearing. */
+@media (prefers-reduced-motion: no-preference) {
+  .dialog[open] {
+    animation: adminDialogIn 140ms ease-out;
+  }
+
+  .dialog[open]::backdrop {
+    animation: adminBackdropIn 140ms ease-out;
+  }
+}
+
+@keyframes adminDialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+}
+
+@keyframes adminBackdropIn {
+  from {
+    opacity: 0;
+  }
+}
+
+.dialogBody {
+  padding: var(--adflex-space-5);
+}
+
+.dialogTitle {
+  font-size: var(--adflex-text-lg);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-ink);
+  /* The title carries a quoted entry name, which can be long and unbroken. */
+  overflow-wrap: anywhere;
+}
+
+.dialogDetail {
+  margin-top: var(--adflex-space-3);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-3);
+  justify-content: flex-end;
+  margin-top: var(--adflex-space-5);
+}
+
+.dialogCancel {
+  padding: var(--adflex-space-3) var(--adflex-space-5);
+  font: inherit;
+  font-size: var(--adflex-text-sm);
+  font-weight: 600;
+  color: var(--adflex-color-ink);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-md);
+  cursor: pointer;
+}
+
+.dialogCancel:hover {
+  background: var(--adflex-color-surface-soft);
+}
+
+/* Destructive confirm. Not colour alone — the button's own words say "Delete". */
+.dialogDanger {
+  padding: var(--adflex-space-3) var(--adflex-space-5);
+  font: inherit;
+  font-size: var(--adflex-text-sm);
+  font-weight: 600;
+  color: #ffffff;
+  background: #9b2417;
+  border: 1px solid #9b2417;
+  border-radius: var(--adflex-radius-md);
+  cursor: pointer;
+}
+
+.dialogDanger:hover {
+  background: #7a1b12;
+}
+
+/* --- Images field -------------------------------------------------------- */
+
+.imagesField {
+  display: grid;
+  gap: 6px;
+  padding: var(--adflex-space-4);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-md);
+}
+
+/*
+ * Scrolls once there are more images than fit comfortably.
+ *
+ * Each row is a thumbnail, an alt-text field and three buttons — about 100px.
+ * Eight images made the form so tall that Save disappeared below the fold and
+ * the editor had to scroll past every picture to reach it. Capping the list and
+ * letting it scroll keeps the rest of the form reachable however many images an
+ * entry carries.
+ *
+ * `min(60vh, 520px)` rather than a flat pixel height so it stays sensible on a
+ * laptop and on a tall monitor. The padding and negative margin are so a focus
+ * ring on a row inside the scroller is not clipped by its own edge.
+ */
+.imageList {
+  display: grid;
+  gap: var(--adflex-space-3);
+  max-height: min(60vh, 520px);
+  padding: var(--adflex-space-1);
+  margin-inline: calc(-1 * var(--adflex-space-1));
+  margin-bottom: var(--adflex-space-3);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  list-style: none;
+}
+
+.imageRow {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr) auto;
+  gap: var(--adflex-space-3);
+  align-items: start;
+  padding: var(--adflex-space-3);
+  background: var(--adflex-color-surface-soft);
+  border-radius: var(--adflex-radius-sm);
+}
+
+.imageMeta {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.imageButtons {
+  display: flex;
+  gap: var(--adflex-space-2);
+  align-items: center;
+}
+
+.imageButtons button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .imageRow {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .imageButtons {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --- Login -------------------------------------------------------------- */
+
+.loginShell {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  padding: var(--adflex-space-5);
+  background: var(--adflex-color-background);
+}
+
+.loginCard {
+  width: min(26rem, 100%);
+  padding: var(--adflex-space-6);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+  box-shadow: var(--adflex-shadow-md);
+}
+
+/* --- Setup notice ------------------------------------------------------- */
+
+.setup {
+  padding: var(--adflex-space-5);
+  margin-top: var(--adflex-space-5);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-lg);
+}
+
+.setup code {
+  padding: 1px 5px;
+  font-size: 0.9em;
+  background: var(--adflex-color-surface-soft);
+  border-radius: 4px;
+}
+
+.setup ol {
+  margin-top: var(--adflex-space-3);
+  padding-left: 1.2rem;
+  display: grid;
+  gap: var(--adflex-space-2);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-text);
+}
+
+@media (max-width: 640px) {
+  .item {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .itemNoImage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .thumb {
+    width: 64px;
+  }
+
+  .itemActions {
+    grid-column: 1 / -1;
+  }
+}
+
+/* --- Added 7 August 2026 ------------------------------------------------ */
+
+/* A value the form shows but does not let you change — the outcome type when
+   editing. Styled as text, not as a disabled input, because it is not a control
+   that happens to be off; there is nothing to change here. */
+.staticValue {
+  font-weight: 600;
+  color: var(--adflex-color-ink);
+}
+
+/* One description box per newly chosen image or file. Indented and hairlined so
+   the group reads as belonging to the picker above it rather than as more
+   top-level fields. */
+.newImageList {
+  display: grid;
+  gap: var(--adflex-space-3);
+  margin-top: var(--adflex-space-3);
+  padding-left: var(--adflex-space-4);
+  border-left: 2px solid var(--adflex-color-border);
+  list-style: none;
+}
+
+.newImageRow {
+  display: grid;
+  gap: var(--adflex-space-1);
+}
+
+/* Stands in for the thumbnail an image row has, so file rows keep the same
+   three-column shape. */
+.fileKind {
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 56px;
+  font-size: var(--adflex-text-xs);
+  font-weight: 700;
+  letter-spacing: var(--adflex-tracking-wide);
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-sm);
+}
+
+/* The word beside a label of a field the form will not save without. */
+.required {
+  margin-left: var(--adflex-space-2);
+  padding: 1px 7px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+  border-radius: 999px;
+  vertical-align: 1px;
+}

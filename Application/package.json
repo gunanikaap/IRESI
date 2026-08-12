@@ -1,24 +1,39 @@
 {
-  "name": "iresi-website",
-  "version": "1.0.0",
+  "name": "iresi-platform",
+  "version": "0.1.0",
   "private": true,
-  "type": "module",
-  "description": "IRESI Centre website — Maynooth University",
+  "description": "IRESI website platform — shared core with per-project configuration",
   "engines": {
     "node": ">=20.0.0"
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run lint && npm run build && npm run typecheck",
+    "db:setup": "node scripts/db-setup.mjs",
+    "db:user": "node scripts/db-user.mjs",
+    "db:seed": "node scripts/seed-content.mjs"
   },
   "dependencies": {
-    "astro": "^5.0.0"
+    "next": "16.2.12",
+    "nodemailer": "^9.0.5",
+    "pg": "^8.22.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "typescript": "^5.7.0"
+    "@types/node": "^20",
+    "@types/nodemailer": "^8.0.1",
+    "@types/pg": "^8.20.4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.12",
+    "typescript": "^5"
   }
 }

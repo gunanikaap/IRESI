@@ -1,8 +1,8 @@
-# IRESI Website
+# IRESI Platform
 
-The website for the **IRESI Centre** (International Research on Energy system integration, Education, and Environment for Sustainability and Innovation) at Maynooth University — <https://www.iresi.eu>.
+The website platform for the **IRESI Centre** at Maynooth University — <https://www.iresi.eu> — and for the projects that run underneath it.
 
-This is a static rebuild of the previous WordPress/Elementor site. It builds to plain HTML, CSS and images that can be copied onto any web server; there is no database, no PHP and no runtime dependency.
+Following the review meeting of 12 August 2026, IRESI is the parent platform and ADFLEX is the first project under it. The rule agreed there was **build once, configure per project**: one codebase, one admin, one login, with each project supplying its own identity, navigation, theme and content rather than its own copy of the code.
 
 ---
 
@@ -17,41 +17,73 @@ npm install
 npm run dev
 ```
 
-The dev server runs at <http://localhost:4321>.
+The dev server runs at <http://localhost:3000>.
+
+**The public site needs no database.** With `DATABASE_URL` unset, every public page still builds and renders; the pages whose content lives in the database show their empty state, and the contact form falls back to storing messages rather than emailing them. Only `/admin` requires Postgres.
 
 ### Commands
 
-| Command           | What it does                                          |
-| ----------------- | ----------------------------------------------------- |
-| `npm install`     | Install dependencies                                  |
-| `npm run dev`     | Start the local dev server with hot reload            |
-| `npm run build`   | Build the production site into `dist/`                |
-| `npm run preview` | Serve the built `dist/` locally to check it           |
-| `npm run check`   | Type-check the project and validate all content files |
+| Command | What it does |
+| --- | --- |
+| `npm install` | Install dependencies |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run start` | Serve the production build |
+| `npm run check` | **lint → build → typecheck.** Run this before committing |
+| `npm run db:setup` | Apply database migrations (idempotent) |
+| `npm run db:user` | Create an admin account from the command line |
+| `npm run db:seed` | Load a project's starting content into an empty database |
+
+> `npm run check` runs typecheck **after** build on purpose. Next generates route types during the build, so running typecheck first on a clean checkout fails with `Cannot find name 'PageProps'`.
 
 ---
 
-## Deploying
+## How a project is configured
 
-```bash
-npm run build
+A project is **configuration, not code**. Everything that differs between IRESI and ADFLEX lives in `src/projects/<key>/`:
+
+```
+src/projects/
+├── types.ts            The shape a project config must have
+├── index.ts            Resolves the active project from ACTIVE_PROJECT
+├── iresi/
+│   ├── config.ts       Identity, navigation, footer, contact address
+│   ├── content.ts      Developer-managed page copy (see below)
+│   ├── data/           Team, research topics, researchers (generated)
+│   └── theme.css       The colour, type and spacing tokens
+└── adflex/
+    ├── config.ts
+    └── theme.css
 ```
 
-This produces a `dist/` folder. **Copy the entire contents of `dist/` to your web server's document root** — that is the whole deployment. Nothing else from this repository needs to go on the server.
+Which project a deployment serves is set by `ACTIVE_PROJECT`; unset means `iresi`. An unrecognised value fails at startup rather than quietly serving the wrong project's contact address.
 
-Notes for whoever configures the server:
+**No component knows which project it is rendering.** The header, footer and theme all read from the resolved config, so adding a third project means adding a folder — not editing pages.
 
-- Pages are emitted as directories with an `index.html` inside (`/about-us/index.html`), so the URLs match the old WordPress permalinks exactly. The server must serve `index.html` for directory requests — this is the default for Apache, Nginx and IIS.
-- `dist/404.html` is the not-found page. Point the server's 404 handler at it.
-- Everything is served over plain HTTP(S) as static files; no rewrite rules are required.
-- Total build output is roughly 27 MB, mostly images.
+### Why there is no `project_id` column
 
-### Replacing the current site
+Whether IRESI runs one database shared by every project, or one per project, **has not been decided** — that is Adarsh's and Paolo's call. So one deployment serves one project and talks to whatever `DATABASE_URL` points at, and both answers stay reachable:
 
-The build is designed to drop in behind the existing `iresi.eu` domain:
+- **one database per project** — nothing changes
+- **one shared database** — add a project column in a migration and a filter in `repo.ts`, which is the only module that names tables
 
-- All existing page URLs are preserved (see **URLs** below), so inbound links and search results keep working.
-- DNS does not need to change — only the origin the domain points at.
+Adding that column now on the assumption central storage wins, and taking it out again if it does not, is the worse trade.
+
+---
+
+## Two kinds of content
+
+Knowing which is which is most of what makes this handover work.
+
+### 1. Editor-managed — the admin, stored in Postgres
+
+Projects, publications, news and events, and the images and documents attached to them. These change often, and an editor changes them without a developer. This is what the meeting asked for.
+
+### 2. Developer-managed — `src/projects/iresi/content.ts`
+
+The team list, the seven research topics, the partner logos, and the standing page copy for Home, About Us, Partners, Research and Contact. These change rarely and every change is a considered one. Putting them behind an admin form would add screens nobody opens twice a year.
+
+So the answer to *"where do I change the About text?"* is one sentence: that file. If the team later wants the team list editable too, it moves to the database and this file loses a section.
 
 ---
 
@@ -59,176 +91,101 @@ The build is designed to drop in behind the existing `iresi.eu` domain:
 
 ```
 Application/
-├── astro.config.mjs      Build configuration (static output, directory URLs)
-├── public/               Copied to the site root as-is
-│   ├── favicon.svg
-│   └── images/           All site imagery, grouped by area
-│       ├── about/  home/  news/  partners/
-│       ├── projects/  publications/  research/  team/
-│       ├── logo.png          Header logo
-│       └── logo-mark.png     Footer logo
+├── migrations/         SQL, applied in filename order by db:setup
+├── scripts/            Migration runner, admin user creation, content seeding
+├── public/images/      Site imagery, grouped by area
+├── handover/           Access requirements and deployment notes
 └── src/
-    ├── components/       Reusable UI (Header, Footer, cards, article templates)
-    ├── content/          ← All editable site content lives here
-    │   ├── news/         News & Events posts
-    │   ├── projects/     Project pages
-    │   ├── publications/ Individual papers
-    │   ├── research/     The seven research topic pages
-    │   ├── researchers/  Researcher profiles on the Publications page
-    │   └── team/         Team members
-    ├── content.config.ts Schemas for the above — the rules each file must follow
-    ├── data/site.ts      Navigation, footer links, contact details, social links
-    ├── layouts/          The shared page shell (<head>, header, footer)
-    ├── pages/            One file per route
-    └── styles/global.css Design tokens and shared styles
+    ├── app/            Routes (Next.js App Router)
+    ├── components/     Shared UI — none of it project-specific
+    ├── lib/            Platform core: db, auth, repo, upload, mail, site
+    └── projects/       Per-project configuration, content and themes
 ```
 
+### The platform core
+
+These came from the ADFLEX repository, where they went through a security review. They are the most valuable part of the codebase and should be changed carefully:
+
+| File | What it gives you |
+| --- | --- |
+| `src/lib/db.ts` | Pool, `withTransaction`, `safeReadStatus` |
+| `src/lib/auth.ts` | scrypt password hashing, signed session cookie, session revocation, login rate limiting |
+| `src/lib/repo.ts` | Every database read and write. **The only module that names tables** |
+| `src/lib/upload.ts` | Image resize and EXIF stripping on upload |
+| `src/lib/mail.ts` | SMTP send with header injection guarded |
+
+Three things about them are worth knowing before you touch anything:
+
+- **`safeReadStatus` returns `{ data, degraded }`.** An empty list is also what a page shows when nothing has been published, so a database that blinked would tell visitors a funded research centre had no projects. Every public read must be able to tell "there is nothing" from "I could not find out". Do not replace this with `catch { return [] }`.
+- **`withTransaction` uses `AsyncLocalStorage`.** It puts one connection in async-local storage and `query()` prefers it, so existing repository functions work inside a transaction without a client parameter threaded through all of them.
+- **`/media/[id]` serves an image only if it is attached to something published**, or the requester is signed in, and returns **404 rather than 403** — "forbidden" confirms something exists at that id.
+
 ---
 
-## Editing content
+## Deploying
 
-Everyday content changes are made by editing markdown files in `src/content/` — no component or CSS changes needed. Each file has a **frontmatter** block (the `---` fenced section at the top) holding structured fields, and optionally a markdown body below it.
-
-`npm run check` validates every content file against its schema and reports exactly which file and field is wrong, so a typo fails at build time rather than silently breaking the site.
-
-### Add a team member
-
-Create `src/content/team/firstname-lastname.md`:
-
-```markdown
----
-name: "Dr Jane Doe"
-role: "Researcher"
-photo: "/images/team/jane-doe.jpg"
-email: "jane.doe@mu.ie"
-linkedin: "https://www.linkedin.com/in/jane-doe/"
-order: 37
----
+```bash
+npm run build
+npm run start
 ```
 
-Put the photo in `public/images/team/`. Square images around 800×800 work best. `order` controls the position in the grid — lower numbers appear first.
+This is a Node application, not a static export: it needs a host that can run Node 20+ and reach a PostgreSQL database.
 
-### Add a project
+First deployment, in order:
 
-Create `src/content/projects/my-project.md`. The filename becomes the URL (`/my-project`).
+1. Set `DATABASE_URL`, `SESSION_SECRET` and `NEXT_PUBLIC_SITE_URL` (see `.env.example`).
+2. `npm run db:setup` — applies every migration.
+3. `npm run db:seed` — loads IRESI's projects, publications and news into the empty database.
+4. `npm run db:user` — creates the first admin account.
+5. `npm run build && npm run start`.
 
-```markdown
----
-title: "MYPROJECT"
-pageTitle: "MyProject — Full Title"     # optional, used as the page heading
-summary: "One line shown on the projects listing."
-intro:                                   # lead paragraphs on the project page
-  - "First paragraph."
-  - "Second paragraph."
-tags:                                    # the chips in the project header
-  - "EU-Funded Project"
-  - "Energy Flexibility"
-cardImage: "/images/projects/my-project-card.jpg"
-image: "/images/projects/my-project.jpg" # optional wide image
-website: "https://example.eu/"           # optional
-vimeoId: "123456789"                     # optional embedded demo video
-externalOnly: false                      # true = link straight out, no page
-order: 12
----
-
-## Objective
-
-Body copy here.
-
-## Impact
-
-More body copy.
-```
-
-### Add a news post
-
-Create `src/content/news/my-post.md`. The filename becomes the URL.
-
-```markdown
----
-title: "Post title"
-date: "2026-08-11"
-author: "Paolo Cammardella"
-summary: "Short excerpt shown on the News & Events listing."
-image: "/images/news/my-post.jpeg"
-gallery:                    # optional extra images shown at the end
-  - "/images/news/my-post-2.jpeg"
-unlisted: false             # true = page exists but is hidden from the listing
-legacyPaths: []             # old URLs that should redirect here
----
-
-Body copy in markdown.
-```
-
-### Add a publication
-
-Create `src/content/publications/my-paper.md`. `researcher` must match a filename in `src/content/researchers/`.
-
-```markdown
----
-title: "Paper title"
-authors:
-  - "Author One"
-  - "Author Two"
-date: "2026/3/1"
-year: 2026
-journal: "Journal Name"
-volume: "12"
-pages: "100-120"
-publisher: "Publisher"
-description: "Short abstract."
-link: "https://scholar.google.com/..."
-researcher: "fabiano-pallonetto"
-order: 13
----
-```
-
-### Change navigation, contact details or social links
-
-Edit `src/data/site.ts`. It holds the header menu, footer menu, research topic list, email address, postal address and social profiles used across every page.
+**Before any of this can happen, the team needs to confirm the hosting can run Node at all.** The current IRESI site is WordPress, so its host is PHP; see `handover/ACCESS-NEEDED.md`.
 
 ---
 
 ## URLs
 
-The routes below match the previous WordPress site so existing links keep working.
+The routes match the previous WordPress site so existing links keep working when the domain is repointed.
 
-| Page              | URL                                                                   |
-| ----------------- | --------------------------------------------------------------------- |
-| Home              | `/`                                                                   |
-| Who We Are        | `/about-us`                                                           |
-| Team              | `/team`                                                               |
-| Partners          | `/partners`                                                           |
-| Projects listing  | `/projects`                                                           |
-| Project pages     | `/renew`, `/res4city`, `/flow`, `/sherlock`, `/streacs`, `/ai-effect`, `/resskill`, `/nexsys`, `/adflex` |
-| Publications      | `/publications`                                                       |
-| News & Events     | `/news-events` and one page per post at the post's own slug           |
-| Research hub      | `/research`                                                           |
-| Research topics   | `/renewables`, `/transport`, `/buildings`, `/electricity-and-power-system`, `/engage-research`, `/green-upskilling`, `/heating-and-cooling-systems` |
-| Contact           | `/contact`                                                            |
+| Page | URL |
+| --- | --- |
+| Home | `/` |
+| Who We Are | `/about-us` |
+| Team | `/team` |
+| Partners | `/partners` |
+| Projects listing | `/projects` |
+| Project pages | `/renew`, `/res4city`, `/flow`, `/sherlock`, `/streacs`, `/ai-effect`, `/resskill`, `/nexsys`, `/adflex` |
+| Publications | `/publications` |
+| News & Events | `/news-events`, plus one page per post at its own slug |
+| Research hub | `/research` |
+| Research topics | `/renewables`, `/transport`, `/buildings`, `/electricity-and-power-system`, `/engage-research`, `/green-upskilling`, `/heating-and-cooling-systems` |
+| Contact | `/contact` |
 
-### Redirects
-
-A few old URLs no longer have a page of their own and are redirected via a small HTML stub:
-
-- `/about` → `/about-us`
-- `/research-2` → `/research`
-- `/people` → `/team`
-- The three news posts whose WordPress URLs contained emoji redirect to plain-text slugs, e.g. `/🌍-exciting-times-ahead-for-energy-system-integration-🌍` → `/exciting-times-ahead-for-energy-system-integration`
-
-To add a redirect to a news post, list the old path in that post's `legacyPaths`. For other redirects, edit `STATIC_REDIRECTS` in `src/pages/[...legacy].astro`.
+Projects, research topics and news posts all sat at the root of the WordPress site, so a single `src/app/[slug]/page.tsx` route serves all three.
 
 ---
 
 ## Things worth knowing
 
-- **The contact form does not post anywhere.** The site is static, so submitting the form opens the visitor's email client with the message pre-filled and addressed to `info@iresi.eu`. If real server-side form handling is wanted later, it needs either a host that provides it or a third-party form service.
-- **Fonts load from Google Fonts** (Montserrat and Work Sans), as they did on the WordPress site. If the Centre would rather not call out to Google, the fonts can be self-hosted from `public/`.
-- **Images are served as-is** from `public/images/`. They were exported at sensible sizes from the original site, but there is no automatic responsive-image generation. Keep new uploads under about 500 KB.
-- **Design tokens** (colours, fonts, spacing, container width) are defined once at the top of `src/styles/global.css` and carried over from the previous theme.
+- **Fonts are self-hosted.** `next/font` downloads Montserrat and Work Sans at build time and serves them from this origin, so no visitor's browser contacts Google to render a page. The WordPress site did, which for an EU research centre was an unanswered GDPR question.
+- **Dates are formatted from `YYYY-MM-DD` strings, never from a `Date` returned by `pg`.** `pg` maps a `DATE` to midnight in the server's zone, so an entry dated the 1st renders as the 31st for anyone west of it.
+- **Page copy is stored as text, not markdown.** Blank-line-separated paragraphs, `## ` for a heading, `- ` for a bullet. Rendering it needs no library and offers no HTML-injection surface. `src/components/Prose.tsx` is the one place to change if genuinely rich content is ever needed.
+- **Theming is the seam where a project's look is applied.** Every colour, font and spacing value is a token set by the theme class on `<html>`. Retrofitting that later is much worse than starting with it.
+
+---
+
+## Status
+
+**Done:** the platform structure, per-project configuration and theming, the content model and migrations, every public IRESI page, the contact form, and the content seeding. `npm run check` passes.
+
+**Not done:** the admin dashboard has not yet been ported across from ADFLEX and generalised — the schema, the repository layer and the authentication it needs are all in place, but the screens are not. That is the next piece of work, and it is what makes the site editable without a developer.
+
+**Not verified:** nothing has been run against a real PostgreSQL database yet, because there isn't one to run against. The migrations and the seed script are written but untested end to end. See `handover/ACCESS-NEEDED.md`.
 
 ---
 
 ## Built with
 
-[Astro](https://astro.build) 5 — static site generator. No UI framework, no client-side routing; the only JavaScript shipped is the mobile menu toggle and the contact form handler.
+[Next.js](https://nextjs.org) 16.2.12 (App Router), React 19, PostgreSQL. No CSS framework and no UI library; styling is CSS Modules over a token layer.
+
+> **Note for anyone editing this with an AI assistant:** read `AGENTS.md` first. This version of Next.js differs from what a model is likely to assume, and the guides in `node_modules/next/dist/docs/` are the authority.

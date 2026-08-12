@@ -1,0 +1,42 @@
+/*
+ * ADFLEX theme.
+ *
+ * The same token names as IRESI with different values — which is the point of
+ * the exercise. Nothing in `src/app` or `src/components` knows either project
+ * exists; swapping the class on <html> swaps the look.
+ *
+ * These values are placeholders taken from the ADFLEX repository's palette. If
+ * ADFLEX is eventually served from this codebase, reconcile them against
+ * `src/styles/adflex-tokens.css` there before going live.
+ */
+
+.theme-adflex {
+	--color-heading: #10243e;
+	--color-heading-alt: #1c3557;
+	--color-text: #333d4b;
+	--color-text-muted: #667085;
+	--color-accent: #00857a;
+	--color-accent-dark: #00655d;
+	--color-accent-contrast: #ffffff;
+	--color-bg: #ffffff;
+	--color-bg-alt: #f2f7f6;
+	--color-border: #dfe6e4;
+	--color-inverse: #ffffff;
+	--color-footer-bg: #10243e;
+
+	--gradient-banner: linear-gradient(180deg, #1c3557 0%, #10243e 100%);
+	--gradient-banner-overlay: linear-gradient(
+		180deg,
+		rgba(28, 53, 87, 0.55) 0%,
+		rgba(16, 36, 62, 0.88) 100%
+	);
+
+	--font-heading: var(--font-heading-loaded), system-ui, -apple-system, "Segoe UI", sans-serif;
+	--font-body: var(--font-body-loaded), system-ui, -apple-system, "Segoe UI", sans-serif;
+	--heading-transform: none;
+	--heading-weight: 600;
+
+	--container: 1140px;
+	--header-height: 92px;
+	--radius: 10px;
+}

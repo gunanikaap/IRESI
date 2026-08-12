@@ -1,6 +1,6 @@
 import "server-only";
 
-import { query, queryOne, safeRead, safeReadStatus, type ReadStatus } from "./db";
+import { query, queryOne, safeRead, safeReadStatus, withTransaction, type ReadStatus } from "./db";
 
 /**
  * Every database read and write, in one place.
@@ -807,9 +807,16 @@ export async function deleteNewsItem(id: number): Promise<void> {
  * ----------------------------------------------------------------------- */
 
 /** The three tables carrying a `published` flag. */
-export type PublishableTable = "findings" | "publications" | "news_items";
+export type PublishableTable = "findings" | "publications" | "news_items" | "projects";
 
-const PUBLISHABLE: readonly PublishableTable[] = ["findings", "publications", "news_items"];
+// Checked against, not interpolated blindly: the table name reaches this from a
+// form field, and an allow-list is what stops it reaching SQL as anything else.
+const PUBLISHABLE: readonly PublishableTable[] = [
+  "findings",
+  "publications",
+  "news_items",
+  "projects",
+];
 
 /**
  * Sets an entry's published flag.
@@ -1127,12 +1134,21 @@ export async function listAllProjects(): Promise<Project[]> {
   return rows.map(toProject);
 }
 
-/** One published project by its address. Used by `/[slug]`. */
+/**
+ * One published project by its address. Used by `/[slug]`.
+ *
+ * `external_only` entries are excluded on purpose. Those are projects that live
+ * on someone else's website — LERO and CO-CREATIVE LAB today — and get a card
+ * that links straight out. Serving a page here too would mean two addresses for
+ * the same project, one of them nearly empty, and would not match the site this
+ * replaces. The listing card is the only place they appear.
+ */
 export function getPublishedProjectBySlug(slug: string): Promise<Project | null> {
   return safeRead(
     async () => {
       const row = await queryOne<ProjectRow>(
-        `SELECT ${PROJECT_COLUMNS} FROM projects WHERE slug = $1 AND published`,
+        `SELECT ${PROJECT_COLUMNS} FROM projects
+         WHERE slug = $1 AND published AND NOT external_only`,
         [slug],
       );
       return row ? toProject(row) : null;
@@ -1147,6 +1163,112 @@ export async function getProject(id: number): Promise<Project | null> {
     id,
   ]);
   return row ? toProject(row) : null;
+}
+
+export type ProjectInput = {
+  slug: string;
+  title: string;
+  page_title: string | null;
+  summary: string;
+  /** One paragraph per line. */
+  intro: string;
+  /** One tag per line. */
+  tags: string;
+  body: string;
+  website: string | null;
+  website_label: string;
+  vimeo_id: string | null;
+  external_only: boolean;
+  sort_order: number;
+  /** Uploaded images to attach, in order. Existing ones are replaced. */
+  imageIds?: number[];
+};
+
+/**
+ * Writes go through a transaction so an entry and its images are saved together
+ * or not at all. `withTransaction` puts the connection in async-local storage,
+ * so the `query` calls below join it without being handed a client.
+ */
+export async function createProject(input: ProjectInput): Promise<number> {
+  return withTransaction(async () => {
+    const row = await queryOne<{ id: number }>(
+      `INSERT INTO projects
+         (slug, title, page_title, summary, intro, tags, body,
+          website, website_label, vimeo_id, external_only, sort_order)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id`,
+      [
+        input.slug,
+        input.title,
+        input.page_title,
+        input.summary,
+        input.intro,
+        input.tags,
+        input.body,
+        input.website,
+        input.website_label,
+        input.vimeo_id,
+        input.external_only,
+        input.sort_order,
+      ],
+    );
+    const id = row!.id;
+    await attachProjectImages(id, input.imageIds ?? []);
+    return id;
+  });
+}
+
+export async function updateProject(id: number, input: ProjectInput): Promise<void> {
+  await withTransaction(async () => {
+    await query(
+      `UPDATE projects SET
+         slug = $2, title = $3, page_title = $4, summary = $5, intro = $6, tags = $7,
+         body = $8, website = $9, website_label = $10, vimeo_id = $11,
+         external_only = $12, sort_order = $13, updated_at = now()
+       WHERE id = $1`,
+      [
+        id,
+        input.slug,
+        input.title,
+        input.page_title,
+        input.summary,
+        input.intro,
+        input.tags,
+        input.body,
+        input.website,
+        input.website_label,
+        input.vimeo_id,
+        input.external_only,
+        input.sort_order,
+      ],
+    );
+
+    // Only touch images when the form sent some; an edit that does not include
+    // the image field should not silently detach what is already there.
+    if (input.imageIds) {
+      await query("DELETE FROM project_images WHERE project_id = $1", [id]);
+      await attachProjectImages(id, input.imageIds);
+    }
+  });
+
+  // An edit that detached an image can leave it referenced by nothing.
+  await deleteOrphanedUploads();
+}
+
+async function attachProjectImages(projectId: number, mediaIds: number[]): Promise<void> {
+  for (const [position, mediaId] of mediaIds.entries()) {
+    await query(
+      "INSERT INTO project_images (project_id, media_id, position) VALUES ($1,$2,$3)",
+      [projectId, mediaId, position],
+    );
+  }
+}
+
+export async function deleteProject(id: number): Promise<void> {
+  await query("DELETE FROM projects WHERE id = $1", [id]);
+  // `project_images` cascades, but each `media` row carries the whole file in a
+  // BYTEA column and would otherwise stay behind. Sweeps only what nothing at
+  // all points at, so an image shared with another entry survives.
+  await deleteOrphanedUploads();
 }
 
 /** The same test as `isMediaPublic`, extended to images attached to projects. */

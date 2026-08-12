@@ -2,56 +2,40 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import styles from "./admin.module.css";
+import type { ReactNode } from "react";
+import styles from "./tabs.module.css";
 
-type Tab = {
-  href: string;
-  label: string;
-  /** Rendered after the label. Used for the unread-message count. */
-  badge?: React.ReactNode;
-};
+export type Tab = { href: string; label: string; badge?: ReactNode };
 
 /**
- * The admin section tabs.
+ * Admin navigation.
  *
- * A client component only because knowing which tab you are on needs
- * `usePathname()`. The layout around it stays a Server Component, so nothing
- * else moves to the client for this.
- *
- * `.tabCurrent` was written for exactly this and never wired up, so all four
- * tabs looked identical on every screen and there was no `aria-current` for a
- * screen reader either. The public header has done both since it was built;
- * this brings the admin in line with it.
+ * The tabs are passed in rather than listed here, so the set of content types a
+ * project manages is decided by the layout — a project with no publications
+ * simply does not pass that tab.
  */
-export function AdminTabs({ tabs }: { tabs: readonly Tab[] }) {
-  const pathname = usePathname();
+export function AdminTabs({ tabs }: { tabs: Tab[] }) {
+	const pathname = usePathname();
 
-  /*
-   * Exact match, not `startsWith`. "/" as a prefix matches every admin route,
-   * so a prefix test would light up Overview on all four pages. None of these
-   * has child routes, so exact is also complete.
-   */
-  const isCurrent = (href: string) => pathname === href;
+	// Longest match wins, so /admin/projects does not also light up /admin.
+	const active = tabs.reduce<string | null>((best, tab) => {
+		const matches = pathname === tab.href || pathname.startsWith(`${tab.href}/`);
+		if (!matches) return best;
+		return best && best.length >= tab.href.length ? best : tab.href;
+	}, null);
 
-  return (
-    <nav aria-label="Admin sections">
-      <ul className={styles.tabs}>
-        {tabs.map((tab) => {
-          const current = isCurrent(tab.href);
-          return (
-            <li key={tab.href}>
-              <Link
-                className={`${styles.tab} ${current ? styles.tabCurrent : ""}`}
-                href={tab.href}
-                aria-current={current ? "page" : undefined}
-              >
-                {tab.label}
-                {tab.badge}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
-  );
+	return (
+		<nav className={styles.tabs} aria-label="Admin sections">
+			<ul>
+				{tabs.map((tab) => (
+					<li key={tab.href}>
+						<Link href={tab.href} aria-current={active === tab.href ? "page" : undefined}>
+							{tab.label}
+							{tab.badge}
+						</Link>
+					</li>
+				))}
+			</ul>
+		</nav>
+	);
 }

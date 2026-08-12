@@ -1,0 +1,31 @@
+.tabs ul {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.tabs a {
+	display: inline-flex;
+	align-items: center;
+	font-family: var(--font-heading);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	color: var(--color-text-muted);
+	text-decoration: none;
+	padding-block: 0.35rem;
+	border-bottom: 2px solid transparent;
+}
+
+.tabs a:hover {
+	color: var(--color-accent);
+	text-decoration: none;
+}
+
+.tabs a[aria-current="page"] {
+	color: var(--color-heading);
+	border-bottom-color: var(--color-accent);
+}

@@ -24,7 +24,9 @@ import { readFileSync, existsSync } from "node:fs";
 import { join, dirname, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import "./load-env.mjs";
+import { loadEnv } from "./load-env.mjs";
+
+loadEnv();
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const projectKey = process.argv[2] || process.env.ACTIVE_PROJECT || "iresi";

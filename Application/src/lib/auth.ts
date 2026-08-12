@@ -17,7 +17,14 @@ const scrypt = promisify(scryptCallback) as (
   keylen: number,
 ) => Promise<Buffer>;
 
-export const SESSION_COOKIE = "adflex_admin";
+/**
+ * Re-exported so existing imports of `SESSION_COOKIE` from this module keep
+ * working. The name itself is defined in `session-cookie.ts`, which `proxy.ts`
+ * can also import — this module cannot be imported there.
+ */
+import { SESSION_COOKIE } from "./session-cookie";
+
+export { SESSION_COOKIE };
 
 /** Eight hours. Long enough for a working day, short enough to matter. */
 const SESSION_TTL_SECONDS = 8 * 60 * 60;

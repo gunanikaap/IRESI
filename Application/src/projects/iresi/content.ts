@@ -214,52 +214,62 @@ export const researchHub = {
 	subtitle: "Research at IRESI: Pioneering Sustainable Solutions",
 	intro:
 		"At the International Renewables and Energy Systems Integration Group (IRESI), research is at the forefront of our mission to transform the energy landscape and drive sustainable change. Our dedicated team of experts spans various research divisions, each focused on advancing knowledge and innovation in specific areas of sustainable energy. Explore our diverse research divisions below.",
+	/*
+	 * The seven divisions in the order the live page lists them, with the text
+	 * and the photographs it carries against each. Several of these were
+	 * abbreviated when the content was first extracted; they are now the full
+	 * paragraphs, checked against the live page.
+	 *
+	 * Only four divisions have photographs there, and that asymmetry is
+	 * deliberate rather than an omission — the page alternates between blocks
+	 * with pictures and blocks without.
+	 */
 	divisions: [
 		{
 			slug: "renewables",
 			title: "Renewables",
-			text: "In the realm of renewable energy, our research at IRESI is dedicated to harnessing the full potential of sources like solar, wind, and hydro power. We’re not content with just their existence; we strive to optimize their efficiency, storage capabilities, and seamless integration into established energy grids. Our goal is clear: to position renewable energy as the bedrock of a sustainable future.",
+			text: "In the realm of renewable energy, our research at IRESI is dedicated to harnessing the full potential of sources like solar, wind, and hydro power. We’re not content with just their existence; we strive to optimize their efficiency, storage capabilities, and seamless integration into established energy grids. Our goal is clear: to position renewable energy as the bedrock of a sustainable future. Through innovative technologies, grid enhancements, and advanced storage solutions, we’re working tirelessly to ensure that renewable sources become the primary source of energy worldwide, reducing carbon footprints and paving the way for a greener, more sustainable tomorrow.",
 			images: ["/images/research/renewables-1.jpg", "/images/research/renewables-2.jpg"],
 		},
 		{
 			slug: "transport",
 			title: "Transportation",
-			text: "At IRESI, our dedication to revolutionizing transportation is unwavering. Through rigorous research and innovation, we focus on electric vehicles, alternative fuels, and sustainable urban mobility solutions. Our goal is to drive a seismic shift away from fossil fuel dependency, mitigating emissions, and ushering in a cleaner, greener era of transportation.",
+			text: "At IRESI, our dedication to revolutionizing transportation is unwavering. Through rigorous research and innovation, we focus on electric vehicles, alternative fuels, and sustainable urban mobility solutions. Our goal is to drive a seismic shift away from fossil fuel dependency, mitigating emissions, and ushering in a cleaner, greener era of transportation. We investigate cutting-edge technologies, from electric vehicle advancements to novel fuel sources, while also designing and promoting sustainable urban mobility solutions. By doing so, we aim not only to address environmental concerns but also to enhance the efficiency and accessibility of transportation systems, ultimately contributing to a more sustainable and eco-conscious future for communities worldwide.",
 			images: [],
 		},
 		{
 			slug: "buildings",
 			title: "Buildings",
-			text: "In the realm of building research, IRESI delves deep into the development of sustainable building materials, the creation of energy-efficient architectural designs, and the integration of smart technologies. Our aim is to foster the construction of environmentally responsible structures that substantially reduce their carbon footprint.",
+			text: "In the realm of building research, IRESI delves deep into the development of sustainable building materials, the creation of energy-efficient architectural designs, and the integration of smart technologies. Our aim is to foster the construction of environmentally responsible structures that substantially reduce their carbon footprint. We investigate novel materials that offer superior insulation, durability, and eco-friendliness, while also delving into cutting-edge architectural practices that maximize energy conservation and reduce waste. Additionally, the infusion of smart technologies into building systems allows for real-time monitoring and optimization of energy usage, further contributing to our commitment to creating green, energy-efficient buildings that stand as beacons of sustainable design and construction.",
 			images: ["/images/research/buildings-1.jpg", "/images/research/buildings-2.jpg"],
 		},
 		{
 			slug: "engage-research",
 			title: "Engaged Research",
-			text: "Our commitment to impactful research extends beyond the confines of academia. Through collaborative projects with industry partners and local communities, we bridge the gap between theory and practice. These partnerships enable us to tackle real-world challenges head-on, harnessing the power of our research to effect tangible change in society.",
+			text: "Our commitment to impactful research extends beyond the confines of academia. Through collaborative projects with industry partners and local communities, we bridge the gap between theory and practice. These partnerships enable us to tackle real-world challenges head-on, harnessing the power of our research to effect tangible change in society. Whether it’s developing innovative solutions for cleaner energy production, optimizing transportation networks for reduced emissions, or enhancing building sustainability, our engagement with stakeholders on the ground ensures that our findings translate into practical applications that improve lives and protect the environment. At IRESI, we don’t just study sustainability; we actively contribute to its realization in the world around us.",
 			images: [],
 		},
 		{
 			slug: "green-upskilling",
 			title: "Green Technologies Upskilling",
-			text: "IRESI’s dedication to education extends to a crucial facet: upskilling the workforce in green technologies. Through specialized training programs, workshops, and collaborations with industry partners, we equip individuals with the knowledge and practical skills needed to thrive in the ever-evolving green technology landscape.",
+			text: "IRESI’s dedication to education extends to a crucial facet: upskilling the workforce in green technologies. We recognize that a skilled workforce is instrumental in driving the sustainable energy sector’s growth. Through specialized training programs, workshops, and collaborations with industry partners, we equip individuals with the knowledge and practical skills needed to thrive in the ever-evolving green technology landscape. By fostering a skilled workforce, we not only empower individuals with sustainable career opportunities but also strengthen the foundation for the broader adoption of clean energy solutions. This commitment underscores our holistic approach to catalyzing positive change, ensuring that as we advance in research, we also contribute to building a capable and sustainable workforce for the future.",
 			images: ["/images/research/upskilling-1.jpg", "/images/research/upskilling-2.jpg"],
 		},
 		{
 			slug: "electricity-and-power-system",
 			title: "Electricity and Power Systems",
-			text: "In the domain of electricity and power systems, our research endeavors at IRESI focus on the development of cutting-edge solutions. We delve into advanced grid management strategies, harnessing smart technologies and data analytics to enhance grid reliability and efficiency, and pioneer storage solutions that facilitate the integration of renewable energy sources.",
+			text: "In the domain of electricity and power systems, our research endeavors at IRESI focus on the development of cutting-edge solutions. We delve into advanced grid management strategies, where we harness the power of smart technologies and data analytics to enhance grid reliability and efficiency. Our work extends to pioneering storage solutions, exploring innovative energy storage technologies such as batteries and grid-scale storage to facilitate the integration of renewable energy sources. Our ultimate goal is to ensure a seamless, reliable, and sustainable electricity supply, a critical pillar in the transition to a greener and more resilient energy infrastructure.",
 			images: [],
 		},
 		{
 			slug: "heating-and-cooling-systems",
 			title: "Heating and Cooling Systems",
-			text: "Within the Heating and Cooling Systems division, our research is dedicated to exploring sustainable methods that significantly reduce energy consumption and carbon emissions. We delve into innovative approaches such as harnessing geothermal energy, utilizing solar thermal systems, and optimizing HVAC technologies.",
+			text: "Within the Heating and Cooling Systems division, our research is dedicated to exploring sustainable methods that significantly reduce energy consumption and carbon emissions. We delve into various innovative approaches, such as harnessing geothermal energy, utilizing solar thermal systems, and optimizing HVAC (Heating, Ventilation, and Air Conditioning) technologies. Geothermal systems tap into the Earth’s natural heat reservoirs for efficient heating, while solar thermal systems harness the power of the sun for warming purposes. Simultaneously, we aim to enhance the efficiency of HVAC systems, which are ubiquitous in buildings, to minimize energy waste and environmental impact. By advancing these sustainable heating and cooling solutions, we strive to create a greener, more energy-efficient future.",
 			images: ["/images/research/heating-cooling-1.jpg"],
 		},
 	],
 	closing:
-		"At IRESI, our research isn’t just theoretical; it’s a driving force for change. We actively collaborate with partners worldwide, embrace interdisciplinary approaches, and push the boundaries of knowledge to create a more sustainable and equitable future. Join us in our journey to make a difference through research that matters.",
+		"At IRESI, our research isn’t just theoretical; it’s a driving force for change. We actively collaborate with partners worldwide, embrace interdisciplinary approaches, and push the boundaries of knowledge to create a more sustainable and equitable future. Join us in our journey to make a difference through research that matters. Explore our ongoing projects, publications, and research opportunities within each division to learn more about our cutting-edge work in sustainable energy systems integration. Together, we are shaping a greener and more sustainable world.",
 };
 
 /** The Contact page. */

@@ -1,9 +1,84 @@
+/* --- Banner -------------------------------------------------------------- */
+
+/* The globe photograph, which is what the live research page uses. */
+.hero {
+	position: relative;
+	background-image: var(--gradient-banner-photo), url("/images/banners/globe.jpg");
+	background-size: cover;
+	background-position: center;
+	color: #fff;
+	padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 4px;
+	background: var(--color-accent);
+}
+
+.heroInner {
+	max-width: 60rem;
+}
+
+.hero h1 {
+	color: #fff;
+	margin-bottom: 0;
+	font-size: clamp(1.75rem, 1.6vw + 1.2rem, 2.75rem);
+}
+
+.eyebrow {
+	display: inline-block;
+	font-family: var(--font-heading);
+	font-weight: 600;
+	font-size: 0.75rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: #fff;
+	background: var(--color-accent);
+	padding: 0.35rem 0.85rem;
+	border-radius: 999px;
+	margin-bottom: 1.1rem;
+}
+
+/* --- Intro --------------------------------------------------------------- */
+
+.introSection {
+	padding-block: clamp(2.5rem, 5vw, 4rem);
+}
+
+.intro {
+	position: relative;
+	max-width: 46rem;
+	margin-inline: auto;
+	padding-top: 2rem;
+	font-size: clamp(1.0625rem, 0.5vw + 0.95rem, 1.25rem);
+	line-height: 1.65;
+	text-align: center;
+	color: var(--color-heading);
+}
+
+.intro::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 64px;
+	height: 4px;
+	background: var(--color-accent);
+	border-radius: 2px;
+}
+
+/* --- Divisions ------------------------------------------------------------ */
+
 .divisions {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 	display: grid;
 	gap: 3rem;
-	list-style: none;
-	margin: 3rem 0 0;
-	padding: 0;
 }
 
 .division,
@@ -14,9 +89,18 @@
 
 .division {
 	display: grid;
-	grid-template-columns: 1.4fr 1fr;
-	gap: 2.5rem;
+	grid-template-columns: 1.1fr 1fr;
+	gap: 3rem;
 	align-items: center;
+}
+
+/*
+ * The photographs alternate sides. Every block with pictures on the same side
+ * turns the page into a column of identical rows; swapping them gives the eye
+ * something to follow down the page.
+ */
+.division:nth-of-type(even) .body {
+	order: 2;
 }
 
 .divisions li:last-child {
@@ -24,21 +108,31 @@
 	padding-bottom: 0;
 }
 
-.division h2,
-.divisionWide h2 {
-	font-size: 1.375rem;
-	margin-bottom: 0.85rem;
+.number {
+	display: block;
+	font-family: var(--font-heading);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	color: var(--color-accent);
+	margin-bottom: 0.5rem;
 }
 
-.division p,
-.divisionWide p {
-	color: var(--color-text-muted);
-	max-width: 68ch;
+.body h2 {
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+.body p {
+	color: var(--color-text);
+	max-width: 66ch;
+	margin-bottom: 1.25rem;
 }
 
 .link {
-	display: inline-block;
-	margin-top: 1rem;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.5rem;
 	font-family: var(--font-heading);
 	font-size: 0.75rem;
 	font-weight: 600;
@@ -46,13 +140,26 @@
 	text-transform: uppercase;
 }
 
+.link::after {
+	content: "\203A";
+	font-size: 1.15em;
+	line-height: 1;
+	transition: transform 0.18s ease;
+}
+
+.link:hover::after {
+	transform: translateX(3px);
+}
+
+/* --- Division photographs ------------------------------------------------ */
+
 .images {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-	gap: 1rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+	gap: 1rem;
 }
 
 .images img {
@@ -61,15 +168,43 @@
 	object-fit: cover;
 	border-radius: var(--radius);
 	display: block;
+	box-shadow: 0 10px 24px rgba(20, 30, 60, 0.1);
 }
 
+/* --- Closing -------------------------------------------------------------- */
+
 .closing {
-	max-width: 74ch;
-	margin-top: 3rem;
+	background: var(--gradient-banner);
+	color: #fff;
+	padding-block: var(--section-gap);
+	text-align: center;
 }
+
+.closing p {
+	max-width: 72ch;
+	margin-inline: auto;
+	color: rgba(255, 255, 255, 0.88);
+	font-size: 1.0625rem;
+}
+
+.closingActions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	justify-content: center;
+	margin-top: 2rem;
+}
+
+/* --- Responsive ----------------------------------------------------------- */
 
 @media (max-width: 900px) {
 	.division {
 		grid-template-columns: 1fr;
+		gap: 1.75rem;
+	}
+
+	/* Text first on a narrow screen, whichever side it sits on when wide. */
+	.division:nth-of-type(even) .body {
+		order: 0;
 	}
 }

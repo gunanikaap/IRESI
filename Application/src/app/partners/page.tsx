@@ -52,16 +52,28 @@ export default function PartnersPage() {
 			 * banner.
 			 */}
 			<section className="section">
-				<div className={`container ${styles.intro}`}>
-					<h2 className={styles.introHeading}>{partnersPage.subtitle}</h2>
-					{partnersPage.paragraphs.map((paragraph) => (
-						<p key={paragraph.slice(0, 40)} className={styles.introLead}>
-							{paragraph}
-						</p>
-					))}
+				<div className={`container ${styles.introGrid}`}>
+					<div>
+						<h2 className={styles.introHeading}>{partnersPage.subtitle}</h2>
+						{partnersPage.paragraphs.map((paragraph) => (
+							<p key={paragraph.slice(0, 40)} className={styles.introLead}>
+								{paragraph}
+							</p>
+						))}
 
-					<h3 className={styles.subHeading}>{partnersPage.collaborationHeading}</h3>
-					<p>{partnersPage.collaborationText}</p>
+						<h3 className={styles.subHeading}>{partnersPage.collaborationHeading}</h3>
+						<p>{partnersPage.collaborationText}</p>
+					</div>
+
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img
+						className={styles.introImage}
+						src={partnersPage.leadImage}
+						alt=""
+						width={960}
+						height={540}
+						loading="lazy"
+					/>
 				</div>
 			</section>
 

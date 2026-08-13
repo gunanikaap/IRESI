@@ -12,7 +12,7 @@
 			rgba(12, 22, 16, 0.62) 45%,
 			rgba(12, 22, 16, 0.3) 100%
 		),
-		url("/images/research/topic-banner.jpg");
+		url("/images/banners/globe.jpg");
 	background-size: cover;
 	background-position: center;
 	padding-block: clamp(3rem, 6vw, 5rem);
@@ -183,7 +183,7 @@
 	border-radius: var(--radius);
 	overflow: hidden;
 	background-image: linear-gradient(rgba(8, 16, 24, 0.72), rgba(8, 16, 24, 0.72)),
-		url("/images/research/topic-cta.jpg");
+		url("/images/banners/solar-roof.jpg");
 	background-size: cover;
 	background-position: center;
 	padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;

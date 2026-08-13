@@ -48,7 +48,13 @@ export const metadata: Metadata = {
 		type: "website",
 	},
 	twitter: { card: "summary_large_image" },
-	icons: { icon: "/favicon.svg", apple: project.logo.footer },
+	icons: {
+		icon: [
+			{ url: project.logo.icon.small, sizes: "32x32", type: "image/png" },
+			{ url: project.logo.icon.large, sizes: "192x192", type: "image/png" },
+		],
+		apple: project.logo.icon.apple,
+	},
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

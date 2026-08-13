@@ -26,6 +26,13 @@ export const adflex: ProjectConfig = {
 	logo: {
 		header: "/images/logo.png",
 		footer: "/images/logo-mark.png",
+		// Placeholder: ADFLEX has no mark of its own here yet, so it borrows
+		// IRESI's rather than shipping a broken icon reference.
+		icon: {
+			small: "/icon-32.png",
+			large: "/icon-192.png",
+			apple: "/apple-touch-icon.png",
+		},
 	},
 
 	// Confirmed in the review meeting of 12 August 2026: ADFLEX is SEAI-funded,

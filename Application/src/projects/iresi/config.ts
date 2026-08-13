@@ -21,6 +21,13 @@ export const iresi: ProjectConfig = {
 	logo: {
 		header: "/images/logo.png",
 		footer: "/images/logo-mark.png",
+		// The coloured hash from the IRESI mark, which is what the live site uses
+		// in the tab. Regenerate from /images/logo-icon.png if sizes change.
+		icon: {
+			small: "/icon-32.png",
+			large: "/icon-192.png",
+			apple: "/apple-touch-icon.png",
+		},
 	},
 
 	social: [

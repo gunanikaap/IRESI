@@ -79,6 +79,18 @@ export type ProjectConfig = {
 	logo: {
 		header: string;
 		footer: string;
+		/**
+		 * The square mark used for the browser tab and home-screen icons.
+		 *
+		 * Separate from the header and footer logos because those are wordmarks:
+		 * at 32 pixels a wordmark is an illegible smear, and the tab is the one
+		 * place the site is identified by shape alone.
+		 */
+		icon: {
+			small: string;
+			large: string;
+			apple: string;
+		};
 	};
 
 	/** Funding statement shown in the footer, when the project has one. */

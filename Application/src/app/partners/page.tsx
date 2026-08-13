@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import PageHero from "@/components/PageHero";
 import EnquiryForm from "@/components/EnquiryForm";
 import { partners, partnersPage } from "@/projects/iresi/content";
 import { project } from "@/projects";
@@ -36,26 +35,33 @@ function LogoGrid({ items }: { items: readonly { name: string; logo: string }[] 
 export default function PartnersPage() {
 	return (
 		<>
-			<PageHero title="Partners" subtitle={partnersPage.subtitle} />
+			{/*
+			 * The lead photograph is the banner rather than a picture beside the
+			 * intro text. It was doing the same job lower down the page and it is
+			 * a better banner than a flat gradient.
+			 */}
+			<section className={styles.hero}>
+				<div className="container">
+					<h1>Partners</h1>
+				</div>
+			</section>
 
+			{/*
+			 * "Empowering Sustainable Energy Together" leads the page body, which is
+			 * where the live site has it — not stacked under the title in the
+			 * banner.
+			 */}
 			<section className="section">
-				<div className={`container ${styles.introGrid}`}>
-					<div>
-						{partnersPage.paragraphs.map((paragraph) => (
-							<p key={paragraph.slice(0, 40)}>{paragraph}</p>
-						))}
-						<h2 className={styles.introHeading}>{partnersPage.collaborationHeading}</h2>
-						<p>{partnersPage.collaborationText}</p>
-					</div>
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img
-						className={styles.introImage}
-						src={partnersPage.leadImage}
-						alt=""
-						width={800}
-						height={533}
-						loading="lazy"
-					/>
+				<div className={`container ${styles.intro}`}>
+					<h2 className={styles.introHeading}>{partnersPage.subtitle}</h2>
+					{partnersPage.paragraphs.map((paragraph) => (
+						<p key={paragraph.slice(0, 40)} className={styles.introLead}>
+							{paragraph}
+						</p>
+					))}
+
+					<h3 className={styles.subHeading}>{partnersPage.collaborationHeading}</h3>
+					<p>{partnersPage.collaborationText}</p>
 				</div>
 			</section>
 
@@ -96,6 +102,7 @@ export default function PartnersPage() {
 									phone
 									subject={false}
 									onDark
+									compact
 									submitLabel="Send"
 								/>
 							</div>

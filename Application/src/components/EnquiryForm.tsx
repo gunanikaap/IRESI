@@ -25,6 +25,7 @@ export default function EnquiryForm({
 	phone = false,
 	subject = true,
 	onDark = false,
+	compact = false,
 	submitLabel = "Send",
 }: {
 	contactEmail: string;
@@ -35,6 +36,8 @@ export default function EnquiryForm({
 	subject?: boolean;
 	/** Styles the form for a panel sitting over a photograph. */
 	onDark?: boolean;
+	/** Pairs the short fields two to a row and shortens the message box. */
+	compact?: boolean;
 	submitLabel?: string;
 }) {
 	const [state, action, pending] = useActionState(submitContact, initial);
@@ -52,30 +55,41 @@ export default function EnquiryForm({
 			<FormError message={state.error} />
 			<input type="hidden" name="origin" value={origin} />
 
-			<Field name="name" label="Name" required>
-				<input type="text" id="name" name="name" autoComplete="name" required />
-			</Field>
-
-			{organisation && (
-				<Field name="organisation" label="Name of organisation">
-					<input
-						type="text"
-						id="organisation"
-						name="organisation"
-						autoComplete="organization"
-					/>
+			{/*
+			 * Paired two to a row when compact. Short fields on their own line each
+			 * make a five-field form look like a tax return; side by side it reads
+			 * as one block. Explicit wrappers rather than a CSS rule, because the
+			 * field markup comes from a component whose class names are hashed in
+			 * its own module and cannot be selected from here.
+			 */}
+			<div className={compact ? styles.row : undefined}>
+				<Field name="name" label="Name" required>
+					<input type="text" id="name" name="name" autoComplete="name" required />
 				</Field>
-			)}
 
-			<Field name="email" label="Email" required>
-				<input type="email" id="email" name="email" autoComplete="email" required />
-			</Field>
+				{organisation && (
+					<Field name="organisation" label="Organisation">
+						<input
+							type="text"
+							id="organisation"
+							name="organisation"
+							autoComplete="organization"
+						/>
+					</Field>
+				)}
+			</div>
 
-			{phone && (
-				<Field name="phone" label="Phone">
-					<input type="tel" id="phone" name="phone" autoComplete="tel" />
+			<div className={compact ? styles.row : undefined}>
+				<Field name="email" label="Email" required>
+					<input type="email" id="email" name="email" autoComplete="email" required />
 				</Field>
-			)}
+
+				{phone && (
+					<Field name="phone" label="Phone">
+						<input type="tel" id="phone" name="phone" autoComplete="tel" />
+					</Field>
+				)}
+			</div>
 
 			{subject && (
 				<Field name="subject" label="Subject">
@@ -84,7 +98,7 @@ export default function EnquiryForm({
 			)}
 
 			<Field name="message" label="Message" required>
-				<textarea id="message" name="message" rows={6} required />
+				<textarea id="message" name="message" rows={compact ? 4 : 6} required />
 			</Field>
 
 			{/* Left empty by people and filled in by bots. Hidden from both the
@@ -94,7 +108,11 @@ export default function EnquiryForm({
 				<input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" />
 			</div>
 
-			<button className={styles.submit} type="submit" disabled={pending}>
+			<button
+				className={`${styles.submit} ${compact ? styles.submitInline : ""}`}
+				type="submit"
+				disabled={pending}
+			>
 				{pending ? "Sending…" : submitLabel}
 			</button>
 

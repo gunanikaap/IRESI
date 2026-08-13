@@ -1,20 +1,49 @@
-/* --- Intro -------------------------------------------------------------- */
+/* --- Banner -------------------------------------------------------------- */
 
-.introGrid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 3rem;
-	align-items: center;
+/*
+ * The page's own photograph under the shared accent-weighted scrim, the same
+ * treatment the contact banner uses.
+ */
+.hero {
+	position: relative;
+	background-image: var(--gradient-banner-photo), url("/images/partners/lead.jpg");
+	background-size: cover;
+	background-position: center 62%;
+	color: #fff;
+	padding-block: clamp(3.5rem, 7vw, 5.5rem);
 }
 
-.introImage {
-	width: 100%;
-	border-radius: var(--radius);
+.hero h1 {
+	color: #fff;
+	margin-bottom: 0;
+}
+
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 4px;
+	background: var(--color-accent);
+}
+
+/* --- Intro -------------------------------------------------------------- */
+
+.intro {
+	max-width: 62rem;
 }
 
 .introHeading {
+	margin-bottom: 1.5rem;
+}
+
+.introLead {
+	font-size: 1.0625rem;
+	max-width: 70ch;
+}
+
+.subHeading {
 	font-size: 1.25rem;
-	margin-top: 1.75rem;
+	margin-top: 2.25rem;
 }
 
 /* --- Logo grid ----------------------------------------------------------- */
@@ -100,7 +129,7 @@
 }
 
 .joinInner {
-	max-width: 640px;
+	max-width: 560px;
 	margin-inline: auto;
 	text-align: center;
 }
@@ -137,11 +166,6 @@
 
 /* --- Responsive ---------------------------------------------------------- */
 
-@media (max-width: 900px) {
-	.introGrid {
-		grid-template-columns: 1fr;
-	}
-}
 
 @media (max-width: 520px) {
 	.logoGrid {

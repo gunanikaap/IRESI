@@ -68,6 +68,18 @@ export const team: TeamMember[] = teamData;
 export const researchTopics: ResearchTopic[] = researchData;
 
 /**
+ * Photographs for a research topic, taken from the hub page's entry for it.
+ *
+ * Kept in one place rather than duplicated onto each topic: the hub and the
+ * topic page should never disagree about which pictures belong to Renewables.
+ * Four of the seven topics have photographs; the rest return an empty array and
+ * the page lays out without them.
+ */
+export function imagesForTopic(slug: string): readonly string[] {
+	return researchHub.divisions.find((division) => division.slug === slug)?.images ?? [];
+}
+
+/**
  * The three researchers whose papers are grouped on /publications.
  *
  * Kept here rather than in the database because the *grouping* is editorial —

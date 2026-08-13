@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import PageHero from "@/components/PageHero";
 import Prose from "@/components/Prose";
+import ResearchTopic from "@/components/ResearchTopic";
 import { getPublishedProjectBySlug, getPublishedNewsBySlug, type Project } from "@/lib/repo";
 import { researchTopics } from "@/projects/iresi/content";
 import { canonical } from "@/lib/site";
@@ -70,25 +70,7 @@ export default async function EntryPage(props: PageProps<"/[slug]">) {
 	if (!found) notFound();
 
 	if (found.kind === "research") {
-		const { topic } = found;
-		return (
-			<>
-				<PageHero eyebrow="Research" title={topic.title} subtitle={topic.summary} />
-				<section className="section">
-					<div className="container">
-						<Prose sections={topic.sections} />
-						<ul className={styles.related}>
-							<li>
-								<Link href="/projects">See our projects &rsaquo;</Link>
-							</li>
-							<li>
-								<Link href="/publications">See our publications &rsaquo;</Link>
-							</li>
-						</ul>
-					</div>
-				</section>
-			</>
-		);
+		return <ResearchTopic topic={found.topic} />;
 	}
 
 	if (found.kind === "project") {

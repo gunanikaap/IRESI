@@ -81,25 +81,20 @@
 	gap: 3rem;
 }
 
-.division,
-.divisionWide {
-	padding-bottom: 3rem;
-	border-bottom: 1px solid var(--color-border);
-}
-
 .division {
 	display: grid;
 	grid-template-columns: 1.1fr 1fr;
 	gap: 3rem;
 	align-items: center;
+	padding-bottom: 3rem;
+	border-bottom: 1px solid var(--color-border);
 }
 
 /*
- * The photographs alternate sides. Every block with pictures on the same side
- * turns the page into a column of identical rows; swapping them gives the eye
- * something to follow down the page.
+ * The photographs alternate sides, as they do on the live page: the first row
+ * has its picture on the right, the second on the left, and so on down.
  */
-.division:nth-of-type(even) .body {
+.division:nth-child(even) .body {
 	order: 2;
 }
 
@@ -151,24 +146,24 @@
 	transform: translateX(3px);
 }
 
-/* --- Division photographs ------------------------------------------------ */
+/* --- Division photograph -------------------------------------------------- */
 
-.images {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-	gap: 1rem;
+.figure {
+	overflow: hidden;
+	border-radius: var(--radius);
+	box-shadow: 0 14px 30px rgba(20, 30, 60, 0.13);
 }
 
-.images img {
+.figure img {
+	display: block;
 	width: 100%;
 	aspect-ratio: 4 / 3;
 	object-fit: cover;
-	border-radius: var(--radius);
-	display: block;
-	box-shadow: 0 10px 24px rgba(20, 30, 60, 0.1);
+	transition: transform 0.5s ease;
+}
+
+.division:hover .figure img {
+	transform: scale(1.03);
 }
 
 /* --- Closing -------------------------------------------------------------- */
@@ -204,7 +199,7 @@
 	}
 
 	/* Text first on a narrow screen, whichever side it sits on when wide. */
-	.division:nth-of-type(even) .body {
+	.division:nth-child(even) .body {
 		order: 0;
 	}
 }

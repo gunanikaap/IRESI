@@ -31,11 +31,15 @@ export default function ResearchPage() {
 			<section className="section section--alt">
 				<div className="container">
 					<ol className={styles.divisions}>
+						{/*
+						 * One photograph per division, alternating sides — which is how
+						 * the live page is laid out. Reading it as a flat document put
+						 * two pictures against Renewables and none against Transportation;
+						 * the containers show seven two-column rows, each pairing one
+						 * division with one picture.
+						 */}
 						{researchHub.divisions.map((division, index) => (
-							<li
-								key={division.slug}
-								className={division.images.length > 0 ? styles.division : styles.divisionWide}
-							>
+							<li key={division.slug} className={styles.division}>
 								<div className={styles.body}>
 									<span className={styles.number} aria-hidden="true">
 										{String(index + 1).padStart(2, "0")}
@@ -47,21 +51,10 @@ export default function ResearchPage() {
 									</Link>
 								</div>
 
-								{/*
-								 * Only four of the seven carry photographs on the live page, and
-								 * the ones that do alternate which side they sit on so the page
-								 * does not become a column of identical rows.
-								 */}
-								{division.images.length > 0 && (
-									<ul className={styles.images}>
-										{division.images.map((src) => (
-											<li key={src}>
-												{/* eslint-disable-next-line @next/next/no-img-element */}
-												<img src={src} alt="" loading="lazy" />
-											</li>
-										))}
-									</ul>
-								)}
+								<div className={styles.figure}>
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img src={division.image} alt="" loading="lazy" />
+								</div>
 							</li>
 						))}
 					</ol>

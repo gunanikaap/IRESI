@@ -1,11 +1,63 @@
-.intro {
-	max-width: 74ch;
+/* --- Banner -------------------------------------------------------------- */
+
+.hero {
+	position: relative;
+	background-image: var(--gradient-banner-photo), url("/images/about/lead.jpg");
+	background-size: cover;
+	background-position: center 30%;
+	color: #fff;
+	padding-block: clamp(3.5rem, 7vw, 5.5rem);
 }
+
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 4px;
+	background: var(--color-accent);
+}
+
+.heroInner {
+	max-width: 62rem;
+}
+
+.hero h1 {
+	color: #fff;
+	margin-bottom: 1rem;
+}
+
+.heroLead {
+	max-width: 72ch;
+	color: rgba(255, 255, 255, 0.86);
+}
+
+.facts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.6rem;
+	list-style: none;
+	margin: 2rem 0 0;
+	padding: 0;
+}
+
+.facts li {
+	font-family: var(--font-heading);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	padding: 0.5rem 1rem;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: 999px;
+}
+
+/* --- The grid ------------------------------------------------------------ */
 
 .grid {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-	gap: 1.75rem;
+	gap: 1.5rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -14,22 +66,47 @@
 .member {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	text-align: center;
-	padding: 1.5rem 1rem;
+	padding: 0.75rem 0.75rem 1.25rem;
 	background: #fff;
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 }
 
+.member:hover {
+	border-color: var(--color-accent);
+	box-shadow: 0 14px 28px rgba(20, 30, 60, 0.1);
+	transform: translateY(-2px);
+}
+
+/*
+ * A rounded rectangle, not a circle.
+ *
+ * These are ordinary portrait photographs, not headshots framed for a circular
+ * crop: a circle cut the tops of heads off and lost whatever the person was
+ * standing in front of. The rounded rectangle is also what the site this
+ * replaces uses.
+ *
+ * `object-position: top center` keeps faces in frame when a photograph is
+ * taller than the square it is being cropped into.
+ */
 .photo {
+	display: block;
 	width: 100%;
-	max-width: 190px;
 	aspect-ratio: 1 / 1;
 	object-fit: cover;
 	object-position: top center;
-	border-radius: 50%;
-	margin-bottom: 1.1rem;
+	border-radius: 8px;
+	background: var(--color-bg-alt);
+}
+
+.memberBody {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	align-items: center;
+	text-align: center;
+	padding-top: 1rem;
 }
 
 .name {

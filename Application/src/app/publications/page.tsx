@@ -114,67 +114,86 @@ function PublicationList({ papers }: { papers: Publication[] }) {
 		return <p className="muted">No publications listed here yet.</p>;
 	}
 
+	/*
+	 * An accordion: the titles are the list, and the citation opens underneath
+	 * the one you are interested in.
+	 *
+	 * Twelve papers as twelve full cards is a lot of citation to scroll past to
+	 * find the one you want, and nobody reads four abstracts at once. Titles are
+	 * what people scan by.
+	 *
+	 * `<details>` rather than a toggle built from buttons and state: it opens
+	 * and closes with no JavaScript, is keyboard-operable and announced
+	 * correctly by screen readers for free, and it still works if the page's
+	 * scripts never load. Browser find-in-page also reaches inside a closed
+	 * `<details>` in current browsers, which a hidden div would not allow.
+	 */
 	return (
 		<ul className={styles.list}>
 			{papers.map((paper) => (
-				<li key={paper.id} className={styles.publication}>
-					<div className={styles.pubHead}>
-						{paper.year && <span className={styles.year}>{paper.year}</span>}
-						<h3>{paper.title}</h3>
-					</div>
+				<li key={paper.id}>
+					<details className={styles.publication}>
+						<summary className={styles.summary}>
+							<span className={styles.marker} aria-hidden="true" />
+							<span className={styles.summaryTitle}>{paper.title}</span>
+							{paper.year && <span className={styles.year}>{paper.year}</span>}
+						</summary>
 
-					{paper.authors && <p className={styles.authors}>{paper.authors}</p>}
+						<div className={styles.detail}>
+							{paper.authors && <p className={styles.authors}>{paper.authors}</p>}
 
-					{/*
-					 * The live page runs the citation together as one line of running
-					 * text. A definition list gives each field a label the eye can find,
-					 * which is what a citation is for.
-					 */}
-					<dl className={styles.meta}>
-						{(paper.date_text || paper.year) && (
-							<div>
-								<dt>Published</dt>
-								<dd>{paper.date_text ?? String(paper.year)}</dd>
-							</div>
-						)}
-						{(paper.journal || paper.venue) && (
-							<div>
-								<dt>Journal</dt>
-								<dd>{paper.journal ?? paper.venue}</dd>
-							</div>
-						)}
-						{paper.volume && (
-							<div>
-								<dt>Volume</dt>
-								<dd>{paper.volume}</dd>
-							</div>
-						)}
-						{paper.pages && (
-							<div>
-								<dt>Pages</dt>
-								<dd>{paper.pages}</dd>
-							</div>
-						)}
-						{paper.publisher && (
-							<div>
-								<dt>Publisher</dt>
-								<dd>{paper.publisher}</dd>
-							</div>
-						)}
-					</dl>
+							{/*
+							 * The live page runs the citation together as one line of
+							 * running text. A definition list gives each field a label the
+							 * eye can find, which is what a citation is for.
+							 */}
+							<dl className={styles.meta}>
+								{(paper.date_text || paper.year) && (
+									<div>
+										<dt>Published</dt>
+										<dd>{paper.date_text ?? String(paper.year)}</dd>
+									</div>
+								)}
+								{(paper.journal || paper.venue) && (
+									<div>
+										<dt>Journal</dt>
+										<dd>{paper.journal ?? paper.venue}</dd>
+									</div>
+								)}
+								{paper.volume && (
+									<div>
+										<dt>Volume</dt>
+										<dd>{paper.volume}</dd>
+									</div>
+								)}
+								{paper.pages && (
+									<div>
+										<dt>Pages</dt>
+										<dd>{paper.pages}</dd>
+									</div>
+								)}
+								{paper.publisher && (
+									<div>
+										<dt>Publisher</dt>
+										<dd>{paper.publisher}</dd>
+									</div>
+								)}
+							</dl>
 
-					{paper.description && <p className={styles.description}>{paper.description}</p>}
+							{paper.description && <p className={styles.description}>{paper.description}</p>}
 
-					{paper.url && (
-						<a
-							className={styles.readLink}
-							href={paper.url}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Read the paper
-						</a>
-					)}
+							{paper.url && (
+								<a
+									className={styles.readLink}
+									href={paper.url}
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Read the paper
+								</a>
+							)}
+						</div>
+					</details>
 				</li>
 			))}
 		</ul>

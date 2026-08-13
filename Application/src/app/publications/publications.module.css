@@ -113,57 +113,118 @@
 
 /* --- Publications --------------------------------------------------------- */
 
+/*
+ * One panel holding the whole list, with hairlines between rows rather than a
+ * card each: closed, this is a table of contents, and twelve separated cards
+ * would read as twelve things instead of one list.
+ */
 .list {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-	gap: 1.5rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
-}
-
-.publication {
-	display: flex;
-	flex-direction: column;
-	padding: 1.75rem;
 	background: #fff;
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
-	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+	overflow: hidden;
 }
 
-.publication:hover {
-	border-color: var(--color-accent);
-	box-shadow: 0 16px 32px rgba(20, 30, 60, 0.1);
-	transform: translateY(-2px);
+.list > li + li {
+	border-top: 1px solid var(--color-border);
 }
 
-.pubHead {
+.publication {
+	background: #fff;
+	transition: background-color 0.18s ease;
+}
+
+.publication[open] {
+	background: var(--color-bg-alt);
+}
+
+.summary {
 	display: flex;
-	align-items: baseline;
-	gap: 0.85rem;
-	margin-bottom: 0.85rem;
+	align-items: center;
+	gap: 1rem;
+	padding: 1.1rem 1.5rem;
+	cursor: pointer;
+	list-style: none;
+	transition: background-color 0.18s ease;
 }
 
-/* The year leads each card. Scanning a publication list is mostly scanning by
-   date, and it was previously buried inside the metadata. */
+/* The default disclosure triangle, removed in both engines. */
+.summary::-webkit-details-marker {
+	display: none;
+}
+
+.summary:hover {
+	background: var(--color-bg-alt);
+}
+
+.summary:focus-visible {
+	outline: 3px solid var(--color-accent);
+	outline-offset: -3px;
+}
+
+/* A plus that becomes a minus when the row is open. Drawn from two bars so it
+   is a shape rather than a glyph, and the vertical one can rotate away. */
+.marker {
+	position: relative;
+	flex-shrink: 0;
+	width: 16px;
+	height: 16px;
+	color: var(--color-accent);
+}
+
+.marker::before,
+.marker::after {
+	content: "";
+	position: absolute;
+	inset: 50% 0 auto 0;
+	height: 2.5px;
+	background: currentColor;
+	border-radius: 2px;
+	transform: translateY(-50%);
+	transition: transform 0.22s ease;
+}
+
+.marker::after {
+	transform: translateY(-50%) rotate(90deg);
+}
+
+.publication[open] .marker::after {
+	transform: translateY(-50%) rotate(0deg);
+}
+
+.summaryTitle {
+	flex: 1;
+	font-family: var(--font-heading);
+	font-size: 0.9375rem;
+	font-weight: 500;
+	line-height: 1.45;
+	color: var(--color-heading);
+}
+
+.publication[open] .summaryTitle {
+	color: var(--color-accent);
+}
+
+/* The year sits at the end of the row, where it lines up down the list and can
+   be scanned without reading the titles. */
 .year {
 	flex-shrink: 0;
 	font-family: var(--font-heading);
 	font-size: 0.75rem;
 	font-weight: 700;
 	letter-spacing: 0.06em;
-	color: var(--color-accent-contrast);
-	background: var(--color-accent);
-	padding: 0.25rem 0.6rem;
-	border-radius: 4px;
+	color: var(--color-text-muted);
 }
 
-.publication h3 {
-	font-size: 1rem;
-	line-height: 1.4;
-	text-transform: none;
-	margin: 0;
+.publication[open] .year {
+	color: var(--color-accent);
+}
+
+.detail {
+	padding: 0 1.5rem 1.5rem 3.5rem;
 }
 
 .authors {
@@ -233,8 +294,19 @@
 		position: static;
 		max-width: 220px;
 	}
+}
 
-	.list {
-		grid-template-columns: 1fr;
+@media (max-width: 560px) {
+	.summary {
+		flex-wrap: wrap;
+		padding-inline: 1.1rem;
+	}
+
+	.year {
+		margin-left: auto;
+	}
+
+	.detail {
+		padding: 0 1.1rem 1.25rem 2.9rem;
 	}
 }

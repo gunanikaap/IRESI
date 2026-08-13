@@ -1,0 +1,88 @@
+.viewport {
+	overflow: hidden;
+	/* Fades the two edges so photographs enter and leave rather than being cut
+	   off against the page. */
+	mask-image: linear-gradient(
+		90deg,
+		transparent 0,
+		#000 4%,
+		#000 96%,
+		transparent 100%
+	);
+}
+
+.track {
+	display: flex;
+	gap: var(--marquee-gap, 1rem);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	width: max-content;
+	animation: marquee var(--marquee-duration, 60s) linear infinite;
+}
+
+/*
+ * Three visible at a time. The viewport shows three items and three gaps' worth
+ * of slack, so each item is a third of the width less its share of the gaps.
+ */
+.item {
+	flex: 0 0 auto;
+	width: calc((100vw - 2 * var(--marquee-gap, 1rem)) / 3);
+	max-width: calc((var(--container) - 3rem - 2 * var(--marquee-gap, 1rem)) / 3);
+}
+
+.item img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: var(--radius);
+}
+
+/*
+ * The list is rendered twice, so moving the track left by half its own width
+ * puts the second copy exactly where the first began. Resetting to 0 at that
+ * point is invisible.
+ */
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(calc(-50% - var(--marquee-gap, 1rem) / 2));
+	}
+}
+
+/* Stop it while someone is looking at a particular photograph, or tabbing
+   through the page. */
+.viewport:hover .track,
+.viewport:focus-within .track {
+	animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.track {
+		animation: none;
+		/* Without the animation the duplicate would simply sit there, so the row
+		   becomes an ordinary horizontal scroller the reader controls. */
+		overflow-x: auto;
+		width: 100%;
+	}
+
+	.viewport {
+		mask-image: none;
+	}
+}
+
+@media (max-width: 780px) {
+	.item {
+		width: calc((100vw - 3rem - var(--marquee-gap, 1rem)) / 2);
+		max-width: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.item {
+		width: calc(100vw - 4rem);
+	}
+}

@@ -35,9 +35,12 @@ export const metadata: Metadata = {
 	// would resolve relative canonicals into malformed relative tags — see
 	// `canonical()` in src/lib/site.ts.
 	...(base ? { metadataBase: base } : {}),
+	// Matches the title format the live site uses — "Renewables – IRESI at
+	// Maynooth University" — so search results keep the same shape when the
+	// domain is repointed at this build.
 	title: {
-		default: `${project.name} | ${project.institution}`,
-		template: `%s | ${project.name}`,
+		default: `${project.name} at ${project.institution}`,
+		template: `%s – ${project.name} at ${project.institution}`,
 	},
 	description: project.description,
 	openGraph: {

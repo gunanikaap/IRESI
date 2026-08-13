@@ -26,7 +26,9 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 	const images = imagesForTopic(topic.slug);
 	const others = researchTopics.filter((other) => other.slug !== topic.slug);
 
-	const { body, closing } = splitClosing(topic);
+	const body = topic.sections.filter(
+		(section) => section.heading || section.paragraphs.length > 0
+	);
 
 	return (
 		<article>
@@ -106,21 +108,24 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 
 			<section className={styles.cta}>
 				<div className="container">
-					<h2>Get involved</h2>
-					{closing.map((paragraph) => (
+					<h2>{topic.closing.heading ?? "Get involved"}</h2>
+					{topic.closing.paragraphs.map((paragraph) => (
 						<p key={paragraph.slice(0, 40)}>{paragraph}</p>
 					))}
-					<div className={styles.ctaActions}>
-						<Link className="button" href="/projects">
-							Our projects
-						</Link>
-						<Link className="buttonOutline" href="/publications">
-							Our publications
-						</Link>
-						<Link className="buttonOutline" href="/contact">
-							Get in touch
-						</Link>
-					</div>
+					{/*
+					 * The two links the live page ends with, kept word for word. Styled
+					 * as links rather than buttons: the shared button style uppercases
+					 * its label, and "LIST OF PUBLICATIONS UNDER GREEN UPSKILLING
+					 * TECHNOLOGIES" is a shout, not a link.
+					 */}
+					<ul className={styles.ctaLinks}>
+						<li>
+							<Link href="/projects">list of projects under {topic.linkLabel}</Link>
+						</li>
+						<li>
+							<Link href="/publications">list of publications under {topic.linkLabel}</Link>
+						</li>
+					</ul>
 				</div>
 			</section>
 		</article>
@@ -149,32 +154,3 @@ function splitBullet(bullet: string): { label: string | null; text: string } {
 	return { label: clean.slice(0, split).trim(), text: clean.slice(split + 1).trim() };
 }
 
-/**
- * Separates the closing invitation from the body of the page.
- *
- * Every topic ends the same way — a "join us / explore our projects" paragraph.
- * On the site this replaces it is the last paragraph of the last section, where
- * it reads as an afterthought. Promoting it into the call-to-action band is
- * what makes the page end somewhere rather than just stop.
- *
- * Anything with no heading at all is a trailing paragraph and is always
- * promoted. Otherwise the final section's last paragraph is used, provided that
- * section has more than one — a single-paragraph section would be emptied.
- */
-function splitClosing(topic: Topic): { body: Topic["sections"]; closing: string[] } {
-	const headed = topic.sections.filter((section) => section.heading);
-	const loose = topic.sections.filter((section) => !section.heading);
-
-	if (loose.length > 0) {
-		return { body: headed, closing: loose.flatMap((section) => section.paragraphs) };
-	}
-
-	const last = headed.at(-1);
-	if (!last || last.paragraphs.length < 2) return { body: headed, closing: [] };
-
-	const trimmed = { ...last, paragraphs: last.paragraphs.slice(0, -1) };
-	return {
-		body: [...headed.slice(0, -1), trimmed],
-		closing: [last.paragraphs[last.paragraphs.length - 1]],
-	};
-}

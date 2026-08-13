@@ -52,6 +52,19 @@ export type ResearchTopic = {
 	summary: string;
 	order: number;
 	sections: ContentSection[];
+	/**
+	 * The closing invitation. On the live site this is sometimes its own heading
+	 * ("Join us in our mission to usher in a renewable energy revolution.") and
+	 * sometimes a trailing paragraph, so both are carried explicitly rather than
+	 * guessed at render time.
+	 */
+	closing: { heading: string | null; paragraphs: string[] };
+	/**
+	 * How the topic is named in the two links at the foot of the page — "list of
+	 * projects under Renewables". The casing follows the live pages, which is
+	 * why it is stored rather than derived from `title`.
+	 */
+	linkLabel: string;
 };
 
 export type Researcher = {

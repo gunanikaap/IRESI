@@ -1,0 +1,81 @@
+.viewport {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	gap: 0.85rem;
+	height: clamp(360px, 42vw, 520px);
+	overflow: hidden;
+	/* Fades the top and bottom so photographs drift in and out rather than
+	   being cut off against the section. */
+	mask-image: linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+
+.track {
+	display: grid;
+	gap: 0.85rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	align-content: start;
+	animation: drift var(--columns-duration, 45s) linear infinite;
+	will-change: transform;
+}
+
+/*
+ * The second column runs the other way. `animation-direction: reverse` rather
+ * than a second keyframe set, so the two stay exactly in step at any duration.
+ */
+.reverse {
+	animation-direction: reverse;
+}
+
+.track img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	border-radius: var(--radius);
+}
+
+/*
+ * Each column holds its photographs twice, so moving it up by half its own
+ * height puts the second copy exactly where the first began. The gap between
+ * the two halves has to come off as well, or the seam drifts by one gap each
+ * time round.
+ */
+@keyframes drift {
+	from {
+		transform: translateY(0);
+	}
+	to {
+		transform: translateY(calc(-50% - 0.425rem));
+	}
+}
+
+.viewport:hover .track,
+.viewport:focus-within .track {
+	animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.track {
+		animation: none;
+	}
+
+	.viewport {
+		mask-image: none;
+		height: auto;
+		grid-auto-flow: row;
+		grid-auto-columns: auto;
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	/* Without the drift the duplicate copy is just repetition on the page. */
+	.track li[aria-hidden="true"] {
+		display: none;
+	}
+
+	.track {
+		display: contents;
+	}
+}

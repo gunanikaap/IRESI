@@ -83,50 +83,73 @@
 	align-items: start;
 }
 
-.collage {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 0.75rem;
-	list-style: none;
-	margin: 0;
-	padding: 0;
+.focusIntro h2 {
+	margin-bottom: 1.5rem;
 }
 
-.collage img {
-	width: 100%;
-	aspect-ratio: 1 / 1;
-	object-fit: cover;
-	border-radius: 6px;
-	display: block;
-}
-
-.focusImage {
-	width: 100%;
+.focusFrame {
+	overflow: hidden;
 	border-radius: var(--radius);
-	margin-top: 1.5rem;
+	box-shadow: 0 16px 34px rgba(20, 30, 60, 0.14);
+}
+
+.focusFrame img {
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: transform 0.5s ease;
+}
+
+.focusFrame:hover img {
+	transform: scale(1.03);
 }
 
 .focusList {
 	display: grid;
-	gap: 1.25rem;
+	gap: 0;
 	list-style: none;
 	margin: 0;
 	padding: 0;
-}
-
-.focusList li {
-	padding: 1.5rem;
 	background: #fff;
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
+	overflow: hidden;
+}
+
+.focusList li {
+	display: flex;
+	align-items: flex-start;
+	gap: 1.25rem;
+	padding: 1.5rem 1.75rem;
+	transition: background-color 0.18s ease;
+}
+
+.focusList li + li {
+	border-top: 1px solid var(--color-border);
+}
+
+.focusList li:hover {
+	background: var(--color-bg-alt);
+}
+
+.focusNumber {
+	flex-shrink: 0;
+	font-family: var(--font-heading);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	color: var(--color-accent);
+	padding-top: 0.2rem;
 }
 
 .focusList h3 {
-	margin-bottom: 0.5rem;
+	font-size: 1.0625rem;
+	margin-bottom: 0.4rem;
 }
 
 .focusList p {
 	margin: 0;
+	font-size: 0.9375rem;
 	color: var(--color-text-muted);
 }
 
@@ -169,8 +192,18 @@
 	object-fit: contain;
 }
 
+/*
+ * The Maynooth University building behind the closing call to action, held
+ * well back so the text stays the thing being read. The gradient sits on top
+ * rather than the image being faded with opacity, which would also wash out
+ * anything drawn over it.
+ */
 .ctaBand {
-	background: var(--gradient-banner);
+	position: relative;
+	background-image: linear-gradient(180deg, rgba(58, 58, 58, 0.93) 0%, rgba(20, 20, 20, 0.96) 100%),
+		url("/images/banners/maynooth-university.jpg");
+	background-size: cover;
+	background-position: center 35%;
 	color: #fff;
 	text-align: center;
 	padding-block: var(--section-gap);

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import ProjectCard from "@/components/ProjectCard";
 import ContentNotice from "@/components/ContentNotice";
+import ImageColumns from "@/components/ImageColumns";
 import { listPublishedProjectsStatus } from "@/lib/repo";
 import { home, partners } from "@/projects/iresi/content";
 import { project } from "@/projects";
@@ -15,8 +16,18 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
 	const { data: projects, degraded } = await listPublishedProjectsStatus();
-	// The home page previews a handful; the rest live on /projects.
-	const featured = projects.slice(0, 4);
+
+	/*
+	 * The four the live home page leads with, named rather than taken off the
+	 * top of the list: the ordering that governs /projects is not the same
+	 * judgement as which four introduce the centre. Anything named but not
+	 * published simply does not appear.
+	 */
+	const FEATURED = ["renew", "res4city", "flow", "lero"];
+	const featured = FEATURED.map((slug) => projects.find((p) => p.slug === slug)).filter(
+		(p) => p !== undefined
+	);
+
 	const allPartners = [...partners.industry, ...partners.research];
 
 	return (
@@ -34,9 +45,11 @@ export default async function HomePage() {
 						<Link className="button" href="/projects">
 							Explore Projects
 						</Link>
-						<Link className="buttonOutline" href="/about-us">
+						{/* Down to the About section on this page, not off to /about-us —
+						    the point of the button is to keep reading here. */}
+						<a className="buttonOutline" href="#aboutus">
 							Learn More
-						</Link>
+						</a>
 					</div>
 				</div>
 			</section>
@@ -66,40 +79,39 @@ export default async function HomePage() {
 							Learn More
 						</Link>
 					</div>
-					<ul className={styles.collage}>
-						{home.about.collage.map((src) => (
-							<li key={src}>
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={src} alt="" width={278} height={307} loading="lazy" />
-							</li>
-						))}
-					</ul>
+					<ImageColumns images={home.about.collage} label="Photographs from around the centre" />
 				</div>
 			</section>
 
 			<section className="section section--alt">
 				<div className={`container ${styles.focusGrid}`}>
-					<div>
+					<div className={styles.focusIntro}>
 						<span className="eyebrow">{home.focus.eyebrow}</span>
 						<h2>{home.focus.heading}</h2>
-						{/* eslint-disable-next-line @next/next/no-img-element */}
-						<img
-							className={styles.focusImage}
-							src={home.focus.image}
-							alt=""
-							width={600}
-							height={396}
-							loading="lazy"
-						/>
+						<div className={styles.focusFrame}>
+							{/* eslint-disable-next-line @next/next/no-img-element */}
+							<img src={home.focus.image} alt="" width={600} height={396} loading="lazy" />
+						</div>
 					</div>
-					<ul className={styles.focusList}>
-						{home.focus.items.map((item) => (
+
+					{/*
+					 * Numbered rather than four equal boxes. They are the four things
+					 * the centre does, and a numbered sequence reads as a set rather
+					 * than as a grid of unrelated tiles.
+					 */}
+					<ol className={styles.focusList}>
+						{home.focus.items.map((item, index) => (
 							<li key={item.title}>
-								<h3>{item.title}</h3>
-								<p>{item.text}</p>
+								<span className={styles.focusNumber} aria-hidden="true">
+									{String(index + 1).padStart(2, "0")}
+								</span>
+								<div>
+									<h3>{item.title}</h3>
+									<p>{item.text}</p>
+								</div>
 							</li>
 						))}
-					</ul>
+					</ol>
 				</div>
 			</section>
 
@@ -145,7 +157,7 @@ export default async function HomePage() {
 						))}
 					</ul>
 					<p className={styles.sectionCta}>
-						<Link className="button" href="/contact">
+						<Link className="button" href="/partners">
 							Join Our Network
 						</Link>
 					</p>

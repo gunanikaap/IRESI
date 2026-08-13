@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run build && npm run typecheck",
+    "test": "node --test \"src/**/*.test.mjs\"",
+    "check": "npm run lint && npm run test && npm run build && npm run typecheck",
     "db:setup": "node scripts/db-setup.mjs",
     "db:user": "node scripts/db-user.mjs",
     "db:seed": "node scripts/seed-content.mjs"

@@ -1,10 +1,11 @@
-"use server";
+﻿"use server";
 
 import { headers } from "next/headers";
 import { recordSubmission, tooManySubmissions } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
 import { isMailConfigured, sendContactEmail } from "@/lib/mail";
 import { createMessage } from "@/lib/repo";
+import { composeEnquiry, tooLong } from "@/lib/enquiry";
 
 /**
  * Receives a contact form submission.
@@ -40,8 +41,6 @@ import { createMessage } from "@/lib/repo";
 
 export type ContactState = { error?: string; sent?: boolean };
 
-const LIMITS = { name: 120, email: 200, subject: 200, message: 4000 };
-
 export async function submitContact(
   _previous: ContactState,
   form: FormData,
@@ -53,8 +52,25 @@ export async function submitContact(
 
   const name = String(form.get("name") ?? "").trim();
   const email = String(form.get("email") ?? "").trim();
-  const subject = String(form.get("subject") ?? "").trim();
   const message = String(form.get("message") ?? "").trim();
+
+  // Only the partnership panel asks for these two.
+  const organisation = String(form.get("organisation") ?? "").trim();
+  const phone = String(form.get("phone") ?? "").trim();
+
+  const fields = {
+    name,
+    email,
+    message,
+    organisation,
+    phone,
+    subject: String(form.get("subject") ?? "").trim(),
+    // An unrecognised value is treated as a general enquiry rather than being
+    // reflected into the subject, which is a header a stranger would be choosing.
+    origin: String(form.get("origin") ?? "").trim(),
+  };
+
+  const { subject, body } = composeEnquiry(fields);
 
   if (!name || !email || !message) {
     return { error: "Please fill in your name, your email address and a message." };
@@ -66,12 +82,7 @@ export async function submitContact(
     return { error: "That email address does not look right." };
   }
 
-  if (
-    name.length > LIMITS.name ||
-    email.length > LIMITS.email ||
-    subject.length > LIMITS.subject ||
-    message.length > LIMITS.message
-  ) {
+  if (tooLong(fields, subject)) {
     return { error: "That message is longer than the form accepts. Please shorten it." };
   }
 
@@ -104,7 +115,7 @@ export async function submitContact(
 
   recordSubmission(ip);
 
-  const posted = await sendContactEmail({ name, email, subject, message });
+  const posted = await sendContactEmail({ name, email, subject, message: body });
   if (posted.ok) return { sent: true };
 
   /*
@@ -116,7 +127,7 @@ export async function submitContact(
    */
   const configured = isMailConfigured();
   console[configured ? "error" : "warn"](
-    `[adflex] contact email not sent (${posted.reason}); ${
+    `[contact] contact email not sent (${posted.reason}); ${
       isDatabaseConfigured() ? "falling back to the dashboard" : "and there is no database to fall back to"
     }`,
   );
@@ -128,9 +139,9 @@ export async function submitContact(
   }
 
   try {
-    await createMessage({ name, email, subject, message });
+    await createMessage({ name, email, subject, message: body });
   } catch (error) {
-    console.error("[adflex] contact submission failed:", error);
+    console.error("[contact] contact submission failed:", error);
     return {
       error: "Sorry — we could not send your message. Please email us instead.",
     };
@@ -138,3 +149,4 @@ export async function submitContact(
 
   return { sent: true };
 }
+

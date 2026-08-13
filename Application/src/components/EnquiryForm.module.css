@@ -1,0 +1,108 @@
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="tel"],
+.form textarea {
+	width: 100%;
+	font-family: inherit;
+	font-size: 1rem;
+	color: var(--color-text);
+	padding: 0.8rem 1rem;
+	background: #fff;
+	border: 1px solid var(--color-border);
+	border-radius: 6px;
+}
+
+.form input:focus,
+.form textarea:focus {
+	border-color: var(--color-accent);
+	outline: 2px solid rgba(0, 112, 178, 0.2);
+	outline-offset: 0;
+}
+
+.form textarea {
+	resize: vertical;
+}
+
+.submit {
+	display: block;
+	width: 100%;
+	font-family: var(--font-heading);
+	font-weight: 500;
+	font-size: 0.9375rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--color-accent-contrast);
+	background: var(--color-accent);
+	border: none;
+	border-radius: 6px;
+	padding: 0.95rem 2rem;
+	cursor: pointer;
+	transition: background-color 0.18s ease;
+}
+
+.submit:hover:not(:disabled) {
+	background: var(--color-accent-dark);
+}
+
+.submit:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.honeypot {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.note {
+	margin-top: 1.25rem;
+	font-size: 0.8125rem;
+	color: var(--color-text-muted);
+}
+
+.sent {
+	padding: 1.5rem;
+	background: var(--color-bg-alt);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius);
+}
+
+/* --- Over a photograph --------------------------------------------------- */
+
+/*
+ * The labels and helper text go white so they stay readable on the panel, and
+ * the inputs stay light so the form still looks like a form. `:global` is
+ * needed because the field markup comes from the shared Field component and its
+ * class names are hashed in that module, not this one.
+ */
+.onDark :global(label) {
+	color: #fff;
+}
+
+.onDark :global(label) span {
+	color: rgba(255, 255, 255, 0.75);
+	background: rgba(255, 255, 255, 0.12);
+	border-color: rgba(255, 255, 255, 0.25);
+}
+
+.onDark :global(p) {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.onDark .note {
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.onDark .note a {
+	color: #fff;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.sentOnDark {
+	background: rgba(255, 255, 255, 0.12);
+	border-color: rgba(255, 255, 255, 0.3);
+	color: #fff;
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ContactForm from "@/components/ContactForm";
+import EnquiryForm from "@/components/EnquiryForm";
 import { contact } from "@/projects/iresi/content";
 import { project } from "@/projects";
 import { canonical } from "@/lib/site";
@@ -79,7 +79,7 @@ export default function ContactPage() {
 						</ul>
 					</div>
 
-					<ContactForm contactEmail={project.contactEmail} />
+					<EnquiryForm contactEmail={project.contactEmail} origin="contact" />
 				</div>
 			</section>
 

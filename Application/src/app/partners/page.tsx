@@ -1,9 +1,10 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import PageHero from "@/components/PageHero";
+import EnquiryForm from "@/components/EnquiryForm";
 import { partners, partnersPage } from "@/projects/iresi/content";
+import { project } from "@/projects";
 import { canonical } from "@/lib/site";
-import shared from "../shared.module.css";
+import styles from "./partners.module.css";
 
 export const metadata: Metadata = {
 	title: "Partners",
@@ -12,56 +13,94 @@ export const metadata: Metadata = {
 	...canonical("/partners"),
 };
 
+/**
+ * Logos come at every shape and weight — a wide wordmark beside a square crest,
+ * a dark logo beside a pale one. Rather than stretch them to a common size,
+ * each sits in a white tile of fixed height and is scaled to fit inside it, so
+ * the tiles line up even though the artwork does not.
+ */
+function LogoGrid({ items }: { items: readonly { name: string; logo: string }[] }) {
+	return (
+		<ul className={styles.logoGrid}>
+			{items.map((partner) => (
+				<li key={partner.name} className={styles.logoTile}>
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img src={partner.logo} alt={partner.name} loading="lazy" />
+					<span className={styles.logoName}>{partner.name}</span>
+				</li>
+			))}
+		</ul>
+	);
+}
+
 export default function PartnersPage() {
 	return (
 		<>
 			<PageHero title="Partners" subtitle={partnersPage.subtitle} />
 
 			<section className="section">
-				<div className={`container ${shared.splitGrid}`}>
+				<div className={`container ${styles.introGrid}`}>
 					<div>
 						{partnersPage.paragraphs.map((paragraph) => (
 							<p key={paragraph.slice(0, 40)}>{paragraph}</p>
 						))}
-						<h2 className={shared.sectionHeading}>{partnersPage.collaborationHeading}</h2>
+						<h2 className={styles.introHeading}>{partnersPage.collaborationHeading}</h2>
 						<p>{partnersPage.collaborationText}</p>
 					</div>
 					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src={partnersPage.leadImage} alt="" width={800} height={533} loading="lazy" />
+					<img
+						className={styles.introImage}
+						src={partnersPage.leadImage}
+						alt=""
+						width={800}
+						height={533}
+						loading="lazy"
+					/>
 				</div>
 			</section>
 
 			<section className="section section--alt">
 				<div className="container">
-					<h2>Our Industry Partners</h2>
-					<ul className={shared.logoGrid}>
-						{partners.industry.map((partner) => (
-							<li key={partner.name}>
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={partner.logo} alt={partner.name} loading="lazy" />
-							</li>
-						))}
-					</ul>
+					<div className={styles.groupHead}>
+						<span className="eyebrow">Industry</span>
+						<h2>Our industry partners</h2>
+					</div>
+					<LogoGrid items={partners.industry} />
 
-					<h2 className={shared.sectionHeading}>Our Research Partners</h2>
-					<ul className={shared.logoGrid}>
-						{partners.research.map((partner) => (
-							<li key={partner.name}>
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={partner.logo} alt={partner.name} loading="lazy" />
-							</li>
-						))}
-					</ul>
+					<div className={`${styles.groupHead} ${styles.groupHeadSpaced}`}>
+						<span className="eyebrow">Research</span>
+						<h2>Our research partners</h2>
+					</div>
+					<LogoGrid items={partners.research} />
 				</div>
 			</section>
 
-			<section className="section">
-				<div className={`container ${shared.narrow}`}>
-					<h2>{partnersPage.joinHeading}</h2>
-					<p className="lead">{partnersPage.joinText}</p>
-					<Link className="button" href="/contact">
-						Get in touch
-					</Link>
+			{/*
+			 * Join our network, as on the live site: a photograph behind a panel
+			 * with the enquiry form in it. It posts to the same action and the same
+			 * mailbox as the contact page — only the subject differs, so a
+			 * partnership approach is recognisable in the inbox.
+			 */}
+			<section className="section" id="join">
+				<div className="container">
+					<div className={styles.join}>
+						<div className={styles.joinInner}>
+							<h2>{partnersPage.joinHeading}</h2>
+							<p className={styles.joinLead}>{partnersPage.joinText}</p>
+
+							<div className={styles.joinForm}>
+								<EnquiryForm
+									contactEmail={project.contactEmail}
+									origin="partners"
+									organisation
+									phone
+									subject={false}
+									onDark
+									submitLabel="Send"
+								/>
+							</div>
+						</div>
+					</div>
 				</div>
 			</section>
 		</>

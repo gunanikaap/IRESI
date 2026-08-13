@@ -17,22 +17,7 @@ const MAIL_ICON =
 const LINKEDIN_ICON =
 	"M6.9 8.6H3.5v11h3.4v-11zM5.2 3.2a2 2 0 100 4 2 2 0 000-4zM20.5 13.5c0-3.2-1.7-4.7-4-4.7-1.8 0-2.7 1-3.1 1.7V8.6H10v11h3.4v-6.1c0-1.6.3-3.2 2.3-3.2s2 1.8 2 3.3v6h3.4v-6.1z";
 
-/**
- * The roles the team is drawn from, counted rather than listed by hand so the
- * banner cannot drift out of step with the grid below it.
- */
-function roleCount(role: string): number {
-	return team.filter((member) => member.role.toLowerCase().includes(role)).length;
-}
-
 export default function TeamPage() {
-	const facts = [
-		`${team.length} people`,
-		`${roleCount("academic")} academic members`,
-		`${roleCount("researcher")} researchers`,
-		`${roleCount("project manager")} project managers`,
-	];
-
 	return (
 		<>
 			{/*
@@ -52,12 +37,6 @@ export default function TeamPage() {
 						As part of {project.institution}, our team combines diverse expertise to address complex
 						energy challenges through interdisciplinary research, education and collaboration.
 					</p>
-
-					<ul className={styles.facts}>
-						{facts.map((fact) => (
-							<li key={fact}>{fact}</li>
-						))}
-					</ul>
 				</div>
 			</section>
 
@@ -66,15 +45,17 @@ export default function TeamPage() {
 					<ul className={styles.grid}>
 						{team.map((member) => (
 							<li key={member.name} className={styles.member}>
-								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img
-									className={styles.photo}
-									src={member.photo}
-									alt={member.name}
-									width={300}
-									height={300}
-									loading="lazy"
-								/>
+								<div className={styles.photoFrame}>
+									{/* eslint-disable-next-line @next/next/no-img-element */}
+									<img
+										className={styles.photo}
+										src={member.photo}
+										alt={member.name}
+										width={300}
+										height={300}
+										loading="lazy"
+									/>
+								</div>
 								<div className={styles.memberBody}>
 									<h2 className={styles.name}>{member.name}</h2>
 									<p className={styles.role}>{member.role}</p>

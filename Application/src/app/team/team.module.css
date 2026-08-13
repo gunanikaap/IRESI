@@ -31,33 +31,12 @@
 	color: rgba(255, 255, 255, 0.86);
 }
 
-.facts {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.6rem;
-	list-style: none;
-	margin: 2rem 0 0;
-	padding: 0;
-}
-
-.facts li {
-	font-family: var(--font-heading);
-	font-size: 0.75rem;
-	font-weight: 600;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	padding: 0.5rem 1rem;
-	background: rgba(255, 255, 255, 0.1);
-	border: 1px solid rgba(255, 255, 255, 0.25);
-	border-radius: 999px;
-}
-
 /* --- The grid ------------------------------------------------------------ */
 
 .grid {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-	gap: 1.5rem;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 1.75rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
@@ -66,29 +45,37 @@
 .member {
 	display: flex;
 	flex-direction: column;
-	padding: 0.75rem 0.75rem 1.25rem;
+	overflow: hidden;
 	background: #fff;
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
-	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+	box-shadow: 0 1px 2px rgba(20, 30, 60, 0.04);
+	transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .member:hover {
 	border-color: var(--color-accent);
-	box-shadow: 0 14px 28px rgba(20, 30, 60, 0.1);
-	transform: translateY(-2px);
+	box-shadow: 0 18px 34px rgba(20, 30, 60, 0.13);
+	transform: translateY(-4px);
 }
 
 /*
- * A rounded rectangle, not a circle.
- *
- * These are ordinary portrait photographs, not headshots framed for a circular
- * crop: a circle cut the tops of heads off and lost whatever the person was
- * standing in front of. The rounded rectangle is also what the site this
- * replaces uses.
- *
- * `object-position: top center` keeps faces in frame when a photograph is
- * taller than the square it is being cropped into.
+ * The photograph runs to the card's edges rather than sitting inset with a
+ * border of its own. A picture inside a box inside a box is two frames doing
+ * one job, and at this size the inner margin was most of what made the grid
+ * look busy.
+ */
+.photoFrame {
+	position: relative;
+	overflow: hidden;
+	background: var(--color-bg-alt);
+}
+
+/*
+ * A rounded rectangle, not a circle. These are ordinary photographs, not
+ * headshots framed for a circular crop: the circle cut the tops of heads off
+ * and lost whatever the person was standing in front of. `top center` keeps
+ * faces in frame on the taller ones.
  */
 .photo {
 	display: block;
@@ -96,8 +83,22 @@
 	aspect-ratio: 1 / 1;
 	object-fit: cover;
 	object-position: top center;
-	border-radius: 8px;
-	background: var(--color-bg-alt);
+	transition: transform 0.4s ease;
+}
+
+.member:hover .photo {
+	transform: scale(1.04);
+}
+
+/* A soft wash at the foot of the photograph so the card body reads as part of
+   the same object rather than a caption stuck underneath it. */
+.photoFrame::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 38%;
+	background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.9) 88%);
+	pointer-events: none;
 }
 
 .memberBody {
@@ -106,18 +107,25 @@
 	flex: 1;
 	align-items: center;
 	text-align: center;
-	padding-top: 1rem;
+	padding: 0.25rem 1rem 1.25rem;
 }
 
 .name {
 	font-size: 0.9375rem;
-	margin-bottom: 0.3rem;
+	line-height: 1.35;
+	margin-bottom: 0.4rem;
 }
 
+/* The role in the accent colour, small and letter-spaced. It is the one thing
+   that differs between otherwise identical cards, so it is worth reading. */
 .role {
-	font-size: 0.8125rem;
-	color: var(--color-text-muted);
-	margin-bottom: 0.9rem;
+	font-family: var(--font-heading);
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-accent);
+	margin-bottom: 1rem;
 }
 
 .links {
@@ -132,16 +140,17 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 32px;
-	height: 32px;
-	border: 1px solid var(--color-border);
+	width: 34px;
+	height: 34px;
+	background: var(--color-bg-alt);
+	border: 1px solid transparent;
 	border-radius: 50%;
 	color: var(--color-text-muted);
-	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+	transition: background-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
 .links a:hover {
 	background: var(--color-accent);
-	border-color: var(--color-accent);
 	color: #fff;
+	transform: translateY(-2px);
 }

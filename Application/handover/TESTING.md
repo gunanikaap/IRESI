@@ -24,12 +24,20 @@ it, so an email there would be a promise the site does not keep.
 
 ### If it is not running
 
+Run these in your own terminal and **leave that terminal open** — the server
+stops when the window closes.
+
 ```bash
 docker start iresi-test-db          # the test database
 cd d:\IRESI\Application
-npm run build
 npx next start -p 3100
 ```
+
+You only need `npm run build` first if you have changed any code.
+
+If it says `EADDRINUSE`, something is already on that port — either the site is
+already running (check <http://localhost:3100>), or pick another port with
+`-p 3200`.
 
 ### If the database has been wiped
 

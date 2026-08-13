@@ -79,27 +79,49 @@ export const CONTACT_EMAIL = project.contactEmail;
  * The mailbox the site signs into to send, and its server.
  *
  * ---------------------------------------------------------------------------
- * NOT FILLED IN YET — WAITING ON IRESI
+ * ALL FROM THE ENVIRONMENT, SO DEPLOYING NEEDS NO CODE CHANGE
  * ---------------------------------------------------------------------------
- * The site needs SMTP submission details: host, port, the mailbox to sign in
- * as, and a password. `mail.iresi.eu` resolves to `m-rb.th.seeweb.it`, so the
- * host is very likely `mail.iresi.eu` on port 587 — but **confirm it with
- * whoever administers IRESI's mail rather than assuming.** Items 3.1–3.5 on the
- * access list.
+ * Whoever hosts this sets four values in the hosting panel and the contact form
+ * starts sending. They do not clone the repository, edit a file and rebuild —
+ * which matters because the person configuring the mail server is usually not
+ * the person who can deploy.
  *
- * `address` is filled in even when it is the same as `CONTACT_EMAIL`. There is
- * no "leave it blank and it defaults" shortcut, on purpose: a default would
- * make `CONTACT_EMAIL` quietly do a second job, which is what this file was
- * organised to stop. The `From:` header follows this address, because a message
- * must be sent as an address its mailbox is authorised to send as — that is
- * what SPF and DMARC check.
+ * These are read at request time, not inlined at build time (only
+ * `NEXT_PUBLIC_*` variables are inlined), so correcting a typo in the host name
+ * takes a restart rather than a rebuild.
  *
- * While any of these is empty the contact form works exactly as it always has:
- * every message goes to the admin dashboard instead of a mailbox, and the
- * Messages page says which state it is in.
+ *   SMTP_HOST      the submission server, e.g. mail.iresi.eu
+ *   SMTP_PORT      587 for STARTTLS, 465 for implicit TLS. Defaults to 587
+ *   SMTP_FROM      the address messages are sent *from*
+ *   SMTP_USER      the login, when it differs from SMTP_FROM. Optional
+ *   SMTP_PASSWORD  an app password if the mailbox uses MFA
+ *
+ * `SMTP_FROM` is set explicitly rather than defaulting to the address enquiries
+ * arrive at. A default would make one address quietly do two jobs, and the
+ * `From:` header has to be an address the mailbox is authorised to send as —
+ * that is what SPF and DMARC check.
+ *
+ * While any of these is missing the contact form works exactly as it always
+ * has: every message goes to the admin dashboard instead of a mailbox, and the
+ * Messages page says which state it is in. Nothing is lost.
+ *
+ * `mail.iresi.eu` resolves to `m-rb.th.seeweb.it`, so the host is very likely
+ * `mail.iresi.eu` on port 587 — confirm it with whoever administers IRESI's
+ * mail rather than assuming. Items 3.1–3.5 on the access list.
  */
 export const MAIL_SENDER = {
-	address: "",
-	host: "",
-	port: 587,
+	get address() {
+		return process.env.SMTP_FROM?.trim() ?? "";
+	},
+	get host() {
+		return process.env.SMTP_HOST?.trim() ?? "";
+	},
+	get port() {
+		const raw = process.env.SMTP_PORT?.trim();
+		return raw ? Number(raw) : 587;
+	},
+	/** Falls back to the sending address, which is the usual case. */
+	get user() {
+		return process.env.SMTP_USER?.trim() || (process.env.SMTP_FROM?.trim() ?? "");
+	},
 };

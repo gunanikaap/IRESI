@@ -3,6 +3,7 @@ import "server-only";
 import nodemailer from "nodemailer";
 
 import { CONTACT_EMAIL, MAIL_SENDER } from "./site";
+import { project } from "@/projects";
 
 /**
  * Sending mail from the site. One sender, one purpose: the contact form.
@@ -104,9 +105,14 @@ function readConfig(): MailConfig | null {
     // Authenticated as, and sent as, the sending mailbox — never the visitor and
     // never the destination. Sending as an address this account cannot
     // authenticate for is what SPF and DMARC exist to reject.
-    user: sender,
+    // The login, which is usually the sending address but need not be — shared
+    // and delegated mailboxes commonly authenticate as something else.
+    user: MAIL_SENDER.user || sender,
     password,
-    from: `ADFLEX website <${sender}>`,
+    // Named for the active project. This said "ADFLEX website" regardless of
+    // which site was sending, which would have put the wrong project's name on
+    // every enquiry forwarded from IRESI.
+    from: `${project.name} website <${sender}>`,
     to: recipient,
   };
 }

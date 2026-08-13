@@ -1,3 +1,79 @@
+/* --- Banner ------------------------------------------------------------- */
+
+.hero {
+	background: var(--gradient-banner);
+	color: #fff;
+	padding-block: clamp(3rem, 6vw, 4.5rem);
+}
+
+.heroInner {
+	display: grid;
+	grid-template-columns: 1.1fr 1fr;
+	gap: 2.5rem 3rem;
+	align-items: center;
+}
+
+.hero h1 {
+	color: #fff;
+	margin-bottom: 0.75rem;
+}
+
+.heroLead {
+	color: rgba(255, 255, 255, 0.85);
+	max-width: 42ch;
+	margin: 0;
+}
+
+.heroFacts {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1.25rem;
+}
+
+.heroFacts li {
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+}
+
+.heroIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 44px;
+	height: 44px;
+	border-radius: 8px;
+	background: var(--color-accent);
+	color: var(--color-accent-contrast);
+}
+
+.heroLabel {
+	display: block;
+	font-family: var(--font-heading);
+	font-size: 0.6875rem;
+	font-weight: 600;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: rgba(255, 255, 255, 0.65);
+	margin-bottom: 0.15rem;
+}
+
+.heroFacts a {
+	color: #fff;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.heroFacts a:hover {
+	color: #fff;
+	border-bottom-color: #fff;
+	text-decoration: none;
+}
+
+/* --- Body --------------------------------------------------------------- */
+
 .grid {
 	display: grid;
 	grid-template-columns: 1fr 1.1fr;
@@ -25,6 +101,28 @@
 	text-transform: uppercase;
 	color: var(--color-text-muted);
 	margin-bottom: 0.3rem;
+}
+
+/* --- Map ---------------------------------------------------------------- */
+
+.mapSection {
+	line-height: 0;
+}
+
+.map {
+	display: block;
+	width: 100%;
+	height: clamp(320px, 38vw, 460px);
+	border: 0;
+	border-top: 1px solid var(--color-border);
+}
+
+/* --- Responsive --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+	.heroInner {
+		grid-template-columns: 1fr;
+	}
 }
 
 @media (max-width: 860px) {

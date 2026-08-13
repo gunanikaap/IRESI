@@ -190,6 +190,13 @@ Projects, research topics and news posts all sat at the root of the WordPress si
 
 ## Things worth knowing
 
+- **Email is configured entirely from the environment.** `SMTP_HOST`,
+  `SMTP_PORT`, `SMTP_FROM`, `SMTP_USER` and `SMTP_PASSWORD` — set them in the
+  hosting panel and the contact form starts sending. No code change, and no
+  rebuild: they are read at request time, so a restart is enough. Where
+  enquiries *arrive* is separate, and is the project's `contactEmail`.
+  Until all of them are set, every message goes to the admin dashboard instead
+  and the Messages page says so.
 - **Fonts are self-hosted.** `next/font` downloads Montserrat and Work Sans at build time and serves them from this origin, so no visitor's browser contacts Google to render a page. The WordPress site did, which for an EU research centre was an unanswered GDPR question.
 - **Dates are formatted from `YYYY-MM-DD` strings, never from a `Date` returned by `pg`.** `pg` maps a `DATE` to midnight in the server's zone, so an entry dated the 1st renders as the 31st for anyone west of it.
 - **Page copy is stored as text, not markdown.** Blank-line-separated paragraphs, `## ` for a heading, `- ` for a bullet. Rendering it needs no library and offers no HTML-injection surface. `src/components/Prose.tsx` is the one place to change if genuinely rich content is ever needed.
@@ -216,11 +223,12 @@ from the admin, but not yet written or edited there — those forms follow exact
 the same pattern as `src/app/admin/projects/ProjectForm.tsx` and are the next
 piece of work. Until then, new news entries come from the seed file.
 
-**Not done:** SMTP is not configured, so contact form messages are stored in the
-admin rather than emailed. Nothing is lost, and the Messages page says which
-state it is in. See `handover/ACCESS-NEEDED.md` — the meeting was explicit that
-documented instructions do not count as done, so this needs configuring,
-deploying and a real test send.
+**Email: working, but not yet pointed at IRESI's mailbox.** The whole path is
+tested — a message sent through the contact form is accepted by an SMTP server
+and delivered, verified against a local catcher. What is missing is only the
+real host, address and password, which are items 3.1–3.5 on the access list.
+Setting those five environment variables is the entire remaining step; no code
+changes. Until then messages go to the admin dashboard and nothing is lost.
 
 ---
 

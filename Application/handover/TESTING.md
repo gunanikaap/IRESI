@@ -28,7 +28,7 @@ Run these in your own terminal and **leave that terminal open** — the server
 stops when the window closes.
 
 ```bash
-docker start iresi-test-db          # the test database
+docker start iresi-test-db iresi-mailpit   # database and mail catcher
 cd d:\IRESI\Application
 npx next start -p 3100
 ```
@@ -67,9 +67,15 @@ speed and are regenerated when you save something *through the admin*. If you
 change a row with SQL, the individual page updates but the listing keeps showing
 the last build. **Always test through the admin**, not the database.
 
-**2. Contact form messages are not emailed.** They are stored in
-**Admin → Messages** instead, because IRESI has not given us SMTP details yet.
-That is expected, and the Messages page says so. Nothing is lost.
+**2. Contact form messages are emailed to a local catcher, not to IRESI.**
+A throwaway mail server (Mailpit) is running for testing. Messages sent through
+the contact form go there and are visible at **<http://localhost:8025>** — they
+never reach a real inbox, which is what makes it safe to test with. They are
+also kept in **Admin → Messages**.
+
+With the real IRESI SMTP details in place, the same messages would go to
+`info@iresi.eu`. Nothing about the site changes; only five environment
+variables do.
 
 ---
 
@@ -81,7 +87,7 @@ nothing new.
 | Gap | Why |
 | --- | --- |
 | News and publications cannot be **written or edited** in the admin | Only publish/unpublish/delete work so far. The forms follow the same pattern as the project form and are the next piece of work. Both pages say so on screen |
-| No SMTP / no emails sent | Waiting on credentials from IRESI |
+| Real IRESI email is not connected | Sending works and is tested, but against a local catcher. Only the real host, address and password are missing — items 3.1–3.5 on the access list |
 | No sitemap, no canonical links | Waiting on the confirmed staging address |
 | The team list, research topic pages, partner logos and standing page text are not editable in the admin | Deliberate — they change rarely and live in the code. See the README |
 | "50+ Scientific Publications" on the home page while the page lists 12 | Carried over from the current live site. Flagged for the team to confirm |
@@ -282,9 +288,12 @@ Remember: only publish/unpublish/delete work here for now.
 
 ### 2.5 Contact form
 
+- [ ] The page shows the **map of Maynooth University** at the bottom
 - [ ] Fill in the form on `/contact` and send it
 - [ ] You see a thank-you message
-- [ ] It appears in **Admin → Messages** marked **new**
+- [ ] **The message arrives at <http://localhost:8025>** — check the sender,
+      subject and body are what you typed, and that Reply-To is your address
+- [ ] It also appears in **Admin → Messages** marked **new**
 - [ ] **Reply** opens your email program addressed to the sender
 - [ ] **Mark read** removes the "new" badge and the count in the top bar
 - [ ] **Delete** asks first, then removes it

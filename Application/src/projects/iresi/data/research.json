@@ -39,8 +39,7 @@
 			"paragraphs": [
 				"Explore our research, learn about our ongoing projects, and discover how you can contribute to a greener and more sustainable world through renewables at IRESI."
 			]
-		},
-		"linkLabel": "Renewables"
+		}
 	},
 	{
 		"slug": "transport",
@@ -82,8 +81,7 @@
 			"paragraphs": [
 				"Explore our ongoing projects, publications, and opportunities for collaboration within the Transportation division to learn more about our efforts to shape a greener, more efficient, and accessible transportation landscape. Together, we’re steering the course toward a sustainable and equitable mobility future."
 			]
-		},
-		"linkLabel": "Transport"
+		}
 	},
 	{
 		"slug": "buildings",
@@ -130,8 +128,7 @@
 			"paragraphs": [
 				"Join us in our journey to transform the building industry and create a more sustainable built environment for generations to come."
 			]
-		},
-		"linkLabel": "Buildings"
+		}
 	},
 	{
 		"slug": "electricity-and-power-system",
@@ -176,8 +173,7 @@
 		"closing": {
 			"heading": null,
 			"paragraphs": []
-		},
-		"linkLabel": "Electricity and Power Systems"
+		}
 	},
 	{
 		"slug": "engage-research",
@@ -227,8 +223,7 @@
 			"paragraphs": [
 				"Several members of IRESI are Irish University Association (IUA) Campus Engage, Engaged Research Facilitators. The team is committed to providing Engaged Research Training and Development for all societal stakeholders involved in our projects."
 			]
-		},
-		"linkLabel": "Engage Research"
+		}
 	},
 	{
 		"slug": "green-upskilling",
@@ -277,8 +272,7 @@
 			"paragraphs": [
 				"Join us in the journey towards a sustainable future. Explore our Green Technologies Upskilling programs and partnership opportunities. Together, we can rise to the challenge and build a workforce ready to lead the way in green technology innovation and implementation."
 			]
-		},
-		"linkLabel": "green upskilling technologies"
+		}
 	},
 	{
 		"slug": "heating-and-cooling-systems",
@@ -332,7 +326,6 @@
 			"paragraphs": [
 				"Join us at IRESI as we work tirelessly to transform the heating and cooling landscape. Together, we can pioneer solutions that enhance comfort, reduce energy consumption, and combat climate change. Together, we can meet the challenge of sustainable heating and cooling systems head-on, making a positive impact on our planet and future generations."
 			]
-		},
-		"linkLabel": "Heating and cooling systems"
+		}
 	}
 ]

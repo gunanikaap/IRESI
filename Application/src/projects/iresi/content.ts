@@ -59,12 +59,6 @@ export type ResearchTopic = {
 	 * guessed at render time.
 	 */
 	closing: { heading: string | null; paragraphs: string[] };
-	/**
-	 * How the topic is named in the two links at the foot of the page — "list of
-	 * projects under Renewables". The casing follows the live pages, which is
-	 * why it is stored rather than derived from `title`.
-	 */
-	linkLabel: string;
 };
 
 export type Researcher = {
@@ -79,18 +73,6 @@ export type Researcher = {
 
 export const team: TeamMember[] = teamData;
 export const researchTopics: ResearchTopic[] = researchData;
-
-/**
- * Photographs for a research topic, taken from the hub page's entry for it.
- *
- * Kept in one place rather than duplicated onto each topic: the hub and the
- * topic page should never disagree about which pictures belong to Renewables.
- * Four of the seven topics have photographs; the rest return an empty array and
- * the page lays out without them.
- */
-export function imagesForTopic(slug: string): readonly string[] {
-	return researchHub.divisions.find((division) => division.slug === slug)?.images ?? [];
-}
 
 /**
  * The three researchers whose papers are grouped on /publications.

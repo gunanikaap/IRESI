@@ -1,21 +1,16 @@
 import Link from "next/link";
-import { imagesForTopic, type ResearchTopic as Topic } from "@/projects/iresi/content";
+import type { ResearchTopic as Topic } from "@/projects/iresi/content";
 import styles from "./ResearchTopic.module.css";
 
 /**
  * A research topic page — the seven pages the footer links to.
  *
- * The words are the live site's, checked against it line by line. The banner
- * photograph and the closing panel's photograph are the live site's too; every
- * topic uses the same two, which is why they are named for their role rather
- * than for a topic.
- *
- * What differs is the middle: the live page runs five long sections down one
- * column under small subheadings. Here each section is a numbered two-column
- * block so its heading stays beside its text, and bullet lists become cards.
+ * The words are the live site's, checked against it line by line, as are the
+ * banner and closing photographs. What differs is the middle: the live page
+ * runs five long sections down one column under small subheadings, so each
+ * section is a numbered two-column block here and lists are set as points.
  */
 export default function ResearchTopic({ topic }: { topic: Topic }) {
-	const images = imagesForTopic(topic.slug);
 	const body = topic.sections.filter(
 		(section) => section.heading || section.paragraphs.length > 0
 	);
@@ -29,17 +24,15 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 				</div>
 			</section>
 
-			<section className="section">
-				<div className={`container ${images.length > 0 ? styles.leadGrid : ""}`}>
+			{/*
+			 * The opening statement, given the width of the page and set large.
+			 * It carried a pair of stock photographs beside it for a while; they
+			 * added nothing the words did not already say, so the emphasis is
+			 * typographic instead.
+			 */}
+			<section className={`section ${styles.leadSection}`}>
+				<div className="container">
 					<p className={styles.lead}>{topic.summary}</p>
-					{images.length > 0 && (
-						<div className={styles.leadImages}>
-							{images.map((src) => (
-								// eslint-disable-next-line @next/next/no-img-element
-								<img key={src} src={src} alt="" loading="lazy" />
-							))}
-						</div>
-					)}
 				</div>
 			</section>
 
@@ -61,7 +54,7 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 									))}
 
 									{section.bullets.length > 0 && (
-										<ul className={styles.bulletCards}>
+										<ul className={styles.points}>
 											{section.bullets.map((bullet) => {
 												const { label, text } = splitBullet(bullet);
 												return (
@@ -80,8 +73,14 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 				</div>
 			</section>
 
-			{/* The closing panel, as on the live page: photograph, accent heading,
-			    and the two links it ends with, worded exactly as they are there. */}
+			{/*
+			 * The closing panel, as on the live page.
+			 *
+			 * The two links are worded generally rather than "list of projects
+			 * under Renewables". That wording is on the live site, but it promises
+			 * a filtered list and delivers the whole page — so it is a promise the
+			 * site does not keep, and repeating it would carry the fault across.
+			 */}
 			<section className="section">
 				<div className="container">
 					<div className={styles.cta}>
@@ -92,10 +91,10 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 							))}
 							<div className={styles.ctaActions}>
 								<Link className={styles.ctaButton} href="/projects">
-									List of projects under {topic.linkLabel}
+									See all our projects
 								</Link>
 								<Link className={styles.ctaButton} href="/publications">
-									List of publications under {topic.linkLabel}
+									See all our publications
 								</Link>
 							</div>
 						</div>
@@ -106,12 +105,12 @@ export default function ResearchTopic({ topic }: { topic: Topic }) {
 	);
 }
 
-/** The copy uses `**bold**` for bullet labels; nothing renders markdown here. */
+/** The copy uses `**bold**` for point labels; nothing renders markdown here. */
 const stripMarkdown = (text: string) => text.replace(/\*\*/g, "").trim();
 
 /**
- * Splits a bullet written as `**Label:** description` into its two halves.
- * A bullet with no colon renders as a single line rather than inventing a label
+ * Splits a point written as `**Label:** description` into its two halves.
+ * A point with no colon renders as a single line rather than inventing a label
  * out of its first few words.
  */
 function splitBullet(bullet: string): { label: string | null; text: string } {

@@ -45,35 +45,36 @@
 
 /* --- Lead --------------------------------------------------------------- */
 
-.leadGrid {
-	display: grid;
-	grid-template-columns: 1.15fr 1fr;
-	gap: 3rem;
-	align-items: center;
+.leadSection {
+	padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
+/*
+ * Set large and centred, with a short accent rule above it. The opening
+ * statement is the one paragraph on the page everyone reads, so it is given the
+ * width of the column rather than being squeezed beside a photograph.
+ */
 .lead {
-	font-size: clamp(1.0625rem, 0.4vw + 1rem, 1.25rem);
-	line-height: 1.65;
-	color: var(--color-text);
-	max-width: 62ch;
-	margin: 0;
-	border-left: 3px solid var(--color-accent);
-	padding-left: 1.5rem;
+	position: relative;
+	max-width: 46rem;
+	margin-inline: auto;
+	padding-top: 2rem;
+	font-size: clamp(1.1875rem, 0.7vw + 1.05rem, 1.5rem);
+	line-height: 1.6;
+	text-align: center;
+	color: var(--color-heading);
 }
 
-.leadImages {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-	gap: 1rem;
-}
-
-.leadImages img {
-	width: 100%;
-	aspect-ratio: 4 / 3;
-	object-fit: cover;
-	border-radius: var(--radius);
-	display: block;
+.lead::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 64px;
+	height: 4px;
+	background: var(--color-accent);
+	border-radius: 2px;
 }
 
 /* --- Numbered section blocks -------------------------------------------- */
@@ -127,36 +128,53 @@
 	margin-bottom: 0;
 }
 
-/* --- Bullets as cards --------------------------------------------------- */
+/* --- Lists, set as points ----------------------------------------------- */
 
-.bulletCards {
+.points {
 	list-style: none;
-	margin: 1.5rem 0 0;
+	margin: 1.25rem 0 0;
 	padding: 0;
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	gap: 1rem;
+	max-width: 68ch;
 }
 
-.bulletCards li {
-	padding: 1.15rem 1.25rem;
-	background: #fff;
-	border: 1px solid var(--color-border);
-	border-left: 3px solid var(--color-accent);
-	border-radius: 8px;
+.points li {
+	position: relative;
+	padding-left: 1.5rem;
+	margin-bottom: 0.85rem;
+	line-height: 1.65;
 }
 
-.bulletCards strong {
-	display: block;
-	font-family: var(--font-heading);
-	font-size: 0.9375rem;
+.points li:last-child {
+	margin-bottom: 0;
+}
+
+/* A small accent marker rather than a browser bullet, aligned to the first line. */
+.points li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.6em;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--color-accent);
+}
+
+/* The label runs into the text rather than sitting on its own line, so a list
+   of four reads as four points and not as four paragraphs. */
+.points strong {
+	font-weight: 600;
 	color: var(--color-heading);
-	margin-bottom: 0.3rem;
 }
 
-.bulletCards span {
-	font-size: 0.9375rem;
+.points strong::after {
+	content: " — ";
+	font-weight: 400;
 	color: var(--color-text-muted);
+}
+
+.points span {
+	color: var(--color-text);
 }
 
 /* --- Closing panel ------------------------------------------------------ */

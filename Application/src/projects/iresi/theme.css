@@ -32,6 +32,19 @@
 		rgba(28, 28, 28, 0.85) 100%
 	);
 
+	/*
+	 * A darker, accent-tinted scrim for banners that sit over a photograph and
+	 * carry text on the left. Weighted so the left third is nearly solid and the
+	 * right stays open, which keeps the heading legible without hiding the
+	 * picture behind it.
+	 */
+	--gradient-banner-photo: linear-gradient(
+		100deg,
+		rgba(8, 26, 40, 0.94) 0%,
+		rgba(8, 26, 40, 0.82) 38%,
+		rgba(10, 32, 48, 0.55) 100%
+	);
+
 	/* `--font-*-loaded` come from next/font in the root layout. */
 	--font-heading: var(--font-heading-loaded), system-ui, -apple-system, "Segoe UI", sans-serif;
 	--font-body: var(--font-body-loaded), system-ui, -apple-system, "Segoe UI", sans-serif;

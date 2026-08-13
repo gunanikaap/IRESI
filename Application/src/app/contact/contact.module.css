@@ -1,9 +1,29 @@
 /* --- Banner ------------------------------------------------------------- */
 
+/*
+ * A photograph rather than a flat gradient.
+ *
+ * Cropped low and tinted with the accent-weighted scrim so it reads as its own
+ * banner rather than a repeat of the home page, which uses the same picture
+ * centred under a neutral grey wash.
+ */
 .hero {
-	background: var(--gradient-banner);
+	position: relative;
+	background-image: var(--gradient-banner-photo), url("/images/home/hero.jpg");
+	background-size: cover;
+	background-position: center 68%;
 	color: #fff;
-	padding-block: clamp(3rem, 6vw, 4.5rem);
+	padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+/* A thin accent rule along the bottom, tying the banner to the buttons and
+   icons below it. */
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 4px;
+	background: var(--color-accent);
 }
 
 .heroInner {

@@ -90,24 +90,13 @@
 	transform: scale(1.04);
 }
 
-/* A soft wash at the foot of the photograph so the card body reads as part of
-   the same object rather than a caption stuck underneath it. */
-.photoFrame::after {
-	content: "";
-	position: absolute;
-	inset: auto 0 0 0;
-	height: 38%;
-	background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.9) 88%);
-	pointer-events: none;
-}
-
 .memberBody {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
 	align-items: center;
 	text-align: center;
-	padding: 0.25rem 1rem 1.25rem;
+	padding: 1rem 1rem 1.25rem;
 }
 
 .name {

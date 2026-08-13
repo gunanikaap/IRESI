@@ -1,56 +1,182 @@
-.researcher {
-	display: grid;
-	grid-template-columns: 300px 1fr;
-	gap: 2.5rem;
-	align-items: start;
+/* --- Banner -------------------------------------------------------------- */
+
+.hero {
+	position: relative;
+	background-image: var(--gradient-banner-photo), url("/images/banners/research-desk.jpg");
+	background-size: cover;
+	background-position: center 60%;
+	color: #fff;
+	padding-block: clamp(3.5rem, 7vw, 5.5rem);
 }
 
-.photo {
-	width: 100%;
-	border-radius: var(--radius);
+.hero::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 4px;
+	background: var(--color-accent);
 }
 
-.title {
-	font-family: var(--font-heading);
-	font-size: 0.875rem;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-	color: var(--color-accent);
+.heroInner {
+	max-width: 60rem;
+}
+
+.hero h1 {
+	color: #fff;
 	margin-bottom: 1rem;
 }
 
+.heroLead {
+	max-width: 60ch;
+	font-size: 1.0625rem;
+	color: rgba(255, 255, 255, 0.86);
+	margin: 0;
+}
+
+.eyebrow {
+	display: inline-block;
+	font-family: var(--font-heading);
+	font-weight: 600;
+	font-size: 0.75rem;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: #fff;
+	background: var(--color-accent);
+	padding: 0.35rem 0.85rem;
+	border-radius: 999px;
+	margin-bottom: 1.1rem;
+}
+
+/* --- Researcher ----------------------------------------------------------- */
+
+.researcher {
+	display: grid;
+	grid-template-columns: 260px 1fr;
+	gap: 2.5rem;
+	align-items: start;
+	padding-bottom: 2.25rem;
+	margin-bottom: 2.25rem;
+	border-bottom: 1px solid var(--color-border);
+}
+
+.portrait {
+	position: sticky;
+	top: calc(var(--header-height) + 1.5rem);
+	overflow: hidden;
+	border-radius: var(--radius);
+	box-shadow: 0 14px 30px rgba(20, 30, 60, 0.13);
+}
+
+.portrait img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	object-position: top center;
+}
+
+.profile h2 {
+	margin-bottom: 0.5rem;
+}
+
+.role {
+	font-family: var(--font-heading);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--color-accent);
+	margin-bottom: 1.25rem;
+}
+
 .bio {
-	max-width: 68ch;
+	max-width: 70ch;
 	color: var(--color-text-muted);
 }
 
+.profileFoot {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+	flex-wrap: wrap;
+	margin-top: 1.5rem;
+}
+
+.count {
+	font-family: var(--font-heading);
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--color-text-muted);
+}
+
+/* --- Publications --------------------------------------------------------- */
+
 .list {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
 	gap: 1.5rem;
 	list-style: none;
-	margin: 2.5rem 0 0;
+	margin: 0;
 	padding: 0;
 }
 
 .publication {
 	display: flex;
 	flex-direction: column;
-	padding: 1.6rem;
+	padding: 1.75rem;
 	background: #fff;
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
+	transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.publication:hover {
+	border-color: var(--color-accent);
+	box-shadow: 0 16px 32px rgba(20, 30, 60, 0.1);
+	transform: translateY(-2px);
+}
+
+.pubHead {
+	display: flex;
+	align-items: baseline;
+	gap: 0.85rem;
+	margin-bottom: 0.85rem;
+}
+
+/* The year leads each card. Scanning a publication list is mostly scanning by
+   date, and it was previously buried inside the metadata. */
+.year {
+	flex-shrink: 0;
+	font-family: var(--font-heading);
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	color: var(--color-accent-contrast);
+	background: var(--color-accent);
+	padding: 0.25rem 0.6rem;
+	border-radius: 4px;
 }
 
 .publication h3 {
 	font-size: 1rem;
+	line-height: 1.4;
 	text-transform: none;
+	margin: 0;
+}
+
+.authors {
+	font-size: 0.875rem;
+	color: var(--color-heading);
 	margin-bottom: 1rem;
 }
 
 .meta {
 	margin: 0 0 1rem;
-	font-size: 0.875rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--color-border);
+	font-size: 0.8125rem;
 }
 
 .meta div {
@@ -61,12 +187,9 @@
 
 .meta dt {
 	flex-shrink: 0;
+	min-width: 5.5rem;
 	font-weight: 600;
 	color: var(--color-heading);
-}
-
-.meta dt::after {
-	content: ":";
 }
 
 .meta dd {
@@ -76,26 +199,42 @@
 
 .description {
 	font-size: 0.875rem;
+	line-height: 1.6;
 	color: var(--color-text-muted);
-	margin-bottom: 1rem;
+	margin-bottom: 1.25rem;
 }
 
 .readLink {
 	margin-top: auto;
+	align-self: flex-start;
 	font-family: var(--font-heading);
 	font-size: 0.75rem;
 	font-weight: 600;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
+	padding-bottom: 0.2rem;
+	border-bottom: 2px solid var(--color-accent);
 }
 
-@media (max-width: 780px) {
+.readLink:hover {
+	text-decoration: none;
+	border-bottom-color: var(--color-accent-dark);
+}
+
+/* --- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 860px) {
 	.researcher {
 		grid-template-columns: 1fr;
-		gap: 1.5rem;
+		gap: 1.75rem;
 	}
 
-	.photo {
-		max-width: 260px;
+	.portrait {
+		position: static;
+		max-width: 220px;
+	}
+
+	.list {
+		grid-template-columns: 1fr;
 	}
 }

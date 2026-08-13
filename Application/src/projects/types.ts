@@ -38,10 +38,17 @@ export type SocialLink = {
 	icon: SocialIcon;
 };
 
-export type FooterColumn = {
-	heading: string;
-	links: readonly NavItem[];
-};
+/**
+ * One column in the footer.
+ *
+ * The contact details are a column like any other so a project can decide where
+ * they sit. IRESI puts them between Menu and Research, which is where the site
+ * this replaces has them; a project that wants them last simply reorders its
+ * array rather than needing a change here.
+ */
+export type FooterColumn =
+	| { kind?: "links"; heading: string; links: readonly NavItem[] }
+	| { kind: "contact"; heading: string };
 
 export type ProjectConfig = {
 	/** Matches the folder name and the `ACTIVE_PROJECT` value. */

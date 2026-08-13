@@ -1,113 +1,203 @@
 .footer {
 	background: var(--color-footer-bg);
-	color: rgba(255, 255, 255, 0.72);
+	color: rgba(255, 255, 255, 0.82);
 	padding-top: 4rem;
 	font-size: 0.9375rem;
 }
 
 .grid {
 	display: grid;
-	grid-template-columns: 1.2fr 1fr 1.3fr 1.2fr;
-	gap: 2.5rem;
-	padding-bottom: 3rem;
+	grid-template-columns: minmax(240px, 1fr) 0.9fr 1.2fr 1.2fr;
+	gap: 2.5rem 3rem;
+	padding-bottom: 3.5rem;
 }
 
-.brand img {
+/* --- Logo card ---------------------------------------------------------- */
+
+.brandCard {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+	padding: 1.5rem 1.75rem;
+	background: #fff;
+	border-radius: var(--radius);
+}
+
+.brandLogo {
 	display: block;
-	width: 180px;
+	width: 100%;
+	max-width: 260px;
 	height: auto;
-	margin-bottom: 1.25rem;
 }
 
 .socials {
 	display: flex;
-	gap: 0.6rem;
+	gap: 1.5rem;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
+/* Inside the white card, so these take the accent colour directly rather than
+   sitting in outlined circles on the dark background. */
 .socials a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 36px;
-	height: 36px;
-	border: 1px solid rgba(255, 255, 255, 0.25);
-	border-radius: 50%;
-	color: #fff;
-	transition: background-color 0.18s ease, border-color 0.18s ease;
+	color: var(--color-accent);
+	transition: color 0.18s ease, transform 0.18s ease;
 }
 
 .socials a:hover {
-	background: var(--color-accent);
-	border-color: var(--color-accent);
+	color: var(--color-accent-dark);
+	transform: translateY(-2px);
 	text-decoration: none;
 }
 
 .funding {
 	margin-top: 1.25rem;
 	font-size: 0.8125rem;
+	color: rgba(255, 255, 255, 0.7);
 }
 
-.column h3 {
-	font-size: 1rem;
+/* --- Columns ------------------------------------------------------------ */
+
+.column {
+	min-width: 0;
+}
+
+.heading {
+	font-size: 1.125rem;
+	font-weight: 600;
 	color: #fff;
-	margin-bottom: 1.1rem;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.75rem;
+	position: relative;
 }
 
-.column ul {
+/* The short accent rule under each column heading. */
+.heading::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 56px;
+	height: 3px;
+	background: var(--color-accent);
+	border-radius: 2px;
+}
+
+.linkList {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 }
 
-.column li {
-	margin-bottom: 0.6rem;
+.linkList li {
+	margin-bottom: 0.85rem;
 }
 
-.column a {
-	color: rgba(255, 255, 255, 0.72);
+.linkList a {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	color: rgba(255, 255, 255, 0.82);
+	transition: color 0.18s ease;
 }
 
-.column a:hover {
+/* A decorative chevron, drawn in CSS so it is never read aloud. */
+.linkList a::before {
+	content: "\203A";
+	color: var(--color-accent);
+	font-size: 1.1em;
+	line-height: 1;
+	transition: transform 0.18s ease;
+}
+
+.linkList a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+
+.linkList a:hover::before {
+	transform: translateX(3px);
+}
+
+/* --- Contact ------------------------------------------------------------ */
+
+.contactRow {
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.contactRow p {
+	margin: 0;
+	line-height: 1.6;
+}
+
+.contactRow a {
+	color: rgba(255, 255, 255, 0.82);
+}
+
+.contactRow a:hover {
 	color: #fff;
 }
 
-.column p {
-	margin-bottom: 0.5rem;
+.contactIcon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	border-radius: 8px;
+	background: var(--color-accent);
+	color: var(--color-accent-contrast);
 }
 
-.label {
+.contactLabel {
 	font-family: var(--font-heading);
-	font-size: 0.75rem;
-	letter-spacing: 0.1em;
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
 	text-transform: uppercase;
 	color: #fff;
-	margin-top: 1.25rem;
-	margin-bottom: 0.25rem;
+	margin-bottom: 0.2rem !important;
 }
 
+/* --- Copyright band ----------------------------------------------------- */
+
 .bottom {
-	border-top: 1px solid rgba(255, 255, 255, 0.12);
-	padding-block: 1.5rem;
+	background: var(--color-accent);
+	color: var(--color-accent-contrast);
+	padding-block: 1.1rem;
 	text-align: center;
-	font-size: 0.875rem;
+	font-size: 0.9375rem;
 }
 
 .bottom p {
 	margin: 0;
 }
 
-@media (max-width: 900px) {
+/* --- Responsive --------------------------------------------------------- */
+
+@media (max-width: 1100px) {
 	.grid {
 		grid-template-columns: repeat(2, 1fr);
-		gap: 2rem;
 	}
 }
 
-@media (max-width: 560px) {
+@media (max-width: 620px) {
 	.grid {
 		grid-template-columns: 1fr;
+		gap: 2.25rem;
+	}
+
+	.brandCard {
+		display: flex;
+		width: 100%;
 	}
 }

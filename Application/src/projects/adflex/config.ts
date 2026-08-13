@@ -64,6 +64,7 @@ export const adflex: ProjectConfig = {
 				{ label: "Contact", href: "/contact" },
 			],
 		},
+		{ kind: "contact", heading: "Contact info" },
 	],
 
 	themeClass: "theme-adflex",

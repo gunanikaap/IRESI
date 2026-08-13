@@ -69,6 +69,8 @@ export const iresi: ProjectConfig = {
 				{ label: "Contact", href: "/contact" },
 			],
 		},
+		// Between Menu and Research, matching the site this replaces.
+		{ kind: "contact", heading: "Contact info" },
 		{
 			heading: "Research",
 			links: [

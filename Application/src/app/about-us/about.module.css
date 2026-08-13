@@ -1,10 +1,16 @@
 /* --- Banner -------------------------------------------------------------- */
 
+/*
+ * A single turbine at golden hour, cropped low so the hillside carries the
+ * text. Distinct from the site's other two wind photographs — a coastal farm on
+ * Partners and a dusk hill farm on the home page — which is why the crop and
+ * the time of day matter here.
+ */
 .hero {
 	position: relative;
-	background-image: var(--gradient-banner-photo), url("/images/banners/research-lab.jpg");
+	background-image: var(--gradient-banner-photo), url("/images/banners/wind-sunset.jpg");
 	background-size: cover;
-	background-position: center;
+	background-position: center 70%;
 	color: #fff;
 	padding-block: clamp(3.5rem, 7vw, 5.5rem);
 }

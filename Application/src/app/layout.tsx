@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Work_Sans } from "next/font/google";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
 import { project } from "@/projects";
 import { siteUrl } from "@/lib/site";
-import "./globals.css";
 
 /**
  * Fonts are self-hosted rather than fetched from Google at page load.
@@ -57,20 +54,43 @@ export const metadata: Metadata = {
 	},
 };
 
+/**
+ * The document, and nothing else.
+ *
+ * Each site brings its own chrome *and its own stylesheet* — `(site)/layout.tsx`
+ * for IRESI, `adflex/layout.tsx` for ADFLEX — because a root layout wraps every
+ * route and this deployment now serves two sites.
+ *
+ * `globals.css` is imported by the IRESI layout rather than here, and that is
+ * load-bearing. Its element rules (`h1…h5`, `a`, `p`) have specificity 0,0,1,
+ * while ADFLEX's own base styles are written with `:where()` at 0,0,0 on the
+ * assumption that nothing else is styling bare elements. Loaded document-wide,
+ * IRESI's rules silently won inside `.adflex-scope`: ADFLEX headings came out
+ * in Montserrat, uppercase and IRESI navy, and every ADFLEX link took IRESI's
+ * accent colour and hover. Keeping each stylesheet on its own routes is what
+ * lets ADFLEX's CSS stay a byte-for-byte copy of its repository.
+ *
+ * `suppressHydrationWarning` is here because the ADFLEX layout's `MotionScript`
+ * adds an `adflex-js` class to `<html>` before React hydrates. The server
+ * cannot know whether JavaScript will run, so that class legitimately differs
+ * between the server markup and the DOM. It is scoped to this one element and
+ * does not extend to any child.
+ *
+ * `data-scroll-behavior="smooth"` is not decorative: globals.css sets
+ * `scroll-behavior: smooth` on `<html>`, and without this attribute Next cannot
+ * suspend that during a route change — so moving between pages scrolls the
+ * whole document instead of jumping, which reads as the new page sliding into
+ * place.
+ */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
 		<html
 			lang="en"
 			className={`${project.themeClass} ${montserrat.variable} ${workSans.variable}`}
+			data-scroll-behavior="smooth"
+			suppressHydrationWarning
 		>
-			<body>
-				<a className="skipLink" href="#content">
-					Skip to content
-				</a>
-				<SiteHeader />
-				<main id="content">{children}</main>
-				<SiteFooter />
-			</body>
+			<body>{children}</body>
 		</html>
 	);
 }

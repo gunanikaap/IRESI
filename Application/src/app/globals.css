@@ -190,6 +190,15 @@ a:hover {
 	max-width: 68ch;
 }
 
+/* The trailing tags a news post ends on. Set apart from the sentence they
+   follow so they read as labels rather than as words. */
+.hashtag {
+	font-family: var(--font-heading);
+	font-size: 0.9em;
+	font-weight: 500;
+	color: var(--color-accent);
+}
+
 .prose h2 {
 	margin-top: 2.5rem;
 	font-size: 1.5rem;

@@ -1,0 +1,279 @@
+/*
+ * ADFLEX design tokens — single CSS source of truth.
+ *
+ * All tokens are scoped to `.adflex-scope` rather than `:root`, so the ADFLEX
+ * brand cannot leak into anything else that may later be hosted in the same
+ * application. Every route is wrapped in this class by the root layout.
+ *
+ * ---------------------------------------------------------------------------
+ * ONE SET OF TOKEN NAMES, TWO CONTEXTS
+ * ---------------------------------------------------------------------------
+ * Components only ever use the semantic `--adflex-color-*` names. Two things
+ * rebind them, and nothing else should:
+ *
+ *   .adflex-band     an emphasis band inside the page
+ *   .adflex-light    a forced-light island (see below)
+ *
+ * A card that says `background: var(--adflex-color-surface)` therefore works in
+ * both of them with no extra CSS and no conditional class.
+ *
+ * There was a third, `.adflex-accent` — a saturated green call-to-action band.
+ * It existed for the newsletter block, which was removed on 30 July 2026, so
+ * the band went with it rather than staying as an unused palette.
+ *
+ * The site is light-only. A dark mode was built twice and removed twice at the
+ * client's request — see docs/HANDOVER.md before building a third one.
+ *
+ * ---------------------------------------------------------------------------
+ * PALETTE
+ * ---------------------------------------------------------------------------
+ * White, mild grey and the green taken from the logo. The greens below are not
+ * invented: #08867a is the dominant colour of the supplied logo mark, sampled
+ * from the file itself. `primary` is a darkened version of it, because the raw
+ * logo green only reaches 4.47:1 on white and interactive text needs 4.5:1.
+ *
+ * Every foreground/background pair used by the site was checked against WCAG AA
+ * before these values were committed.
+ */
+
+.adflex-scope {
+  /* --- Brand constants -------------------------------------------------- */
+  /* Sampled from public/images/adflex/adflex-logo.png. These never rebind:
+     they are the brand, not a theme. */
+
+  /* The logo green. Decorative use — rules, marks, accents. 4.47:1 on white,
+     so it clears AA for large text and non-text, but not for body copy. */
+  --adflex-brand-green: #08867a;
+  /* Pale blue-grey from the logo tagline. Decorative only, never body text. */
+  --adflex-brand-slate: #8aa4bc;
+  /* Energy yellow from the logo bolt. 1.65:1 on white — decorative only, and
+     never as small text on a light ground. */
+  --adflex-brand-yellow: #fec003;
+
+  /* Kept under their previous names so existing components keep working. */
+  --adflex-color-brand-soft: var(--adflex-brand-slate);
+  --adflex-color-accent: var(--adflex-brand-yellow);
+
+  /* --- Fixed light palette ---------------------------------------------- */
+  /* The source values the semantic tokens below bind to. `.adflex-light` pins
+     straight to these, which is what makes a forced-light island possible
+     inside any band. Components should not use them directly. */
+  --adflex-l-ink: #0d1a18;
+  --adflex-l-text: #1f2b29;
+  --adflex-l-muted: #54625f;
+  --adflex-l-primary: #046b60;
+  --adflex-l-primary-hover: #03554c;
+  --adflex-l-brand: var(--adflex-brand-green);
+  --adflex-l-background: #f6f8f7;
+  --adflex-l-surface: #ffffff;
+  --adflex-l-surface-soft: #eef1f0;
+  --adflex-l-border: #e0e5e3;
+  --adflex-l-border-strong: #8d9c98;
+  --adflex-l-shadow-sm: 0 1px 2px rgba(13, 26, 24, 0.05),
+    0 6px 16px -10px rgba(13, 26, 24, 0.16);
+  --adflex-l-shadow-md: 0 10px 34px -12px rgba(13, 26, 24, 0.22);
+
+  /* --- Emphasis band ---------------------------------------------------- */
+  /* Referenced by `.adflex-band`. A soft green-grey tint, not a dark block: the
+     band exists to give the page rhythm, and in a light design it does that by
+     shifting tone slightly rather than inverting. */
+  --adflex-band-background: #e9f2f0;
+  --adflex-band-surface: #ffffff;
+  --adflex-band-surface-soft: #dfece9;
+  --adflex-band-border: #cadedb;
+  --adflex-band-border-strong: #8fb3ad;
+  --adflex-band-ink: var(--adflex-l-ink);
+  --adflex-band-text: var(--adflex-l-text);
+  --adflex-band-muted: var(--adflex-l-muted);
+  --adflex-band-primary: var(--adflex-l-primary);
+  --adflex-band-primary-hover: var(--adflex-l-primary-hover);
+  --adflex-band-shadow-sm: var(--adflex-l-shadow-sm);
+  --adflex-band-shadow-md: var(--adflex-l-shadow-md);
+  /* Tint used for the band's faint lattice texture. */
+  --adflex-band-texture: rgba(8, 134, 122, 0.16);
+  --adflex-band-seam: rgba(8, 134, 122, 0.35);
+  /* The two blooms layered over the band's flat fill. Kept very low: they are
+     depth, not decoration anyone should notice. */
+  --adflex-band-bloom-a: rgba(8, 134, 122, 0.09);
+  --adflex-band-bloom-b: rgba(138, 164, 188, 0.13);
+
+  /* --- Hero illustration ------------------------------------------------ */
+  /* Used only by `HeroCommunity`. Kept as tokens rather than literals inside
+     the SVG so the illustration can be retuned in one place, and so it is
+     obvious that these are a separate, deliberate palette rather than semantic
+     colours leaking into artwork.
+
+     This list was eleven tokens while the hero was a line drawing of a whole
+     scene — panels, glazing, twin outlines, flow lines. The current one takes
+     its greens, slate and gold straight from the brand tokens, so only these
+     two are left. Do not restore the others speculatively; add what a new
+     illustration actually uses. */
+  --adflex-illus-surface: #ffffff;
+  /* Line and fill work that must not be the site's text ink: text ink is a
+     near-black green, and at illustration weight it reads heavy. */
+  --adflex-illus-ink: #17384f;
+
+  /* --- Image grounds ---------------------------------------------------- */
+  /* Several supplied assets are opaque or drawn for one ground only, so they
+     need a plate rather than the page colour underneath. See the notes at each
+     use site. */
+  /* The logo PNG has an opaque white background, so it always needs white
+     under it, whatever surface it is placed on. */
+  --adflex-plate-logo: #ffffff;
+  /* Placeholders behind artwork. Each is only ever visible for the moment
+     before its image paints, so it should match that image's own tone —
+     a mismatched placeholder is a visible flash on a slow connection.
+
+     Measure the artwork before changing these. As supplied on 30 July 2026:
+     the technology images and the system diagram are light (mean luminance
+     198-225 of 255), the pilot photograph is mid (148), and the pilot asset
+     illustrations carry their own dark grounds (141-226 over a grey field). */
+  --adflex-plate-media-dark: #2b3234;
+  --adflex-plate-media-light: #dfe8ec;
+
+  /* --- Semantic tokens, bound light by default -------------------------- */
+  /* These are what components use. */
+  --adflex-color-ink: var(--adflex-l-ink);
+  --adflex-color-text: var(--adflex-l-text);
+  --adflex-color-muted: var(--adflex-l-muted);
+  --adflex-color-primary: var(--adflex-l-primary);
+  --adflex-color-primary-hover: var(--adflex-l-primary-hover);
+  --adflex-color-brand: var(--adflex-l-brand);
+  --adflex-color-background: var(--adflex-l-background);
+  --adflex-color-surface: var(--adflex-l-surface);
+  --adflex-color-surface-soft: var(--adflex-l-surface-soft);
+  --adflex-color-border: var(--adflex-l-border);
+  --adflex-color-border-strong: var(--adflex-l-border-strong);
+
+  /* --- Typography ------------------------------------------------------- */
+  /* Self-hosted by next/font. The stacks fall back to system faces if the
+     font files fail to load. */
+  --adflex-font-display: var(--font-display), "Segoe UI", system-ui, sans-serif;
+  --adflex-font-sans: var(--font-sans), system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --adflex-text-xs: 0.8125rem;
+  --adflex-text-sm: 0.9375rem;
+  --adflex-text-base: 1.0625rem;
+  --adflex-text-lg: 1.1875rem;
+  --adflex-text-xl: 1.4375rem;
+  --adflex-text-2xl: clamp(1.75rem, 1.35rem + 1.2vw, 2.25rem);
+  --adflex-text-3xl: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+
+  --adflex-leading-tight: 1.12;
+  --adflex-leading-snug: 1.35;
+  --adflex-leading-normal: 1.65;
+
+  --adflex-tracking-tight: -0.02em;
+  /* Section eyebrows and small uppercase labels. */
+  --adflex-tracking-wide: 0.1em;
+
+  /* --- Spacing scale ---------------------------------------------------- */
+  --adflex-space-1: 0.25rem;
+  --adflex-space-2: 0.5rem;
+  --adflex-space-3: 0.75rem;
+  --adflex-space-4: 1rem;
+  --adflex-space-5: 1.5rem;
+  --adflex-space-6: 2.5rem;
+  --adflex-space-7: 4rem;
+  --adflex-space-8: 6rem;
+
+  /* --- Radius ----------------------------------------------------------- */
+  --adflex-radius-sm: 6px;
+  --adflex-radius-md: 12px;
+  --adflex-radius-lg: 18px;
+  --adflex-radius-xl: 26px;
+
+  /* --- Elevation -------------------------------------------------------- */
+  --adflex-shadow-sm: var(--adflex-l-shadow-sm);
+  --adflex-shadow-md: var(--adflex-l-shadow-md);
+
+  /* --- Layout ----------------------------------------------------------- */
+  --adflex-container: 1160px;
+  --adflex-header-height: 84px;
+
+  /* Minimum internal target size for interactive elements. */
+  --adflex-target-min: 44px;
+
+  color-scheme: light;
+}
+
+/*
+ * Emphasis band. Rebinds the semantic tokens to the band values above — this is
+ * the whole mechanism that lets one set of components serve both.
+ */
+.adflex-band {
+  --adflex-color-ink: var(--adflex-band-ink);
+  --adflex-color-text: var(--adflex-band-text);
+  --adflex-color-muted: var(--adflex-band-muted);
+
+  --adflex-color-primary: var(--adflex-band-primary);
+  --adflex-color-primary-hover: var(--adflex-band-primary-hover);
+  --adflex-color-brand: var(--adflex-band-primary);
+
+  --adflex-color-background: var(--adflex-band-background);
+  --adflex-color-surface: var(--adflex-band-surface);
+  --adflex-color-surface-soft: var(--adflex-band-surface-soft);
+  --adflex-color-border: var(--adflex-band-border);
+  --adflex-color-border-strong: var(--adflex-band-border-strong);
+
+  --adflex-shadow-sm: var(--adflex-band-shadow-sm);
+  --adflex-shadow-md: var(--adflex-band-shadow-md);
+
+  color: var(--adflex-color-text);
+  background-color: var(--adflex-band-background);
+  /* Two wide blooms over the flat fill, giving the band a light direction
+     instead of one even tint. Deliberately far below the contrast of anything
+     readable: at these opacities it registers as depth, not as a shape. The
+     lattice texture sits above this on `.adflex-band::before`. */
+  background-image:
+    radial-gradient(
+      60rem 34rem at 8% -12%,
+      var(--adflex-band-bloom-a),
+      transparent 70%
+    ),
+    radial-gradient(
+      54rem 30rem at 94% 110%,
+      var(--adflex-band-bloom-b),
+      transparent 68%
+    );
+  background-repeat: no-repeat;
+}
+
+/*
+ * Forces the light palette back on, for something that must stay light whatever
+ * band it is placed in.
+ *
+ * Used by the partner cards: their logos are raster files drawn for a light
+ * ground, so they cannot sit on a dark colour — on one they read as pale
+ * rectangles pasted onto the page.
+ *
+ * It rebinds the whole palette, not just the background: pinning the surface
+ * alone would leave band text colours on a white ground, which is unreadable
+ * rather than merely wrong. It points at the fixed `--adflex-l-*` values rather
+ * than the semantic ones, so no enclosing band can reach into it.
+ */
+.adflex-light {
+  --adflex-color-ink: var(--adflex-l-ink);
+  --adflex-color-text: var(--adflex-l-text);
+  --adflex-color-muted: var(--adflex-l-muted);
+  --adflex-color-primary: var(--adflex-l-primary);
+  --adflex-color-primary-hover: var(--adflex-l-primary-hover);
+  --adflex-color-brand: var(--adflex-l-brand);
+  --adflex-color-background: var(--adflex-l-background);
+  --adflex-color-surface: var(--adflex-l-surface);
+  --adflex-color-surface-soft: var(--adflex-l-surface-soft);
+  --adflex-color-border: var(--adflex-l-border);
+  --adflex-color-border-strong: var(--adflex-l-border-strong);
+  --adflex-shadow-sm: var(--adflex-l-shadow-sm);
+  --adflex-shadow-md: var(--adflex-l-shadow-md);
+
+  color: var(--adflex-color-text);
+  color-scheme: light;
+}
+
+@media (max-width: 720px) {
+  .adflex-scope {
+    --adflex-header-height: 72px;
+  }
+}

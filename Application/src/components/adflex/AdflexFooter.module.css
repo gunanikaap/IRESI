@@ -1,0 +1,278 @@
+/* Always light: the supplied logo has an opaque white background and must never
+   sit directly on a dark colour, whatever band precedes the footer. */
+.footer {
+  position: relative;
+  margin-top: auto;
+  background: var(--adflex-color-surface);
+  border-top: 1px solid var(--adflex-color-border);
+}
+
+/* Brand rule across the top edge, closing the page the same way the header's
+   rule opens it. */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--adflex-color-brand),
+    var(--adflex-color-primary),
+    transparent 70%
+  );
+}
+
+/*
+ * ADFLEX mark left, funder credit centred, LinkedIn right — one line.
+ *
+ * A three-column grid rather than `justify-content: space-between`, because
+ * space-between centres the middle item in *whatever is left over*, not in the
+ * row. The ADFLEX plate is 200px and the LinkedIn pill is about 210px, and any
+ * time those two differ the funder credit drifts off-centre by half the
+ * difference. Equal outer tracks with the middle one taking the rest puts it on
+ * the true centre line of the container and keeps it there when the LinkedIn
+ * block changes from a dashed placeholder to a real link.
+ *
+ * The footer no longer repeats the navigation — every section is reachable from
+ * the header — so this row is all the top of the footer needs.
+ */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--adflex-space-5);
+  padding-block: var(--adflex-space-6);
+}
+
+/* The mark starts the row; the LinkedIn block ends it. Stated rather than
+   inherited, so the outer two stay pinned to the edges however wide the middle
+   grows. */
+.inner > :first-child {
+  justify-self: start;
+}
+
+.inner > :last-child {
+  justify-self: end;
+}
+
+/*
+ * Below this the three no longer fit side by side: the ADFLEX plate, a funder
+ * lockup and a pill need roughly 620px before the middle one starts colliding
+ * with its neighbours. Stacked and centred is the honest fallback — a squeezed
+ * three-across row would put the funder credit at an unreadable size.
+ */
+@media (max-width: 880px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: var(--adflex-space-5);
+    text-align: center;
+  }
+
+  .inner > :first-child,
+  .inner > :last-child {
+    justify-self: center;
+  }
+}
+
+/* Same white plate as the header. The logo file is opaque and has no alpha
+   channel, so it needs white beneath it in every theme — invisible against the
+   light footer, a deliberate badge in dark mode. */
+.logo {
+  width: 200px;
+  height: auto;
+  padding: var(--adflex-space-1) var(--adflex-space-2);
+  background: var(--adflex-plate-logo);
+  border-radius: var(--adflex-radius-sm);
+}
+
+/* --- LinkedIn ---------------------------------------------------------- */
+.social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--adflex-space-3);
+  min-height: var(--adflex-target-min);
+  padding: var(--adflex-space-2) var(--adflex-space-5);
+  font-size: var(--adflex-text-sm);
+  font-weight: 500;
+  color: var(--adflex-color-text);
+  text-decoration: none;
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: 999px;
+}
+
+.socialIcon {
+  flex: 0 0 auto;
+  color: var(--adflex-color-primary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .social,
+  .socialIcon {
+    transition:
+      color 140ms ease-out,
+      background-color 140ms ease-out,
+      border-color 140ms ease-out;
+  }
+}
+
+a.social:hover {
+  color: var(--adflex-color-primary);
+  border-color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+}
+
+/* Rendered while no URL has been supplied. Muted and without the hover
+   affordance, so it does not read as a control that can be used. */
+.socialPending {
+  color: var(--adflex-color-muted);
+  border-style: dashed;
+}
+
+.socialPending .socialIcon {
+  color: var(--adflex-color-muted);
+}
+
+/* --- Funding ----------------------------------------------------------- */
+/*
+ * The funder credit, in the middle of the top row: a small label with SEAI's
+ * mark beneath it.
+ *
+ * Stacked rather than set on one line, because the statement and the logo both
+ * say "SEAI". Side by side they read as one crowded, repeated string; stacked,
+ * the line becomes a label and the mark becomes the answer to it, which is how
+ * a funder credit is normally set. It also keeps the block narrow enough to sit
+ * between two other items without crowding either.
+ */
+.funding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--adflex-space-2);
+  text-align: center;
+}
+
+/*
+ * The statement, set as a label rather than as body copy.
+ *
+ * `xs` and muted: it is a caption for the mark below it, and at the same size
+ * as the LinkedIn link beside it the two would read as equal siblings, which
+ * they are not.
+ *
+ * Deliberately neither uppercased nor letterspaced. `--adflex-tracking-wide` is
+ * 0.1em, tuned for the uppercase eyebrows elsewhere on the site, and it pulls
+ * sentence case apart; uppercasing would set a full stop after capitals —
+ * "FUNDED BY SEAI." — which reads as an abbreviation rather than a sentence.
+ * The approved wording ends in a full stop and is not ours to change, so the
+ * styling suits the copy rather than the other way round.
+ *
+ * `text-wrap: nowrap` because "Funded by SEAI." breaking across two lines above
+ * a logo of the same name looks like a mistake, and the string is short enough
+ * that it never needs to.
+ */
+.fundingLabel {
+  font-size: var(--adflex-text-xs);
+  /*
+   * 600, not the 500 the LinkedIn link beside it uses. At this size and in the
+   * muted tone, 500 was indistinguishable from the regular weight it replaced —
+   * compared side by side at 3x, the difference did not survive. 600 reads as a
+   * deliberate label without becoming a heading, and a funder credit carrying
+   * slightly more weight than the link next to it is the right way round.
+   */
+  font-weight: 600;
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-muted);
+  text-wrap: nowrap;
+}
+
+/*
+ * The funder's mark.
+ *
+ * 120px was the reserved width from when this slot was empty and the emblem was
+ * assumed to be a squarish badge. The supplied SEAI mark is a 3.7:1 lockup whose
+ * second line reads "Sustainable Energy Authority of Ireland" in small caps —
+ * at 120px that line is about 5px tall and illegible, which is not an acceptable
+ * way to acknowledge a funder.
+ *
+ * 164px is the size at which that line is comfortably readable while the mark
+ * stays clearly secondary to the 200px ADFLEX plate at the other end of the
+ * row. Keep `sizes` in AdflexFooter.tsx in step with this number.
+ *
+ * No plate and no border, because the file no longer needs one: its background
+ * has been made transparent. As supplied it was opaque white from a lossy
+ * source, and `next/image` re-encodes to lossy WebP, which tinted that flat
+ * white field to 250–254 with a colour cast — a visible grey rectangle around
+ * the mark that no CSS could reach, because it was inside the image. With the
+ * background transparent there is nothing left for the encoder to tint, and the
+ * mark can now sit on any surface rather than only on white.
+ */
+.emblem {
+  width: 164px;
+  height: auto;
+  flex: 0 0 auto;
+}
+
+/* --- Legal row --------------------------------------------------------- */
+
+/* The copyright and the IRESI link read as one sentence, so they wrap together
+   as one block rather than the link breaking away on its own line. */
+.copyright {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--adflex-space-2);
+}
+
+/* Purely a divider. Dimmed a step below the text either side of it so it
+   separates without competing. */
+.separator {
+  color: var(--adflex-color-border-strong);
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--adflex-space-1) var(--adflex-space-5);
+  padding-block: var(--adflex-space-2);
+  font-size: var(--adflex-text-xs);
+  color: var(--adflex-color-muted);
+  border-top: 1px solid var(--adflex-color-border);
+}
+
+.legalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-1) var(--adflex-space-5);
+  list-style: none;
+}
+
+.legalLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--adflex-target-min);
+  font-size: var(--adflex-text-xs);
+  color: var(--adflex-color-muted);
+  text-decoration: none;
+}
+
+.legalLink:hover {
+  color: var(--adflex-color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+  .inner {
+    /* Logo above the LinkedIn button rather than a cramped row. */
+    justify-content: flex-start;
+  }
+
+  .legal {
+    justify-content: flex-start;
+    gap: 0;
+  }
+}

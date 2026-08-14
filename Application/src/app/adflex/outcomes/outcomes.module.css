@@ -1,0 +1,9 @@
+.body {
+  padding-block: var(--adflex-space-8);
+}
+
+@media (max-width: 720px) {
+  .body {
+    padding-block: var(--adflex-space-7);
+  }
+}

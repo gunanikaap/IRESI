@@ -1,0 +1,26 @@
+.hero {
+  padding-block: var(--adflex-space-8);
+}
+
+.title {
+  max-width: 20ch;
+  margin-top: var(--adflex-space-4);
+}
+
+.lead {
+  max-width: 56ch;
+  margin-top: var(--adflex-space-5);
+  font-size: var(--adflex-text-xl);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-text);
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-block: var(--adflex-space-7);
+  }
+
+  .title {
+    max-width: none;
+  }
+}

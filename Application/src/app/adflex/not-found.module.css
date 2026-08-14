@@ -1,0 +1,5 @@
+/* The 404 page is a hero and one link, so the only thing it needs from a
+   stylesheet is the same vertical rhythm the other simple routes use. */
+.body {
+  padding-block: var(--adflex-space-8);
+}

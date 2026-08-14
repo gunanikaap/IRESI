@@ -1,0 +1,94 @@
+/* A logo and nothing else since 6 August 2026, so the card centres its one
+   child rather than stacking a heading and a paragraph under a plate. The
+   padding is even on all four sides for the same reason — the old top-heavy
+   padding existed to sit the logo above the text that is no longer there. */
+.card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--adflex-space-5);
+  overflow: hidden;
+  text-align: center;
+  /* Always the light surface: partner logos are supplied for light grounds and
+     must not be placed on a dark colour. */
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+  box-shadow: var(--adflex-shadow-sm);
+}
+
+/* Brand rule across the top edge, tying the three cards into a set. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--adflex-color-brand),
+    var(--adflex-color-primary)
+  );
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition:
+      border-color 160ms ease-out,
+      box-shadow 160ms ease-out,
+      transform 160ms ease-out;
+  }
+}
+
+.card:hover {
+  border-color: var(--adflex-color-border-strong);
+  box-shadow: var(--adflex-shadow-md);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Fixed plate. Every logo is fitted into the same box, which is what keeps a
+   row of mixed lockups optically level. Logos stay on the card's white — no
+   tinted fill behind them. */
+.plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 104px;
+  padding-inline: var(--adflex-space-3);
+}
+
+/* Definite box plus `contain`: each logo keeps its own aspect ratio, nothing is
+   stretched or cropped, and the rendered size does not depend on which srcset
+   variant the browser happens to pick.
+   The box is deliberately taller than the wordmarks need. A 4.25:1 wordmark and
+   a 0.69:1 crest cannot both fill one box — constrain by width alone and the
+   crest shrinks to a third of the others' visual area. The extra height is
+   headroom the crest uses and the wordmarks ignore. */
+.logo {
+  width: 100%;
+  max-width: 180px;
+  height: 96px;
+  object-fit: contain;
+}
+
+/* Shown only while a partner has no logo yet: their name, set plainly. It is
+   deliberately not styled to imitate a lockup — a stand-in should look like
+   one. */
+.fallbackName {
+  font-size: var(--adflex-text-base);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-ink);
+  text-wrap: balance;
+}
+
+@media (max-width: 620px) {
+  .card {
+    padding: var(--adflex-space-4);
+  }
+}

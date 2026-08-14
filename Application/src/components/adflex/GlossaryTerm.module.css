@@ -1,0 +1,60 @@
+.wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* Reads as part of the sentence, but the colour plus the dotted underline mark
+   it as interactive — the underline matters, so the affordance is not carried
+   by colour alone. */
+.term {
+  padding: 0;
+  font: inherit;
+  color: var(--adflex-color-primary);
+  background: none;
+  border: 0;
+  border-bottom: 2px dotted currentColor;
+  cursor: help;
+}
+
+.term:hover {
+  color: var(--adflex-color-primary-hover);
+  border-bottom-style: solid;
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + var(--adflex-space-2));
+  left: 0;
+  z-index: 20;
+  /* Clamped so the popup can never push the page wider than the viewport. */
+  width: max-content;
+  max-width: min(34ch, calc(100vw - 2 * var(--adflex-space-5)));
+  padding: var(--adflex-space-3) var(--adflex-space-4);
+  font-size: var(--adflex-text-sm);
+  font-weight: 400;
+  line-height: var(--adflex-leading-normal);
+  color: var(--adflex-color-text);
+  text-align: left;
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-md);
+  box-shadow: var(--adflex-shadow-md);
+  /* `display: none` rather than `visibility: hidden`: a hidden-but-laid-out
+     popup anchored mid-sentence still widens the page, which caused real
+     horizontal overflow on narrow screens. Taking it out of flow entirely is
+     the only reliable fix.
+     A node referenced by `aria-describedby` is still included in the accessible
+     description while display:none, so this costs nothing for screen readers —
+     verified, not assumed. */
+  display: none;
+}
+
+.popupOpen {
+  display: block;
+}
+
+@media (max-width: 720px) {
+  .popup {
+    max-width: min(34ch, calc(100vw - 2 * var(--adflex-space-4)));
+  }
+}

@@ -1,0 +1,51 @@
+.body {
+  padding-block: var(--adflex-space-7) var(--adflex-space-8);
+}
+
+.status {
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+/* Three bars standing in for the entries that are about to arrive. Sized to the
+   rhythm of a real list so the page does not jump when the content replaces
+   them. */
+.skeleton {
+  display: grid;
+  gap: var(--adflex-space-5);
+  margin-top: var(--adflex-space-5);
+}
+
+.skeleton span {
+  display: block;
+  height: 96px;
+  background: var(--adflex-color-surface-soft);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+}
+
+/* The shimmer is decoration on a state that should last under a second. Anyone
+   who has asked for less motion gets the plain bars, which say the same thing. */
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton span {
+    animation: routeLoadingPulse 1.4s ease-in-out infinite;
+  }
+
+  .skeleton span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .skeleton span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes routeLoadingPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}

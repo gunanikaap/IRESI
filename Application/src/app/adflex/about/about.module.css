@@ -1,0 +1,62 @@
+.body {
+  padding-block: var(--adflex-space-8);
+}
+
+.items {
+  display: grid;
+}
+
+/* Editorial rows: heading column beside its paragraph, separated by hairlines.
+   Three long paragraphs stacked as full-width cards read as a wall of text;
+   this gives each one a clear entry point. */
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: var(--adflex-space-7);
+  align-items: start;
+  padding-block: var(--adflex-space-7);
+  border-top: 1px solid var(--adflex-color-border);
+  scroll-margin-top: calc(var(--adflex-header-height) + var(--adflex-space-4));
+}
+
+/* The first row sits directly under the hero, which already provides an edge. */
+.item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.item:last-child {
+  padding-bottom: 0;
+}
+
+.itemTitle {
+  font-size: var(--adflex-text-2xl);
+}
+
+.itemBody {
+  max-width: 68ch;
+  font-size: var(--adflex-text-lg);
+  line-height: var(--adflex-leading-normal);
+  color: var(--adflex-color-muted);
+}
+
+@media (max-width: 900px) {
+  .item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--adflex-space-4);
+  }
+
+  .itemBody {
+    font-size: var(--adflex-text-base);
+  }
+}
+
+@media (max-width: 720px) {
+  .body {
+    padding-block: var(--adflex-space-7);
+  }
+
+  .item {
+    padding-block: var(--adflex-space-6);
+  }
+}

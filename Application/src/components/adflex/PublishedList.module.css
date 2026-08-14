@@ -1,0 +1,306 @@
+/*
+ * The published lists on /outcomes and /news.
+ *
+ * One stylesheet for both, because a finding, a news post and an event are the
+ * same shape on the page: an optional picture, a heading, a line of metadata and
+ * some prose. Their differences are in the metadata line, not the layout.
+ */
+
+.list {
+  display: grid;
+  gap: var(--adflex-space-6);
+  list-style: none;
+}
+
+/*
+ * The media column, sized against what a real editorial page does.
+ *
+ * The content row is 1112px at desktop width. The first version put `medium` at
+ * a fixed 320px — 29% of the row — and `small` at 200px, which is 18%. Next to
+ * a full-width heading and paragraph those read as thumbnails, not as part of
+ * the entry. For comparison, an inline image in a Guardian or BBC article runs
+ * the full ~640px text column, and a university news listing card sits around
+ * 340–400px.
+ *
+ * So the sizes are now a proportion with a ceiling, not a fixed pixel width:
+ *
+ *   small   30%, up to 300px  — a listing thumbnail: a logo, a portrait, a detail
+ *   medium  46%, up to 520px  — a genuine half-and-half with the text
+ *   large   the whole row     — see `.entryStacked`
+ *
+ * Expressing it as `min(px, %)` also removes a breakpoint: the column shrinks
+ * with the page instead of holding a fixed width until it squeezes the text.
+ */
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, min(520px, 46%)) minmax(0, 1fr);
+  gap: var(--adflex-space-5);
+  align-items: start;
+  padding-bottom: var(--adflex-space-6);
+  border-bottom: 1px solid var(--adflex-color-border);
+}
+
+/* The last entry has nothing after it, so its rule would sit as a stray line
+   above the footer. */
+.entry:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.entryNoImage {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* `small`: a listing-thumbnail column, for a logo, a portrait or a detail shot
+   that would look overblown at the default width. */
+.entrySmallMedia {
+  grid-template-columns: minmax(0, min(300px, 30%)) minmax(0, 1fr);
+}
+
+/* `large`: images across the full width, text beneath. A chart that needs the
+   width has nothing to sit beside. */
+.entryStacked {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--adflex-space-4);
+}
+
+.entryBody {
+  min-width: 0;
+}
+
+/*
+ * The detail text of a stacked entry, which sits below the pictures.
+ *
+ * `.body` carries its own top margin for the beside-the-text layout, where it
+ * follows the summary directly. Here the grid gap already separates it from the
+ * images above, so that margin is removed rather than added to.
+ */
+.entryDetail {
+  min-width: 0;
+}
+
+.entryDetail > * {
+  margin-top: 0;
+}
+
+.title {
+  font-size: var(--adflex-text-xl);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-ink);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-2) var(--adflex-space-3);
+  align-items: center;
+  margin-top: var(--adflex-space-2);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+.kind {
+  padding: 2px 10px;
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+  border-radius: 999px;
+}
+
+.summary {
+  max-width: 68ch;
+  margin-top: var(--adflex-space-3);
+  color: var(--adflex-color-text);
+}
+
+.body {
+  max-width: 68ch;
+  margin-top: var(--adflex-space-3);
+  color: var(--adflex-color-muted);
+}
+
+/* Paragraphs come from a plain-text field split on blank lines, so they need
+   their own rhythm — the editor typed prose, not markup. */
+.body p + p {
+  margin-top: var(--adflex-space-3);
+}
+
+/* --- Events ------------------------------------------------------------- */
+
+/* Sits in the metadata line beside the date. Same shape as the News/Event pill
+   so the two read as the same kind of label. */
+.upcoming {
+  padding: 2px 10px;
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+  border-radius: 999px;
+}
+
+/*
+ * The same pill for an event that has already happened, in the muted ink rather
+ * than the project green.
+ *
+ * Both labels are needed now that a past event stays on the page. Green is the
+ * colour the site uses to draw attention, and an event that finished in March
+ * is not competing for anybody's attention — it is there so the record is
+ * complete.
+ */
+.past {
+  composes: upcoming;
+  color: var(--adflex-color-muted);
+}
+
+.booking {
+  margin-top: var(--adflex-space-4);
+}
+
+/*
+ * The write-up added after the event, and the link to any recording.
+ *
+ * Set off from the announcement above it, because they were written weeks
+ * apart and a reader arriving late is usually looking for this half.
+ */
+.afterEvent {
+  margin-top: var(--adflex-space-5);
+  padding-top: var(--adflex-space-4);
+  border-top: 1px solid var(--adflex-color-border);
+}
+
+.afterEventTitle {
+  margin: 0 0 var(--adflex-space-2);
+  font-size: var(--adflex-text-sm);
+  font-weight: 700;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-muted);
+}
+
+.recording {
+  margin-top: var(--adflex-space-3);
+}
+
+/*
+ * "Fully booked", where the button would have been.
+ *
+ * Given the same weight as the button it replaces rather than being tucked into
+ * the body text: it is the answer to the question someone came to this entry
+ * with, and finding it in a paragraph after deciding to attend is worse than
+ * being told plainly.
+ */
+.slotsFull {
+  margin-top: var(--adflex-space-4);
+  padding: var(--adflex-space-3) var(--adflex-space-4);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-text);
+  background: var(--adflex-color-surface-soft);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-md);
+}
+
+/* --- Downloads ---------------------------------------------------------- */
+
+.downloads {
+  display: grid;
+  gap: var(--adflex-space-2);
+  margin-top: var(--adflex-space-4);
+  list-style: none;
+}
+
+/* A row, not a run of inline links: each is a decision, and a filename plus a
+   size is too much to read across a wrapped line. */
+.download {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-2) var(--adflex-space-3);
+  align-items: center;
+  font-size: var(--adflex-text-sm);
+}
+
+/* The format, as a small tag. Marked aria-hidden in the markup because the same
+   information is in the readable part of the link — this is the visual shorthand
+   for it, not a second copy. */
+.downloadKind {
+  padding: 1px 8px;
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  color: var(--adflex-color-primary);
+  background: var(--adflex-color-surface-soft);
+  border-radius: var(--adflex-radius-sm);
+  text-decoration: none;
+}
+
+.downloadSize {
+  color: var(--adflex-color-muted);
+}
+
+/* --- Publications ------------------------------------------------------- */
+
+.publications {
+  display: grid;
+  gap: var(--adflex-space-4);
+  list-style: none;
+}
+
+.publication {
+  padding-bottom: var(--adflex-space-4);
+  border-bottom: 1px solid var(--adflex-color-border);
+}
+
+.publication:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.publicationTitle {
+  font-size: var(--adflex-text-lg);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-ink);
+}
+
+.publicationMeta {
+  margin-top: var(--adflex-space-1);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-4);
+  margin-top: var(--adflex-space-2);
+  font-size: var(--adflex-text-sm);
+}
+
+/* A DOI is long and has no spaces, so it needs somewhere to break or it pushes
+   the page sideways on a phone. */
+.doi {
+  overflow-wrap: anywhere;
+}
+
+.sectionTitle {
+  font-size: var(--adflex-text-2xl);
+}
+
+.section + .section {
+  margin-top: var(--adflex-space-7);
+}
+
+.sectionList {
+  margin-top: var(--adflex-space-5);
+}
+
+@media (max-width: 780px) {
+  .entry,
+  .entrySmallMedia {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--adflex-space-4);
+  }
+}

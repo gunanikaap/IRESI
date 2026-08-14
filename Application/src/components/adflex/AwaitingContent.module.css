@@ -1,0 +1,18 @@
+.body {
+  padding-block: var(--adflex-space-8);
+}
+
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--adflex-space-2);
+  margin-top: var(--adflex-space-6);
+  color: var(--adflex-color-muted);
+}
+
+@media (max-width: 720px) {
+  .body {
+    padding-block: var(--adflex-space-7);
+  }
+}

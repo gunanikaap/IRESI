@@ -1,0 +1,5 @@
+/* Matches the vertical rhythm of /outcomes, so the two content routes sit at the
+   same distance below their page hero. */
+.body {
+  padding-block: var(--adflex-space-7) var(--adflex-space-8);
+}

@@ -1,0 +1,510 @@
+/*
+ * The image gallery on /outcomes and /news.
+ *
+ * ---------------------------------------------------------------------------
+ * IT SIZES ITSELF FROM ITS CONTAINER, NOT THE VIEWPORT
+ * ---------------------------------------------------------------------------
+ * The same component sits in a ~300px column at `small`, a ~510px column at
+ * `medium`, and an 800px block at `large`. A viewport media query cannot tell
+ * those apart — on a desktop screen it would happily put three images side by
+ * side inside the narrow column, at about 60px each.
+ *
+ * So the wrapper declares itself a size container and the list asks *it* how
+ * much room there is. `data-cols` carries the ideal column count for the number
+ * of images; the queries below cap it to what actually fits.
+ */
+
+.wrap {
+  container-type: inline-size;
+}
+
+/* `large` is a wide column, not the whole row, and it is left-aligned so its
+   images start where the heading and body beneath them start. */
+.large .gallery {
+  max-width: 800px;
+}
+
+.large .image {
+  margin-inline: 0;
+}
+
+/*
+ * A one-across, swipeable track.
+ *
+ * ---------------------------------------------------------------------------
+ * WHY THIS IS A SCROLLER AND NOT A GRID
+ * ---------------------------------------------------------------------------
+ * This used to tile the set: two across, three across, four across, sized by
+ * how many images there were. That gave every image less room the more of them
+ * there were — four images each got a quarter of the column, which is too small
+ * to read a chart in and nothing like the size a single image gets.
+ *
+ * Now every image is drawn at the full width of its column, whatever the count,
+ * and the set is swiped through. The paging is `scroll-snap-type` and nothing
+ * else, so a touch swipe, a trackpad, shift-scroll and the scrollbar all work
+ * without a line of JavaScript; the buttons underneath just call `scrollTo`.
+ *
+ * `data-cols` is left on the element for the layout tests that still read it,
+ * and is no longer used for sizing.
+ */
+.gallery {
+  display: flex;
+  /* Centred, because the track is as tall as its tallest image and a portrait
+     next to a landscape would otherwise hang from the top of the frame. */
+  align-items: center;
+  gap: var(--adflex-space-4);
+  margin: 0;
+  padding: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Keeps a swipe that runs past the end from scrolling the page behind it. */
+  overscroll-behavior-x: contain;
+  list-style: none;
+  /* The scrollbar would sit under the images and flicker as the track moves;
+     the dots below already say where you are. */
+  scrollbar-width: none;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery:focus-visible {
+  outline: 3px solid var(--adflex-color-primary);
+  outline-offset: 4px;
+  border-radius: var(--adflex-radius-lg);
+}
+
+/* One image per view. `flex: 0 0 100%` rather than `width: 100%` because a flex
+   item's width is a suggestion and its basis is not — with `width` the items
+   shrink to fit and the track never overflows, so there is nothing to scroll. */
+.item {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+/* --- The controls under the track --------------------------------------- */
+
+.controls {
+  display: flex;
+  gap: var(--adflex-space-3);
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--adflex-space-3);
+}
+
+.step {
+  display: grid;
+  place-items: center;
+  width: var(--adflex-target-min);
+  height: var(--adflex-target-min);
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--adflex-color-ink);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.step:hover:not(:disabled) {
+  color: var(--adflex-color-surface);
+  background: var(--adflex-color-primary);
+  border-color: var(--adflex-color-primary);
+}
+
+/* Dimmed rather than hidden at the ends: a control that disappears makes the
+   row jump and moves the other button under the pointer. */
+.step:disabled {
+  color: var(--adflex-color-muted);
+  border-color: var(--adflex-color-border);
+  opacity: 0.5;
+  cursor: default;
+}
+
+.dots {
+  display: flex;
+  gap: var(--adflex-space-2);
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * The tappable area is the full 44px minimum; the visible dot is the 10px mark
+ * drawn inside it. Sizing the button itself to 10px would meet the design and
+ * fail every guideline about target size.
+ */
+.dot {
+  display: grid;
+  place-items: center;
+  width: var(--adflex-target-min);
+  height: var(--adflex-target-min);
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.dot::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: var(--adflex-color-border-strong);
+  border-radius: 999px;
+}
+
+.dot:hover::before {
+  background: var(--adflex-color-muted);
+}
+
+.dotCurrent::before {
+  background: var(--adflex-color-primary);
+}
+
+.dot:focus-visible {
+  outline: 3px solid var(--adflex-color-primary);
+  outline-offset: -6px;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .step,
+  .dot::before {
+    transition:
+      background-color 140ms ease-out,
+      color 140ms ease-out,
+      border-color 140ms ease-out;
+  }
+}
+
+/* --- The image itself ---------------------------------------------------- */
+
+.trigger {
+  position: relative;
+  display: block;
+  border-radius: var(--adflex-radius-lg);
+  /* The link wraps the image, so the underline the site gives links would draw
+     across the picture. */
+  text-decoration: none;
+}
+
+.trigger:focus-visible {
+  outline: 3px solid var(--adflex-color-primary);
+  outline-offset: 3px;
+}
+
+/*
+ * `height: auto` against an inline `aspect-ratio` from the file's real pixel
+ * dimensions.
+ *
+ * There is deliberately no `object-fit`: the box is already the image's own
+ * shape, so there is nothing to crop and nothing to letterbox. That is the
+ * whole reason dimensions are read on upload.
+ */
+.image {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  /* Roughly the tallest an inline article image runs before it starts pushing
+     everything else off the screen. A portrait is scaled down to reach it, not
+     cropped. */
+  max-height: 560px;
+  margin-inline: auto;
+  background: var(--adflex-plate-media-light);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+}
+
+/* Rows stored before dimensions were recorded have no ratio to work with, so
+   they keep the old fixed frame — `contain`, so they still show whole rather
+   than cropped. */
+.image[data-unsized] {
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  padding: var(--adflex-space-2);
+}
+
+/* A single large image gets a little more height before the cap bites. At 800px
+   wide a standard 3:2 photograph is only about 530px tall, so this now only
+   catches portraits. */
+.large .gallery[data-count="1"] .image {
+  max-height: 620px;
+}
+
+/* --- The expand control -------------------------------------------------- */
+
+/*
+ * Bottom right, and always visible.
+ *
+ * Bottom right because the top of a picture is usually its subject — a sky, a
+ * chart title, a face — while the bottom corner is the quietest part of most
+ * images, and it is the corner a reader's eye leaves the picture from.
+ *
+ * Always visible, not hover-only: a control that only appears on hover cannot
+ * be found on a touch screen at all, and is invisible to anyone who has not
+ * happened to move a pointer over the picture.
+ */
+.expand {
+  position: absolute;
+  inset-block-end: var(--adflex-space-2);
+  inset-inline-end: var(--adflex-space-2);
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--adflex-color-ink);
+  /* Its own light plate, so it stays legible over a dark photograph as well as
+     a pale chart. */
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(13, 26, 24, 0.22);
+  pointer-events: none;
+}
+
+.expand svg {
+  width: 18px;
+  height: 18px;
+}
+
+.trigger:hover .expand,
+.trigger:focus-visible .expand {
+  color: var(--adflex-color-surface);
+  background: var(--adflex-color-primary);
+  border-color: var(--adflex-color-primary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .expand {
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+}
+
+/* Scaled down over a thumbnail, where the full-size badge would cover a
+   meaningful share of the picture. */
+@container (max-width: 260px) {
+  .expand {
+    width: 30px;
+    height: 30px;
+  }
+
+  .expand svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* --- The lightbox -------------------------------------------------------- */
+
+/*
+ * A native <dialog> opened with showModal(): focus trapping, an inert page
+ * behind, Escape-to-close and a real ::backdrop, none of it reimplemented here.
+ *
+ * `margin: auto` is restated because globals.css has a `* { margin: 0 }` reset
+ * that beats the browser's own centring for modal dialogs.
+ */
+.lightbox {
+  /* Shrinks to the picture rather than always filling the screen. At a fixed
+     96vw a portrait image sat in a wide white field with the arrows stranded
+     at the far edges; `fit-content` wraps the frame around whatever is being
+     shown, so the controls stay next to it. */
+  width: fit-content;
+  max-width: min(96vw, 1400px);
+  max-height: 94vh;
+  padding: 0;
+  margin: auto;
+  color: var(--adflex-color-text);
+  background: var(--adflex-color-surface);
+  border: 0;
+  border-radius: var(--adflex-radius-lg);
+  box-shadow: 0 24px 60px -12px rgba(13, 26, 24, 0.45);
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background: rgba(9, 18, 17, 0.82);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox[open] {
+    animation: galleryLightboxIn 150ms ease-out;
+  }
+
+  .lightbox[open]::backdrop {
+    animation: galleryBackdropIn 150ms ease-out;
+  }
+}
+
+@keyframes galleryLightboxIn {
+  from {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+}
+
+@keyframes galleryBackdropIn {
+  from {
+    opacity: 0;
+  }
+}
+
+/*
+ * A column with one flexible row, so the caption is always on screen.
+ *
+ * The bar and the caption take the height they need; the picture takes what is
+ * left. Before this the image had its own `max-height: 78vh` and the dialog
+ * simply clipped whatever did not fit, which cut the description off the
+ * bottom edge — the one piece of text in the viewer.
+ */
+.lightboxBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--adflex-space-3);
+  max-height: 94vh;
+  padding: var(--adflex-space-3) var(--adflex-space-4) var(--adflex-space-4);
+}
+
+.lightboxBar {
+  display: flex;
+  flex: 0 0 auto;
+  gap: var(--adflex-space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lightboxCount {
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+.lightboxClose {
+  padding: var(--adflex-space-2) var(--adflex-space-4);
+  font: inherit;
+  font-size: var(--adflex-text-sm);
+  font-weight: 600;
+  color: var(--adflex-color-ink);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-md);
+  cursor: pointer;
+}
+
+.lightboxClose:hover {
+  background: var(--adflex-color-surface-soft);
+}
+
+/* `min-height: 0` is what lets this shrink below its content so the caption
+   below it keeps its space. A flex item defaults to `min-height: auto`, which
+   refuses to go smaller than the image inside it. */
+.lightboxStage {
+  position: relative;
+  display: grid;
+  flex: 1 1 auto;
+  place-items: center;
+  min-height: 0;
+}
+
+/*
+ * The point of the whole feature: the image as large as the space allows,
+ * whole, at its own shape.
+ *
+ * ---------------------------------------------------------------------------
+ * WHY THIS IS ARITHMETIC AND NOT `max-height: 100%`
+ * ---------------------------------------------------------------------------
+ * `100%` looks like the obvious answer and silently does nothing here. A
+ * percentage height only resolves against a parent with a *definite* height,
+ * and the dialog is `fit-content` — its height comes from this image, so the
+ * image cannot take its height from the dialog. The declaration was ignored, a
+ * 900x1600 portrait rendered at its full 1600px inside a 720px window, and
+ * `overflow: hidden` quietly cropped it. Everything measured fine; the picture
+ * was simply cut off.
+ *
+ * So the room is worked out instead. 13rem is the chrome above and below: the
+ * bar, the two gaps, the padding, and the caption's own capped height. Keep
+ * that number in step with `.lightboxCaption`'s `max-height` if either moves.
+ */
+.lightboxImage {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 1340px);
+  max-height: calc(94vh - 13rem);
+  object-fit: contain;
+  border-radius: var(--adflex-radius-md);
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--adflex-color-ink);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(13, 26, 24, 0.22);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.lightboxNav:hover {
+  color: var(--adflex-color-surface);
+  background: var(--adflex-color-primary);
+}
+
+.lightboxPrev {
+  inset-inline-start: var(--adflex-space-2);
+}
+
+.lightboxNext {
+  inset-inline-end: var(--adflex-space-2);
+}
+
+/*
+ * Capped in width so a long description cannot stretch the fit-content dialog
+ * wider than the picture it belongs to, and `flex: 0 0 auto` so it always keeps
+ * its own height — the image gives way, not the text.
+ *
+ * A very long description scrolls within itself rather than pushing the picture
+ * off the screen.
+ */
+.lightboxCaption {
+  flex: 0 0 auto;
+  max-width: 62ch;
+  /* About five lines, which covers any description an editor is likely to
+     write; anything longer scrolls rather than pushing the picture out of the
+     dialog. This cap is part of the 13rem allowance in `.lightboxImage` — move
+     one and you must move the other. */
+  max-height: 7rem;
+  overflow-y: auto;
+  margin-inline: auto;
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-text);
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .lightboxBody {
+    padding: var(--adflex-space-3);
+  }
+
+  .lightboxImage {
+    max-height: 70vh;
+  }
+
+  /* Below the image rather than over it: at this width an overlaid control
+     covers a meaningful share of the picture. */
+  .lightboxNav {
+    width: 40px;
+    height: 40px;
+  }
+}

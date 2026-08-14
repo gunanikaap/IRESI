@@ -1,0 +1,410 @@
+/*
+ * Global base styles.
+ *
+ * Only a minimal reset lives at document level. Everything with an ADFLEX
+ * opinion is scoped to `.adflex-scope` and uses the tokens defined in
+ * src/styles/adflex-tokens.css.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  /* Anchor navigation should not animate for people who ask for reduced
+     motion, so smooth scrolling is opted into rather than out of. */
+  scroll-behavior: auto;
+}
+
+body {
+  min-height: 100%;
+  /* Guards against accidental horizontal page overflow without disabling
+     zoom or clipping sticky positioning. */
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* ADFLEX scope                                                        */
+/* ------------------------------------------------------------------ */
+
+.adflex-scope {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--adflex-font-sans);
+  font-size: var(--adflex-text-base);
+  line-height: var(--adflex-leading-normal);
+  color: var(--adflex-color-text);
+  background: var(--adflex-color-background);
+}
+
+/* Heading defaults are written with :where() so they carry zero specificity.
+   A component's own class always wins without needing !important or deeper
+   selectors. */
+:where(.adflex-scope) :where(h1, h2, h3) {
+  font-family: var(--adflex-font-display);
+  font-weight: 700;
+  color: var(--adflex-color-ink);
+  line-height: var(--adflex-leading-tight);
+  letter-spacing: var(--adflex-tracking-tight);
+  text-wrap: balance;
+}
+
+:where(.adflex-scope) :where(h1) {
+  font-size: var(--adflex-text-3xl);
+}
+
+:where(.adflex-scope) :where(h2) {
+  font-size: var(--adflex-text-2xl);
+}
+
+:where(.adflex-scope) :where(h3) {
+  font-size: var(--adflex-text-lg);
+  line-height: var(--adflex-leading-snug);
+  letter-spacing: -0.01em;
+}
+
+:where(.adflex-scope) :where(p, li) {
+  text-wrap: pretty;
+}
+
+.adflex-scope :where(a, button, summary):focus-visible {
+  outline: 3px solid var(--adflex-color-primary);
+  outline-offset: 3px;
+  border-radius: var(--adflex-radius-sm);
+}
+
+/* Scroll reveal ----------------------------------------------------- */
+/*
+ * Anything with `data-reveal` starts slightly low and transparent, and settles
+ * as it enters the viewport. `RevealObserver` flips the attribute to
+ * `data-reveal="shown"`.
+ *
+ * Three guards, all deliberate:
+ *
+ *   `.adflex-js`                       nothing is hidden unless something is
+ *                                      there to reveal it
+ *   `prefers-reduced-motion`           the whole block is opt-in
+ *   `[data-reveal="shown"]` fallback   set directly by the observer when either
+ *                                      of the above does not hold
+ *
+ * The result is that with JavaScript off, or reduced motion on, the page is
+ * simply a normal static page — not a blank one.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  :root.adflex-js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    /* Staggered by a per-element delay, set inline where a group should arrive
+       in sequence rather than all at once. */
+    transition:
+      opacity 420ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--adflex-reveal-delay, 0ms),
+      transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1) var(--adflex-reveal-delay, 0ms);
+    /* Hints the compositor for the one frame that matters, without leaving a
+       permanent layer behind. */
+    will-change: opacity, transform;
+  }
+
+  :root.adflex-js [data-reveal="shown"] {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}
+
+/* Layout container -------------------------------------------------- */
+.adflex-container {
+  width: 100%;
+  max-width: var(--adflex-container);
+  margin-inline: auto;
+  padding-inline: var(--adflex-space-5);
+}
+
+@media (max-width: 720px) {
+  .adflex-container {
+    padding-inline: var(--adflex-space-4);
+  }
+}
+
+/* Emphasis band ----------------------------------------------------- */
+/* The token rebinding lives in adflex-tokens.css. This only adds the
+   atmosphere. It is a background layer, so it never sits over content.
+
+   Both the texture tint and the seam are tokens, so the band carries a green
+   cast in the light theme and the same motif in the dark one without any
+   theme-specific rule here. */
+.adflex-band {
+  position: relative;
+  isolation: isolate;
+}
+
+.adflex-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* Node lattice. The supplied imagery is built on network graphics — the
+       pilot banner is literally an overlay of connected nodes — so the band
+       carries a faint version of the same motif. Kept very low contrast: it
+       should register as texture, never as content. */
+    radial-gradient(circle at 1px 1px, var(--adflex-band-texture) 1px, transparent 0);
+  background-size: 32px 32px;
+  /* Fades the lattice out towards the middle so it never competes with copy. */
+  mask-image: radial-gradient(
+    120ch 70ch at 50% 50%,
+    transparent 10%,
+    #000 85%
+  );
+  pointer-events: none;
+}
+
+/* Hairline where a band meets the page, so the seam reads as deliberate
+   rather than as two blocks butted together. */
+.adflex-band::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--adflex-band-seam),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Hairline between two adjacent bands, so they read as separate sections
+   rather than one long field. */
+.adflex-band + .adflex-band {
+  border-top: 1px solid var(--adflex-band-border);
+}
+
+/* Visually hidden ---------------------------------------------------- */
+/* Text for screen readers only. Used where a visible label would be redundant
+   for a sighted reader but the meaning is carried by position or colour — the
+   unread count in the admin bar, for instance, where "3" beside "Messages"
+   reads as "3 unread" visually and as a bare number otherwise.
+
+   `clip-path` with a 1px box rather than `display: none` or `width: 0`, both of
+   which remove the text from the accessibility tree as well, which is the exact
+   opposite of the intent. */
+.adflex-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
+}
+
+/* Skip link --------------------------------------------------------- */
+.adflex-skip-link {
+  position: absolute;
+  top: var(--adflex-space-2);
+  left: var(--adflex-space-2);
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--adflex-target-min);
+  padding: var(--adflex-space-2) var(--adflex-space-4);
+  font-weight: 600;
+  color: var(--adflex-color-surface);
+  background: var(--adflex-color-primary);
+  border-radius: var(--adflex-radius-sm);
+  transform: translateY(calc(-100% - var(--adflex-space-4)));
+}
+
+.adflex-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Section eyebrow --------------------------------------------------- */
+/* Small uppercase label above a section heading. Decorative typography, not
+   a heading — it must never replace one. */
+.adflex-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--adflex-space-3);
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-primary);
+}
+
+.adflex-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+/* Primary call to action -------------------------------------------- */
+.adflex-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--adflex-target-min);
+  min-width: var(--adflex-target-min);
+  padding: var(--adflex-space-3) var(--adflex-space-5);
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  /* On the deep band both of these rebind, giving a cyan button with dark
+     text — no separate variant needed. */
+  color: var(--adflex-color-surface);
+  text-decoration: none;
+  background: var(--adflex-color-primary);
+  border: 1px solid transparent;
+  border-radius: var(--adflex-radius-md);
+  cursor: pointer;
+}
+
+.adflex-cta:hover {
+  background: var(--adflex-color-primary-hover);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .adflex-cta {
+    transition: background-color 140ms ease-out;
+  }
+}
+
+/* Secondary call to action ------------------------------------------ */
+/* Same shape and target size as `.adflex-cta`, outlined rather than filled, so
+   two actions side by side read as primary and secondary rather than as two
+   equal choices. */
+.adflex-cta-quiet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--adflex-target-min);
+  min-width: var(--adflex-target-min);
+  padding: var(--adflex-space-3) var(--adflex-space-5);
+  font: inherit;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  color: var(--adflex-color-primary);
+  text-decoration: none;
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-md);
+  cursor: pointer;
+}
+
+.adflex-cta-quiet:hover {
+  color: var(--adflex-color-primary-hover);
+  border-color: var(--adflex-color-primary);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .adflex-cta-quiet {
+    transition:
+      color 140ms ease-out,
+      border-color 140ms ease-out;
+  }
+}
+
+/* Text link --------------------------------------------------------- */
+/* Standalone link. inline-flex plus a minimum height keeps the target at
+   least 44 CSS pixels tall. Links written inside a sentence should not use
+   this class. */
+.adflex-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--adflex-target-min);
+  color: var(--adflex-color-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+
+.adflex-link:hover {
+  color: var(--adflex-color-primary-hover);
+}
+
+/* Inline link ------------------------------------------------------- */
+/* For a link inside running text — an email address in a legal paragraph, for
+   example. Deliberately not `.adflex-link`: that one is inline-flex with a
+   44px minimum height, which inside a sentence would break the line box.
+   A link within a sentence is the recognised exception to the target-size
+   rule, the same exception the inline glossary term relies on. */
+.adflex-inline-link {
+  color: var(--adflex-color-primary);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  /* Long addresses and URLs must not push the page sideways. */
+  overflow-wrap: anywhere;
+}
+
+.adflex-inline-link:hover {
+  color: var(--adflex-color-primary-hover);
+}
+
+/* Tag --------------------------------------------------------------- */
+.adflex-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--adflex-space-2) var(--adflex-space-4);
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--adflex-color-ink);
+  background: var(--adflex-color-surface-soft);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: 999px;
+}
+
+.adflex-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-2);
+  list-style: none;
+}
+
+/* Card -------------------------------------------------------------- */
+/* Shared card shell. Components that need one should use this rather than
+   repeating the same five declarations. */
+.adflex-card {
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border);
+  border-radius: var(--adflex-radius-lg);
+  box-shadow: var(--adflex-shadow-sm);
+}

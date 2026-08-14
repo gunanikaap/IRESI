@@ -2,25 +2,30 @@
  * What makes one project's site different from another's.
  *
  * ---------------------------------------------------------------------------
- * WHY A PROJECT IS CONFIGURATION AND NOT A DATABASE COLUMN
+ * IDENTITY IS CONFIGURATION. OWNERSHIP OF A ROW IS NOT — NOT ANY MORE.
  * ---------------------------------------------------------------------------
- * IRESI is the parent platform and ADFLEX is the first project under it, with
- * more to follow. The obvious move is a `project_id` on every table — and it is
- * the wrong one to make today, because whether IRESI runs **one database shared
- * by every project** or **one per project** has not been decided. That decision
- * belongs to Adarsh, Paolo and the technical team.
+ * This file used to argue that a project should never be a database column,
+ * because whether IRESI ran one shared database or one per project had not been
+ * decided, and a column added early and removed late is a mess. Two deployment
+ * shapes stayed reachable: a database each, or a shared database plus a column
+ * and a filter in `repo.ts`.
  *
- * So a project is resolved once, at startup, from `ACTIVE_PROJECT`. One
- * deployment serves one project and talks to whatever `DATABASE_URL` points at.
- * Both answers stay reachable from here:
+ * **The team chose the shared shape on 13 August 2026.** ADFLEX is served from
+ * /adflex on this deployment — one process, one database, one admin, one login.
+ * So the second path was taken: `migrations/007_site_scope.sql` adds a
+ * `project_key` column to the editor-managed tables, and the public reads in
+ * `repo.ts` take a `Site` argument. That is the part of the earlier reasoning
+ * that no longer applies, and it was planned for rather than worked around.
  *
- *   - one database per project  ->  nothing changes; point each deployment at
- *     its own database
- *   - one shared database       ->  add a project column in a migration and a
- *     filter in `repo.ts`, which is the only module that names tables
+ * What this file describes is still configuration, and still has no column:
+ * a project's **identity** — its name, navigation, logo, theme, contact
+ * address. None of that belongs in a row. The distinction that matters is
+ * between "who is this site" (here) and "which site owns this row"
+ * (`project_key`).
  *
- * Adding that column later is a migration. Adding it now and removing it later
- * is a mess. See handover/FOR-THE-IRESI-BUILD.md §2.
+ * `ACTIVE_PROJECT` still selects the identity, and still defaults to IRESI. It
+ * is now the answer for the *root* of the deployment; a subpath states its own
+ * site explicitly — see `src/projects/adflex/site.ts`.
  */
 
 export type SocialIcon = "facebook" | "linkedin" | "twitter";

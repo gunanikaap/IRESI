@@ -1,0 +1,175 @@
+/*
+ * The upcoming-event announcement on the home page.
+ *
+ * Anchored to the bottom of the window rather than centred over the page — see
+ * the long note in EventAnnouncement.tsx for why this is not a modal. Bottom
+ * right on a wide screen, where it is out of the way of the hero; a full-width
+ * bar along the bottom on a phone, where a floating card would cover most of
+ * the screen.
+ */
+.panel {
+  position: fixed;
+  z-index: 60;
+  inset-block-end: var(--adflex-space-5);
+  inset-inline-end: var(--adflex-space-5);
+  display: flex;
+  gap: var(--adflex-space-2);
+  align-items: flex-start;
+  width: min(380px, calc(100vw - 2 * var(--adflex-space-5)));
+  padding: var(--adflex-space-5);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-lg);
+  box-shadow: var(--adflex-shadow-md);
+}
+
+/* A brand rule across the top, the same device the partner cards use, so this
+   reads as part of the site rather than as a third-party widget. */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--adflex-color-brand),
+    var(--adflex-color-primary)
+  );
+  border-radius: var(--adflex-radius-lg) var(--adflex-radius-lg) 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .panel {
+    animation: eventAnnouncementIn 240ms ease-out;
+  }
+}
+
+@keyframes eventAnnouncementIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.eyebrow {
+  font-size: var(--adflex-text-xs);
+  font-weight: 600;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-primary);
+}
+
+.title {
+  margin-top: var(--adflex-space-1);
+  font-family: var(--adflex-font-display);
+  font-size: var(--adflex-text-lg);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-ink);
+  text-wrap: balance;
+}
+
+.when {
+  margin-top: var(--adflex-space-1);
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+/* --- The countdown ------------------------------------------------------ */
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--adflex-space-2);
+  margin-top: var(--adflex-space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.unit {
+  padding: var(--adflex-space-2) 0;
+  text-align: center;
+  background: var(--adflex-color-surface-soft);
+  border-radius: var(--adflex-radius-sm);
+}
+
+/*
+ * Tabular figures, so the numbers do not jitter.
+ *
+ * Proportional digits are different widths, so a seconds counter ticking from
+ * 19 to 20 shifts everything beside it a fraction of a pixel every second. At
+ * one change per second that is the most distracting thing on the page.
+ */
+.number {
+  display: block;
+  font-family: var(--adflex-font-display);
+  font-size: var(--adflex-text-lg);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--adflex-color-ink);
+}
+
+.unitLabel {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.68rem;
+  letter-spacing: var(--adflex-tracking-wide);
+  text-transform: uppercase;
+  color: var(--adflex-color-muted);
+}
+
+/* --- What to do about it ------------------------------------------------ */
+
+.action {
+  margin-top: var(--adflex-space-4);
+}
+
+/* A `.full` rule lived here for the "fully booked" state. It went with the
+   markup on 8 August 2026: a full event is no longer announced at all. The
+   equivalent notice on /news is `.slotsFull` in PublishedList.module.css. */
+
+/* Full-size target, because this is the control most people will reach for. */
+.close {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: var(--adflex-target-min);
+  height: var(--adflex-target-min);
+  margin: calc(-1 * var(--adflex-space-2)) calc(-1 * var(--adflex-space-2)) 0 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--adflex-color-muted);
+  background: none;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--adflex-color-ink);
+  background: var(--adflex-color-surface-soft);
+}
+
+.close:focus-visible {
+  outline: 3px solid var(--adflex-color-primary);
+  outline-offset: 2px;
+}
+
+/* A bar along the bottom of a phone screen. A floating card at this width
+   covers most of what is behind it, which is the thing that makes an
+   announcement feel like an interruption rather than an offer. */
+@media (max-width: 560px) {
+  .panel {
+    inset-inline: 0;
+    inset-block-end: 0;
+    width: 100%;
+    border-inline: 0;
+    border-block-end: 0;
+    border-radius: var(--adflex-radius-lg) var(--adflex-radius-lg) 0 0;
+  }
+}

@@ -1,0 +1,39 @@
+.empty {
+  position: relative;
+  max-width: 70ch;
+  padding: var(--adflex-space-7) var(--adflex-space-6);
+  overflow: hidden;
+  background: var(--adflex-color-surface);
+  /* Dashed edge signals "nothing here yet" alongside the wording, so the
+     state is not communicated by styling alone. */
+  border: 1px dashed var(--adflex-color-border-strong);
+  border-radius: var(--adflex-radius-lg);
+}
+
+/* Faint lattice, the same motif the deep bands carry, so an empty panel still
+   feels part of the system rather than an unstyled box. */
+.empty::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    var(--adflex-color-border-strong) 1px,
+    transparent 0
+  );
+  background-size: 26px 26px;
+  opacity: 0.5;
+  mask-image: linear-gradient(180deg, #000, transparent 70%);
+  pointer-events: none;
+}
+
+.heading {
+  position: relative;
+  font-size: var(--adflex-text-xl);
+}
+
+.body {
+  position: relative;
+  margin-top: var(--adflex-space-4);
+  color: var(--adflex-color-muted);
+}

@@ -1,0 +1,12 @@
+/* Set in the display face and the interaction colour, so a figure catches the
+   eye without breaking the line or changing the reading order. Sized in `em`
+   so it scales with whatever text it sits in — a lead paragraph, a card, or
+   body copy on either band. */
+.figure {
+  font-family: var(--adflex-font-display);
+  font-weight: 700;
+  font-size: 1.08em;
+  letter-spacing: -0.01em;
+  color: var(--adflex-color-primary);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,59 @@
+/* Layout patterns for the home page. Cards themselves own their own styling. */
+
+/* The home page shows a single About glimpse, so it reads better as a lead
+   paragraph at a comfortable measure than as a card. */
+/* Sits in the right-hand column of the Objective section's split layout, so it
+   needs no negative offset — the grid handles the alignment. */
+.aboutLead {
+  max-width: 56ch;
+  font-size: var(--adflex-text-xl);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-text);
+}
+
+.aboutActions {
+  margin-top: var(--adflex-space-6);
+}
+
+/* Two-column card grid on desktop, single column on mobile. */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--adflex-space-6);
+}
+
+/* Three partners, so the grid goes straight from three columns to one. A
+   two-column stage would leave the third card stranded on its own row. */
+/* Four partners since IRESI joined on 6 August 2026. The count is in the CSS
+   rather than derived, so it has to be revisited when a partner joins or
+   leaves — an `auto-fit` track would silently leave a lone card stranded on its
+   own row instead. */
+.partnerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--adflex-space-5);
+}
+
+/* Two-by-two rather than four-in-a-row: below this the cards are too narrow for
+   a wordmark to stay legible. */
+@media (max-width: 1000px) {
+  .partnerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .cardGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* One per row only on the narrowest phones. Now that a card holds a logo and
+   nothing else, two-up stays legible far further down than it did when each
+   card also carried a name and a paragraph — and it keeps four partners from
+   becoming four full screens of scrolling. */
+@media (max-width: 420px) {
+  .partnerGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

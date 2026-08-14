@@ -1,0 +1,70 @@
+.section {
+  padding-block: var(--adflex-space-8);
+  /* Keeps the section heading clear of the sticky header when arriving from
+     an anchor link. */
+  scroll-margin-top: calc(var(--adflex-header-height) + var(--adflex-space-4));
+}
+
+.soft {
+  background: var(--adflex-color-surface-soft);
+}
+
+.head {
+  max-width: 62ch;
+  margin-bottom: var(--adflex-space-7);
+}
+
+/* Sits tight under the heading, inside the head, so it reads as belonging to
+   it rather than as a separate block floating below the head's margin. */
+.lead {
+  margin-top: var(--adflex-space-3);
+}
+
+/* Split: heading beside the content rather than above it. Suits a short
+   section that would otherwise leave most of the width empty. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: var(--adflex-space-7);
+  align-items: start;
+}
+
+.headSplit {
+  max-width: 22ch;
+}
+
+.title {
+  margin-top: var(--adflex-space-4);
+}
+
+.intro {
+  margin-top: var(--adflex-space-4);
+  color: var(--adflex-color-muted);
+  font-size: var(--adflex-text-lg);
+  line-height: var(--adflex-leading-snug);
+}
+
+.content {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--adflex-space-6);
+  }
+
+  .headSplit {
+    max-width: 62ch;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding-block: var(--adflex-space-7);
+  }
+
+  .head {
+    margin-bottom: var(--adflex-space-6);
+  }
+}

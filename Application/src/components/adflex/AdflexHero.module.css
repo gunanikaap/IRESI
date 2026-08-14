@@ -1,0 +1,252 @@
+/* The hero is the first emphasis band. */
+.hero {
+  padding-block: var(--adflex-space-8);
+  scroll-margin-top: calc(var(--adflex-header-height) + var(--adflex-space-4));
+}
+
+/* Copy left at ~51%, illustration right at ~49%. The illustration is a wide,
+   shallow composition, so width is what gives it presence — at a narrower share
+   it shrinks in both directions at once and becomes a thumbnail. The headline
+   is capped below the global `--adflex-text-3xl` to pay for that, which also
+   keeps the whole hero shorter. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: var(--adflex-space-6);
+  align-items: center;
+}
+
+.copy {
+  min-width: 0;
+}
+
+/*
+ * `width: 100%` alongside the auto margins is load-bearing, not redundant.
+ *
+ * A grid item with `margin-inline: auto` stops stretching and is sized
+ * shrink-to-fit instead. The child SVG sizes at `width: 100%` of that, which is
+ * circular, so the browser falls back to the CSS default replaced-element size
+ * — 300px wide. That is exactly what happened: below the two-column breakpoint
+ * the illustration silently rendered at 300px on every tablet and phone, with
+ * a `max-width` of 560px sitting on it doing nothing.
+ *
+ * Declaring the width restores stretch-up-to-max-width and keeps the centring.
+ */
+.figureCol {
+  min-width: 0;
+  width: 100%;
+}
+
+.tags {
+  margin-bottom: var(--adflex-space-5);
+}
+
+/*
+ * Sized to hold the 106-character project name at five lines across the desktop
+ * range, capped below the global `--adflex-text-3xl`.
+ *
+ * Both numbers were measured in the browser rather than estimated: at 24ch and
+ * 2.7rem the name broke to six lines at every desktop width. The slope is set
+ * so the size lands near 2.55rem at 1440 and near 2.15rem at 1024, where the
+ * column is only ~505px — without that taper 1024 also went to six.
+ */
+.headline {
+  max-width: 28ch;
+  font-size: clamp(1.85rem, 1.1rem + 1.46vw, 2.4rem);
+}
+
+.tagline {
+  max-width: 46ch;
+  margin-top: var(--adflex-space-5);
+  font-size: var(--adflex-text-xl);
+  line-height: var(--adflex-leading-snug);
+  color: var(--adflex-color-text);
+}
+
+/* Wraps rather than overflowing when the two actions cannot sit side by side. */
+/*
+ * Holds the glossary term and the punctuation after it together. The term is an
+ * inline-block and therefore unbreakable, so without this a following comma can
+ * wrap to the start of the next line on its own.
+ *
+ * The reset on the child is not optional. `white-space` inherits, and the
+ * term's definition popup lives inside that child — so without this the
+ * definition rendered as a single unwrapped line spilling straight out of its
+ * own box, unreadable. Only the break *between* the term and its punctuation
+ * needs suppressing, and that break belongs to this element's inline context,
+ * so resetting the child costs nothing.
+ */
+.termGroup {
+  white-space: nowrap;
+}
+
+.termGroup > * {
+  white-space: normal;
+}
+
+/*
+ * The glossary definition, revealed on hover, focus or tap.
+ *
+ * ---------------------------------------------------------------------------
+ * IT IS ALWAYS LAID OUT — ONLY ITS VISIBILITY CHANGES
+ * ---------------------------------------------------------------------------
+ * `visibility`, not `display`, and no absolute positioning. The element holds
+ * its space whether or not it is showing, which is the whole point: the popup
+ * this replaced floated over the next two lines of the tagline, so hovering
+ * "flexumers" hid the sentence containing it. Reserving the space means nothing
+ * is ever covered and nothing jumps — the actions below stay exactly where they
+ * are as it comes and goes.
+ *
+ * A node referenced by `aria-describedby` still describes the button while it
+ * is `visibility: hidden`, so this costs screen-reader users nothing.
+ */
+.glossaryDefinition {
+  max-width: 46ch;
+  margin-top: var(--adflex-space-3);
+  font-size: var(--adflex-text-sm);
+  line-height: var(--adflex-leading-normal);
+  color: var(--adflex-color-muted);
+  visibility: hidden;
+  opacity: 0;
+}
+
+/*
+ * `:has()` because the term sits inside the tagline paragraph and the
+ * definition is that paragraph's sibling — no combinator reaches from a
+ * descendant to an uncle, so the shared ancestor has to do the asking.
+ *
+ * Three triggers: pointer hover, keyboard focus, and `aria-expanded` — which
+ * `GlossaryTerm` sets on click, so a tap works on a touch screen where there is
+ * no hover at all. The last rule keeps it up while the pointer is over the
+ * definition itself, so moving down to read it does not dismiss it.
+ *
+ * If `:has()` is unsupported the definition simply never appears visually; the
+ * term keeps its affordance and its accessible description, so the failure is
+ * quiet rather than broken.
+ */
+.copy:has([data-glossary-term]:hover) .glossaryDefinition,
+.copy:has([data-glossary-term]:focus-visible) .glossaryDefinition,
+.copy:has([data-glossary-term][aria-expanded="true"]) .glossaryDefinition,
+.copy:has(.glossaryDefinition:hover) .glossaryDefinition {
+  visibility: visible;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .glossaryDefinition {
+    transition: opacity 160ms ease-out;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--adflex-space-3);
+  margin-top: var(--adflex-space-6);
+}
+
+.diagramWrap {
+  margin-top: var(--adflex-space-8);
+}
+
+/*
+ * The diagram is mounted, not placed.
+ *
+ * Its artwork has a pale mint ground within a few percent of the band colour
+ * behind it, so sitting directly on the section the only thing separating a
+ * 1672px-wide illustration from the page was one hairline. It read as a
+ * screenshot dropped onto the band rather than as a figure.
+ *
+ * A white mat gives it an edge on all four sides, and holding the caption
+ * inside the same plate makes the two read as one object instead of a picture
+ * with a stray line of text under it.
+ */
+.figure {
+  display: grid;
+  gap: var(--adflex-space-4);
+  /* The mat scales with the plate. Fixed, it was either mean at desktop width
+     or ate the image on a phone, where every pixel of width is a pixel of
+     label legibility. */
+  padding: clamp(0.85rem, 1.6vw, 1.6rem);
+  background: var(--adflex-color-surface);
+  border: 1px solid var(--adflex-band-border);
+  border-radius: var(--adflex-radius-xl);
+  /* Three layers, not one: a contact edge, a close shadow that gives the plate
+     thickness, and a wide soft one that lifts it off the band. At this size a
+     single shadow reads either as a hairline or as a drop shadow. */
+  box-shadow:
+    0 1px 2px rgba(13, 26, 24, 0.05),
+    0 16px 36px -18px rgba(13, 26, 24, 0.22),
+    0 40px 72px -48px rgba(13, 26, 24, 0.4);
+}
+
+/* Full width, natural height: the whole diagram stays visible at every viewport
+   size and never overflows the page. It keeps a hairline of its own — its
+   ground is pale enough to melt into the white mat at the corners without one
+   — and is rounded a step tighter than the plate so the two curves nest. */
+.diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--adflex-band-border);
+  border-radius: var(--adflex-radius-lg);
+}
+
+/* Inset from the plate edge rather than flush with the image, so it reads as a
+   caption belonging to the plate rather than as a fourth edge of the picture. */
+.caption {
+  padding-inline: var(--adflex-space-2);
+  padding-bottom: var(--adflex-space-1);
+  max-width: 76ch;
+  font-size: var(--adflex-text-sm);
+  color: var(--adflex-color-muted);
+}
+
+/* One column below this width: text first, illustration second. It keeps a
+   generous size here — it is the strongest thing on the page and a tablet has
+   the room for it. */
+@media (max-width: 940px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--adflex-space-6);
+  }
+
+  .headline {
+    max-width: 26ch;
+  }
+
+  .tagline {
+    max-width: 56ch;
+  }
+
+  /* Capped only so it does not run the full width of a tablet on its own. It
+     can afford to be generous here: at 560px it is still just 300px tall, which
+     is the point of a wide composition in this slot. */
+  .figureCol {
+    max-width: 560px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding-block: var(--adflex-space-7);
+  }
+
+  .headline {
+    max-width: none;
+  }
+
+  /* Both radii step down together so the plate and the image stay nested. */
+  .figure {
+    border-radius: var(--adflex-radius-lg);
+  }
+
+  .diagram {
+    border-radius: var(--adflex-radius-md);
+  }
+}
+
+/* No cap at phone width. The composition is wide and shallow, so at 358px it is
+   only ~190px tall — capping it further would shrink it for no gain. It sits
+   below the actions, so the buttons are reachable without scrolling past it. */

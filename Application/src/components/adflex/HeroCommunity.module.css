@@ -1,0 +1,185 @@
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* --- The arc -------------------------------------------------------------- */
+
+.arc {
+  fill: none;
+  stroke: url(#hc-arc);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.echo {
+  fill: none;
+  stroke: var(--adflex-brand-green);
+  stroke-opacity: 0.15;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* The light that travels along it. `pathLength: 100` normalises the arc to 100
+   units, so the dash values read as percentages and survive a change to the
+   curve. The gap is three times the path length: that is what leaves exactly
+   one light on the arc and a long pause between passes. A continuous stream
+   reads as traffic rather than as something being coordinated. */
+.pulse {
+  fill: none;
+  stroke: #f0a51e;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 5 295;
+  /* The resting value, and therefore what reduced motion sees: parked past the
+     end of the arc, so a still page shows a clean curve with no stray dot on
+     it. */
+  stroke-dashoffset: -305;
+}
+
+/* --- The community -------------------------------------------------------- */
+
+/* Small and low. A wide soft shadow lifts the buildings off the ground line and
+   turns them back into floating cards, which is the thing the ground line is
+   there to prevent. */
+.town {
+  filter: drop-shadow(0 5px 8px rgba(23, 56, 79, 0.13));
+}
+
+.houseBody {
+  fill: var(--adflex-brand-slate);
+  fill-opacity: 0.42;
+}
+
+.roof {
+  fill: var(--adflex-brand-slate);
+  stroke: var(--adflex-brand-slate);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.door {
+  fill: var(--adflex-illus-ink);
+  fill-opacity: 0.34;
+}
+
+/* The one warm note in the drawing. A lit window is what makes the house a home
+   rather than a shape. */
+.window {
+  fill: #ffd98a;
+}
+
+.panel {
+  fill: var(--adflex-illus-ink);
+  stroke: var(--adflex-illus-surface);
+  stroke-opacity: 0.55;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.panelCells {
+  fill: none;
+  stroke: var(--adflex-illus-surface);
+  stroke-opacity: 0.4;
+  stroke-width: 1.6;
+}
+
+.blockDeep {
+  fill: #046b60;
+}
+
+.blockMid {
+  fill: var(--adflex-brand-green);
+}
+
+.pane {
+  fill: var(--adflex-illus-surface);
+  fill-opacity: 0.3;
+}
+
+/* Runs the full width, well past the buildings. That is what turns the space on
+   either side of them into ground rather than into a gap. */
+.ground {
+  fill: none;
+  stroke: url(#hc-ground);
+  stroke-width: 2.5;
+}
+
+/* --- The coordinating point ----------------------------------------------- */
+
+.node {
+  filter: drop-shadow(0 6px 12px rgba(4, 107, 96, 0.24));
+}
+
+.nodePlate {
+  fill: var(--adflex-illus-surface);
+}
+
+.nodeRing {
+  fill: none;
+  stroke: var(--adflex-color-primary);
+  stroke-width: 2;
+}
+
+.nodeCore {
+  fill: var(--adflex-color-primary);
+}
+
+/* `transform-box` is not optional. An SVG element's default box is the viewBox,
+   so a bare `scale()` here would expand about the top-left of the drawing and
+   throw the ring across the picture instead of growing it in place. */
+.nodePulse {
+  fill: none;
+  stroke: var(--adflex-brand-green);
+  stroke-opacity: 0;
+  stroke-width: 1.6;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* --- Motion ---------------------------------------------------------------
+   Two things move, both slowly: one light crosses the arc, and the point it
+   passes answers with a single ring. Nothing else shifts, scales or drifts. */
+@media (prefers-reduced-motion: no-preference) {
+  .pulse {
+    animation: hcTravel 9s linear infinite;
+  }
+
+  .nodePulse {
+    animation: hcPing 9s ease-out infinite;
+  }
+}
+
+/* Runs from just before the arc starts to just past where it ends, so the light
+   enters and leaves off-curve — no appearing or vanishing mid-air. The visible
+   crossing is 100 of those 310 units, which is why roughly two thirds of each
+   cycle is rest. */
+@keyframes hcTravel {
+  from {
+    stroke-dashoffset: 5;
+  }
+  to {
+    stroke-dashoffset: -305;
+  }
+}
+
+/* Fires as the light passes the apex. The light is halfway along the arc at an
+   offset of -50, which is 18% into the 5 → -305 sweep — so this is timed to the
+   travel, not guessed. Change one duration and both stay in step; change these
+   percentages independently and they will not. */
+@keyframes hcPing {
+  0%,
+  16% {
+    transform: scale(1);
+    stroke-opacity: 0;
+  }
+  22% {
+    stroke-opacity: 0.5;
+  }
+  44%,
+  100% {
+    transform: scale(2.1);
+    stroke-opacity: 0;
+  }
+}

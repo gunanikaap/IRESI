@@ -24,6 +24,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 	const body = (
 		<>
 			<div className={styles.media}>
+				{external && <span className={styles.external}>External site</span>}
 				{art ? (
 					/* Served either from /public or from the /media route, which sets its
 					   own cache and content-type headers. next/image would put an

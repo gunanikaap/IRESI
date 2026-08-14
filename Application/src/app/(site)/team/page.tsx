@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { team } from "@/projects/iresi/content";
+import { listPublishedTeamStatus, type TeamMemberRow } from "@/lib/repo";
+import ContentNotice from "@/components/ContentNotice";
 import { project } from "@/projects";
 import { canonical } from "@/lib/site";
 import styles from "./team.module.css";
@@ -12,12 +13,25 @@ export const metadata: Metadata = {
 	openGraph: { images: ["/images/about/lead.jpg"] },
 };
 
+/**
+ * An uploaded portrait when there is one, and otherwise the file carried over
+ * from the previous site. Replacing someone's photograph through the admin
+ * stores a `media` row and sets `photo_media_id`, so the fallback quietly stops
+ * being used rather than needing to be cleared.
+ */
+function photoOf(member: TeamMemberRow): string {
+	if (member.photo_media_id) return `/media/${member.photo_media_id}`;
+	return member.photo_path ?? "/images/team/placeholder.jpg";
+}
+
 const MAIL_ICON =
 	"M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 4.2l-8 5-8-5V6l8 5 8-5v2.2z";
 const LINKEDIN_ICON =
 	"M6.9 8.6H3.5v11h3.4v-11zM5.2 3.2a2 2 0 100 4 2 2 0 000-4zM20.5 13.5c0-3.2-1.7-4.7-4-4.7-1.8 0-2.7 1-3.1 1.7V8.6H10v11h3.4v-6.1c0-1.6.3-3.2 2.3-3.2s2 1.8 2 3.3v6h3.4v-6.1z";
 
-export default function TeamPage() {
+export default async function TeamPage() {
+	const { data: team, degraded } = await listPublishedTeamStatus();
+
 	return (
 		<>
 			{/*
@@ -42,14 +56,17 @@ export default function TeamPage() {
 
 			<section className="section section--alt">
 				<div className="container">
+					{team.length === 0 ? (
+						<ContentNotice degraded={degraded} what="team members" />
+					) : (
 					<ul className={styles.grid}>
 						{team.map((member) => (
-							<li key={member.name} className={styles.member}>
+							<li key={member.id} className={styles.member}>
 								<div className={styles.photoFrame}>
 									{/* eslint-disable-next-line @next/next/no-img-element */}
 									<img
 										className={styles.photo}
-										src={member.photo}
+										src={photoOf(member)}
 										alt={member.name}
 										width={300}
 										height={300}
@@ -88,6 +105,7 @@ export default function TeamPage() {
 							</li>
 						))}
 					</ul>
+					)}
 				</div>
 			</section>
 		</>

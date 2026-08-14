@@ -15,13 +15,20 @@ export function LoginForm() {
 			<FormError message={state.error} />
 
 			{/*
-			 * `type="text"`, not `type="email"`.
+			 * `type="text"`, not `type="email"`, even though the IRESI login is
+			 * `admin@iresi.eu`.
 			 *
-			 * The login is a username and nothing is ever sent to it — no reset, no
-			 * notification. An email input refuses to submit anything without an
-			 * "@", which would tell an editor their correct username is malformed.
+			 * The value is an identifier and nothing is ever sent to it — no reset,
+			 * no notification. Some accounts are plain names and some are addresses;
+			 * an email input would refuse to submit the former, telling an editor
+			 * their correct login is malformed.
 			 */}
-			<Field name="username" label="Username" required>
+			<Field
+				name="username"
+				label="Login"
+				required
+				hint="The name or address you were given — for example admin@iresi.eu."
+			>
 				<input
 					type="text"
 					id="username"

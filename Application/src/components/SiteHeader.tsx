@@ -37,7 +37,7 @@ export default function SiteHeader() {
 					{/* eslint-disable-next-line @next/next/no-img-element -- the logo is a
 					    fixed-height PNG served from /public; next/image would add a request
 					    to an optimiser for no benefit at this size. */}
-					<img src={project.logo.header} alt={project.name} height={44} />
+					<img src={project.logo.header} alt={project.name} width={252} height={56} />
 				</Link>
 
 				<button

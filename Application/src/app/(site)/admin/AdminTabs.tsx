@@ -5,7 +5,19 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import styles from "./tabs.module.css";
 
-export type Tab = { href: string; label: string; badge?: ReactNode };
+export type Tab = {
+	href: string;
+	label: string;
+	badge?: ReactNode;
+	/**
+	 * Sets this tab apart from the ones before it with a rule.
+	 *
+	 * Used for the projects running under the platform: they lead somewhere else
+	 * entirely — another site's content — and a tab that looks identical to
+	 * "Publications" invites the reader to think it is another IRESI page.
+	 */
+	separated?: boolean;
+};
 
 /**
  * Admin navigation.
@@ -28,7 +40,7 @@ export function AdminTabs({ tabs }: { tabs: Tab[] }) {
 		<nav className={styles.tabs} aria-label="Admin sections">
 			<ul>
 				{tabs.map((tab) => (
-					<li key={tab.href}>
+					<li key={tab.href} className={tab.separated ? styles.separated : undefined}>
 						<Link href={tab.href} aria-current={active === tab.href ? "page" : undefined}>
 							{tab.label}
 							{tab.badge}

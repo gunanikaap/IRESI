@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getCurrentUser } from "@/lib/auth";
 import { isDatabaseConfigured } from "@/lib/db";
-import { countUnreadMessages } from "@/lib/repo";
+import { settleFinishedEvents } from "@/lib/repo";
 import { project } from "@/projects";
 import { signOut } from "./actions";
 import { AdminTabs } from "./AdminTabs";
@@ -32,12 +32,20 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 	// Showing the bare card rather than an empty navigation bar above it.
 	if (!user) return <>{children}</>;
 
-	let unread = 0;
 	if (isDatabaseConfigured()) {
+		/*
+		 * Any upcoming event whose end time has passed becomes a past event here,
+		 * so an editor never opens a form that still says "still to come" about
+		 * something that finished last week. The public pages already worked this
+		 * out for themselves on every read — see `settleFinishedEvents`.
+		 *
+		 * Failure is swallowed deliberately: this is tidying, and it must not be
+		 * able to take the admin down.
+		 */
 		try {
-			unread = await countUnreadMessages();
-		} catch {
-			// A count is decoration. Losing it must not take the whole admin down.
+			await settleFinishedEvents();
+		} catch (error) {
+			console.error("[admin] settling finished events failed:", error);
 		}
 	}
 
@@ -49,23 +57,33 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 					<span className={styles.brandTag}>Admin</span>
 				</span>
 
+				{/*
+				 * IRESI's own sections, then a divider, then the projects running
+				 * beneath it. One deployment serves both sites and one login opens
+				 * both, so the switch between them belongs here rather than being a
+				 * second address to remember.
+				 *
+				 * ---------------------------------------------------------------
+				 * PROJECTS, PUBLICATIONS AND MESSAGES ARE DELIBERATELY ABSENT
+				 * ---------------------------------------------------------------
+				 * Taken out of the bar on 14 August 2026 at the team's request. The
+				 * pages, their forms and their actions are all still here and still
+				 * work — /admin/projects, /admin/publications and /admin/messages
+				 * answer if you type them — so this is a change to what the admin
+				 * offers, not a deletion. Putting any of them back is one line.
+				 *
+				 * Worth knowing before leaving Messages out for good: until SMTP is
+				 * configured, a contact form enquiry is *stored* rather than emailed,
+				 * and that page is the only place it can be read. See the note on the
+				 * overview page.
+				 */}
 				<AdminTabs
 					tabs={[
 						{ href: "/admin", label: "Overview" },
-						{ href: "/admin/projects", label: "Projects" },
 						{ href: "/admin/news", label: "News & Events" },
-						{ href: "/admin/publications", label: "Publications" },
-						{
-							href: "/admin/messages",
-							label: "Messages",
-							badge:
-								unread > 0 ? (
-									<span className={styles.badge}>
-										{unread}
-										<span className="visuallyHidden"> unread</span>
-									</span>
-								) : null,
-						},
+						{ href: "/admin/team", label: "Team" },
+						{ href: "/admin/images", label: "Photographs" },
+						{ href: "/admin/adflex", label: "ADFLEX", separated: true },
 					]}
 				/>
 

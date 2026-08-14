@@ -72,7 +72,7 @@ export default function ProjectForm({ project }: { project?: Project }) {
 				</Field>
 
 				<Field name="body" label="Main text" error={err("body")}
-					hint="The body of the page. Leave a blank line between paragraphs. Start a line with ## to make it a heading, or with - to make a bullet.">
+					hint="The body of the page. Start a line with ## for a heading, or - for a bullet. Leave a blank line to start a new paragraph.">
 					<textarea id="body" name="body" rows={16} defaultValue={keep("body", project?.body)} />
 				</Field>
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import ImageMarquee from "@/components/ImageMarquee";
 import { about } from "@/projects/iresi/content";
+import { listPageImages } from "@/lib/repo";
 import { canonical } from "@/lib/site";
 import styles from "./about.module.css";
 
@@ -12,7 +13,17 @@ export const metadata: Metadata = {
 	openGraph: { images: ["/images/about/lead.jpg"] },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+	/*
+	 * The scrolling photographs are editor-managed — added and reordered from
+	 * the admin. The paths in `content.ts` remain as the fallback for a
+	 * deployment whose database has not been seeded, so the strip is never empty
+	 * on a fresh install.
+	 */
+	const { data: collage } = await listPageImages("about-collage");
+	const photographs =
+		collage.length > 0 ? collage.map((image) => `/media/${image.media_id}`) : about.collage;
+
 	return (
 		<>
 			<section className={styles.hero}>
@@ -73,7 +84,7 @@ export default function AboutPage() {
 					<span className="eyebrow">Life at the centre</span>
 					<h2 className={styles.galleryHeading}>Our work, our people</h2>
 				</div>
-				<ImageMarquee images={about.collage} label="Photographs from around the centre" />
+				<ImageMarquee images={photographs} label="Photographs from around the centre" />
 			</section>
 		</>
 	);

@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import ProjectCard from "@/components/ProjectCard";
 import ContentNotice from "@/components/ContentNotice";
 import ImageColumns from "@/components/ImageColumns";
-import { listPublishedProjectsStatus } from "@/lib/repo";
+import EventCountdown from "@/components/EventCountdown";
+import { getNextUpcomingEvent, listPublishedProjectsStatus } from "@/lib/repo";
 import { home, partners } from "@/projects/iresi/content";
 import { project } from "@/projects";
 import { canonical } from "@/lib/site";
@@ -16,6 +17,14 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
 	const { data: projects, degraded } = await listPublishedProjectsStatus();
+
+	/*
+	 * The next event nobody has been to yet, announced as a countdown panel.
+	 * `safeRead` inside means this is null with no database, so the home page is
+	 * unchanged on a deployment that has none — and null is also the ordinary
+	 * answer, because most of the time there is no event pending.
+	 */
+	const upcomingEvent = await getNextUpcomingEvent();
 
 	/*
 	 * The four the live home page leads with, named rather than taken off the
@@ -173,6 +182,7 @@ export default async function HomePage() {
 					</Link>
 				</div>
 			</section>
+			{upcomingEvent && <EventCountdown event={upcomingEvent} />}
 		</>
 	);
 }

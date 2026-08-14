@@ -16,10 +16,24 @@
 	min-height: var(--header-height);
 }
 
+/*
+ * The header lockup is IRESI's mark beside Maynooth University's, rebuilt (see
+ * public/images/logo.png) because the file the live site serves clips the right
+ * edge of the university's name. 56px is the smallest height at which its two
+ * lines of small type resolve; below 420px the header needs the width back more
+ * than the strapline needs to be legible.
+ */
 .brand img {
 	display: block;
 	width: auto;
-	height: 44px;
+	height: 56px;
+	max-width: 100%;
+}
+
+@media (max-width: 420px) {
+	.brand img {
+		height: 44px;
+	}
 }
 
 .nav ul {

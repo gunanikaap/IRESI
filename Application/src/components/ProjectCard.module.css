@@ -4,12 +4,14 @@
 	border-radius: var(--radius);
 	overflow: hidden;
 	background: #fff;
-	transition: transform 0.2s ease, box-shadow 0.2s ease;
+	box-shadow: 0 1px 2px rgba(20, 30, 60, 0.04);
+	transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .card:hover {
-	transform: translateY(-3px);
-	box-shadow: 0 16px 32px rgba(20, 30, 60, 0.12);
+	border-color: var(--color-accent);
+	box-shadow: 0 20px 38px rgba(20, 30, 60, 0.14);
+	transform: translateY(-4px);
 }
 
 .link {
@@ -26,6 +28,7 @@
 }
 
 .media {
+	position: relative;
 	aspect-ratio: 16 / 10;
 	overflow: hidden;
 	background: var(--color-bg-alt);
@@ -36,6 +39,43 @@
 	height: 100%;
 	object-fit: cover;
 	display: block;
+	transition: transform 0.45s ease;
+}
+
+.card:hover .media img {
+	transform: scale(1.05);
+}
+
+/* A wash at the foot of the picture so the title beneath has something to sit
+   against when the photograph runs pale at its bottom edge. */
+.media::after {
+	content: "";
+	position: absolute;
+	inset: auto 0 0 0;
+	height: 45%;
+	background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.28));
+	pointer-events: none;
+}
+
+/* Marks the cards that leave the site, so it is clear before clicking. */
+.external {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	z-index: 1;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-family: var(--font-heading);
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #fff;
+	background: rgba(10, 20, 30, 0.72);
+	backdrop-filter: blur(3px);
+	padding: 0.3rem 0.6rem;
+	border-radius: 999px;
 }
 
 .placeholder {
@@ -48,21 +88,26 @@
 	display: flex;
 	flex-direction: column;
 	flex: 1;
-	padding: 1.35rem 1.4rem 1.5rem;
+	padding: 1.4rem 1.5rem 1.6rem;
 }
 
 .body h3 {
-	font-size: 1.0625rem;
+	font-size: 1.125rem;
+	letter-spacing: 0.02em;
 	margin-bottom: 0.6rem;
 }
 
 .body p {
 	font-size: 0.9375rem;
+	line-height: 1.6;
 	color: var(--color-text-muted);
-	margin-bottom: 1rem;
+	margin-bottom: 1.25rem;
 }
 
 .cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
 	margin-top: auto;
 	font-family: var(--font-heading);
 	font-size: 0.75rem;
@@ -70,4 +115,15 @@
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
 	color: var(--color-accent);
+}
+
+.cta::after {
+	content: "\203A";
+	font-size: 1.2em;
+	line-height: 1;
+	transition: transform 0.2s ease;
+}
+
+.card:hover .cta::after {
+	transform: translateX(4px);
 }

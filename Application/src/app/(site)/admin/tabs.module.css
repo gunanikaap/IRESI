@@ -29,3 +29,23 @@
 	color: var(--color-heading);
 	border-bottom-color: var(--color-accent);
 }
+
+/*
+ * Marks where IRESI's own sections end and the projects under it begin. A rule
+ * rather than a heading: the bar is one row, and a tab that leads to another
+ * site's content should not look identical to one that leads to another IRESI
+ * page.
+ */
+.separated {
+	border-left: 1px solid var(--color-border);
+	margin-left: 0.35rem;
+	padding-left: 0.6rem;
+}
+
+@media (max-width: 720px) {
+	.separated {
+		border-left: none;
+		padding-left: 0;
+		margin-left: 0;
+	}
+}

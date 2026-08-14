@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { submitContact, type ContactState } from "@/app/contact/actions";
+import { submitContact, type ContactState } from "@/lib/contact-action";
 import { Field, FormError } from "@/components/admin/Field";
 import styles from "./EnquiryForm.module.css";
 

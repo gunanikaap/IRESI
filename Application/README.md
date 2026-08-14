@@ -72,25 +72,47 @@ src/projects/
 ├── iresi/
 │   ├── config.ts       Identity, navigation, footer, contact address
 │   ├── content.ts      Developer-managed page copy (see below)
-│   ├── data/           Team, research topics, researchers (generated)
+│   ├── data/           Research topics, researchers, and the team seed
 │   └── theme.css       The colour, type and spacing tokens
 └── adflex/
-    ├── config.ts
-    └── theme.css
+    ├── config.ts       Identity, navigation, footer, contact address
+    ├── content.ts      The ADFLEX site's copy, ported from its repository
+    ├── site.ts         The key that scopes ADFLEX's rows
+    ├── tokens.css      --adflex-* design tokens
+    └── theme.css       Platform tokens, for the shared components
 ```
 
-Which project a deployment serves is set by `ACTIVE_PROJECT`; unset means `iresi`. An unrecognised value fails at startup rather than quietly serving the wrong project's contact address.
+Which project the **root** of a deployment serves is set by `ACTIVE_PROJECT`; unset means `iresi`. An unrecognised value fails at startup rather than quietly serving the wrong project's contact address.
 
-**No component knows which project it is rendering.** The header, footer and theme all read from the resolved config, so adding a third project means adding a folder — not editing pages.
+**No shared component knows which project it is rendering.** The header, footer and theme all read from the resolved config, so adding a third project means adding a folder — not editing pages.
 
-### Why there is no `project_id` column
+### Two sites, one deployment
 
-Whether IRESI runs one database shared by every project, or one per project, **has not been decided** — that is Adarsh's and Paolo's call. So one deployment serves one project and talks to whatever `DATABASE_URL` points at, and both answers stay reachable:
+Since 13 August 2026 this deployment serves both sites: IRESI at the root and ADFLEX at `/adflex`. One process, one database, one admin, one login — the shape agreed in the review meeting.
 
-- **one database per project** — nothing changes
-- **one shared database** — add a project column in a migration and a filter in `repo.ts`, which is the only module that names tables
+```
+src/app/
+├── layout.tsx          <html>, <body>, fonts. No chrome.
+├── (site)/             IRESI. A route group, so it adds nothing to any URL.
+│   ├── layout.tsx      IRESI header and footer
+│   └── …               every IRESI page, at exactly its old address
+├── adflex/             The ADFLEX site
+│   ├── layout.tsx      .adflex-scope, ADFLEX fonts and tokens
+│   └── …
+└── media/, files/      Shared route handlers
+```
 
-Adding that column now on the assumption central storage wins, and taking it out again if it does not, is the worse trade.
+The two are kept apart by three things, and it is worth knowing all three before changing any of them:
+
+1. **Chrome.** Neither site's header or footer is in the root layout, because a root layout wraps *every* route. Each site brings its own.
+2. **Styles.** Every ADFLEX rule is written against `.adflex-scope` and every ADFLEX token is named `--adflex-*`, so the two stylesheets cannot collide. The one thing that had to change on the way in was ADFLEX's document-level reset — see the note at the top of `src/projects/adflex/site.css`.
+3. **Content.** `migrations/007_site_scope.sql` adds `project_key` to the editor-managed tables, and the public reads in `repo.ts` take a `Site`. It defaults to IRESI, so a forgotten argument shows the parent's content rather than merging the two.
+
+### The `project_key` column
+
+This reverses an earlier decision, deliberately. While one deployment served one project, a project column would have held the same value in every row, and `ACTIVE_PROJECT` plus a separate `DATABASE_URL` did the job. Serving two sites from one database made "which site owns this row" a real question that the environment can no longer answer — without the column, `/adflex/news` lists IRESI's news.
+
+`messages` is deliberately **not** scoped. One inbox for both sites is the point of one admin; the enquiry's subject line says which site it came from.
 
 ---
 
@@ -100,13 +122,17 @@ Knowing which is which is most of what makes this handover work.
 
 ### 1. Editor-managed — the admin, stored in Postgres
 
-Projects, publications, news and events, and the images and documents attached to them. These change often, and an editor changes them without a developer. This is what the meeting asked for.
+Projects, news and events, the **team**, the **About page photographs**, publications, and the images and documents attached to any of them. These change often, and an editor changes them without a developer. This is what the meeting asked for.
+
+The team and the About photographs moved here on 13 August 2026 — see `migrations/008_team_and_page_images.sql`. "Add a colleague to the team page" is the most common thing a research centre does to its own site, and it should not need a commit. `npm run db:seed` loads the existing 36 people and 16 photographs so the admin starts with real content rather than empty.
+
+The team's portraits stay on disk under `public/images/team` and are referenced by `photo_path`; replacing one through the admin uploads a `media` row and `photo_media_id` then takes precedence. Copying thirty-six files into the database to look identical would have been work for its own sake.
 
 ### 2. Developer-managed — `src/projects/iresi/content.ts`
 
-The team list, the seven research topics, the partner logos, and the standing page copy for Home, About Us, Partners, Research and Contact. These change rarely and every change is a considered one. Putting them behind an admin form would add screens nobody opens twice a year.
+The seven research topics, the partner logos, and the standing page copy for Home, About Us, Partners, Research and Contact. These change rarely and every change is a considered one. Putting them behind an admin form would add screens nobody opens twice a year.
 
-So the answer to *"where do I change the About text?"* is one sentence: that file. If the team later wants the team list editable too, it moves to the database and this file loses a section.
+So the answer to *"where do I change the About text?"* is one sentence: that file. The team list used to be in it, and moving to the database is exactly the path the next thing takes when it needs to become editable.
 
 ---
 
@@ -195,40 +221,68 @@ Projects, research topics and news posts all sat at the root of the WordPress si
   hosting panel and the contact form starts sending. No code change, and no
   rebuild: they are read at request time, so a restart is enough. Where
   enquiries *arrive* is separate, and is the project's `contactEmail`.
-  Until all of them are set, every message goes to the admin dashboard instead
-  and the Messages page says so.
+  Until all of them are set, every message is stored instead of emailed, and the
+  admin's overview page says so with a link to read them. Nothing is lost.
 - **Fonts are self-hosted.** `next/font` downloads Montserrat and Work Sans at build time and serves them from this origin, so no visitor's browser contacts Google to render a page. The WordPress site did, which for an EU research centre was an unanswered GDPR question.
-- **Dates are formatted from `YYYY-MM-DD` strings, never from a `Date` returned by `pg`.** `pg` maps a `DATE` to midnight in the server's zone, so an entry dated the 1st renders as the 31st for anyone west of it.
-- **Page copy is stored as text, not markdown.** Blank-line-separated paragraphs, `## ` for a heading, `- ` for a bullet. Rendering it needs no library and offers no HTML-injection surface. `src/components/Prose.tsx` is the one place to change if genuinely rich content is ever needed.
+- **Dates are formatted from `YYYY-MM-DD` strings, never from a `Date` returned by `pg`.** `pg` maps a `DATE` to midnight in the server's zone, so an entry dated the 1st renders as the 31st for anyone west of it — and `new Date("2026-01-01")` has the same trap from the other side, because the spec reads a bare date string as *UTC* midnight. Everything goes through `src/lib/dates.ts`, which reads each date at midday, and `src/lib/dates.test.mjs` locks the rule in.
+- **Every table that references `media` or `files` must be listed in two places.** `isMediaPublic` decides whether an upload is *served*; `deleteOrphanedUploads` decides whether it is *kept*. Missing either is silent: `page_images` was added to one and not the other, which first deleted all sixteen About-page photographs and later made them 404 for every visitor while still looking correct inside the admin. **When testing an image, test it signed out.**
+- **Images are re-encoded before they are committed.** `public/images` came to 31 MB of camera-sized originals — card art at 1062px shown at 480px, portraits at 768px shown at 300px. Capping each to twice its displayed size and re-encoding took it to 12 MB with no visible change. Worth repeating for anything new and large.
+- **Page copy is stored as text, not markdown.** Blank-line-separated paragraphs, `## ` for a heading, `- ` for a bullet. Three inline marks are also understood — `[text](https://…)` for a link, `*text*` for emphasis, `#Hashtag` for a tag — because the news posts carried over from the original site are full of credits and links. `src/components/RichText.tsx` turns those into React elements, never into HTML, so text that looks like markup stays text. Everything else renders literally; there is no markdown library and `src/components/Prose.tsx` is the one place to change if genuinely rich content is ever needed.
+- **The header logo was rebuilt, not copied.** The file the live WordPress site
+  serves (`wp-content/uploads/2025/11/to.png`, 570×126) clips the right edge of
+  the university's name — "of Ireland Maynooth" runs off the canvas. There is
+  nothing to recover from it, so `public/images/logo.png` pairs the IRESI half
+  of that file with Maynooth University's own uncut lockup from
+  maynoothuniversity.ie, at the same 4.5:1 aspect. If the university supplies an
+  official co-branded lockup, replace that one file.
 - **Theming is the seam where a project's look is applied.** Every colour, font and spacing value is a token set by the theme class on `<html>`. Retrofitting that later is much worse than starting with it.
 
 ---
 
 ## Status
 
-**Done and verified against a real PostgreSQL 16 database:**
+**Verified end to end against PostgreSQL 16**, and separately against a fresh
+empty database and against no database at all. In each case a crawl of the whole
+site found **51 pages and 174 assets, none broken**.
 
 - The platform structure, per-project configuration and theming
 - Every public IRESI page, at the existing WordPress URLs
-- The database migrations — all five apply cleanly to an empty database
-- The seed script — loads 11 projects, 12 publications and 7 news entries with
-  23 images, and is safe to re-run (a second run adds nothing)
-- Sign-in, session handling and the admin auth gate
-- Projects: full create, edit, publish, unpublish and delete, with image upload
-- News, publications and messages: list, publish, unpublish and delete
-- `npm run check` passes: lint, build and type-check
+- The ADFLEX site at `/adflex`, with its own chrome, tokens and content
+- All eight migrations apply cleanly to an empty database
+- The seed loads 11 projects, 12 publications, 7 news entries, 36 team members
+  and 16 About photographs, and is safe to re-run — a second run adds nothing
+- Sign-in, sessions, and the auth gate on every admin page and every action
+- **Projects** — create, edit, publish, delete, with image upload
+- **News & events** — create, edit, publish, delete; banner and gallery pictures
+  as separate fields; an upcoming event pins to the top of the listing and turns
+  itself into a past event once it ends
+- **Team** — add, edit, reorder, hide, delete, with portrait upload
+- **About photographs** — upload, reorder, remove
+- **ADFLEX news, outcomes and publications** — full forms, scoped so nothing can
+  cross between the two sites (verified in both directions)
+- `npm run check` passes: lint, build, 28 tests, type-check
 
-**Partly done:** news and publications can be published, unpublished and deleted
-from the admin, but not yet written or edited there — those forms follow exactly
-the same pattern as `src/app/admin/projects/ProjectForm.tsx` and are the next
-piece of work. Until then, new news entries come from the seed file.
+**Not editable from the admin, by request:** Projects, Publications and Messages
+were taken out of the navigation on 14 August 2026. **The pages still exist and
+still work** — `/admin/projects`, `/admin/publications` and `/admin/messages`
+answer if you type them, and the overview links to Messages while email is
+unconfigured. Restoring any of them is one line in the tabs array in
+`src/app/(site)/admin/layout.tsx`.
+
+**Still to build:** the IRESI publications form (publish, unpublish and delete
+work; writing does not — the page says so). It follows the same shape as
+`NewsForm`.
 
 **Email: working, but not yet pointed at IRESI's mailbox.** The whole path is
 tested — a message sent through the contact form is accepted by an SMTP server
 and delivered, verified against a local catcher. What is missing is only the
 real host, address and password, which are items 3.1–3.5 on the access list.
 Setting those five environment variables is the entire remaining step; no code
-changes. Until then messages go to the admin dashboard and nothing is lost.
+changes. Until then messages are stored and the admin says where to read them.
+
+**ADFLEX has no content of its own.** Its database was never migrated into this
+one — there was no access to it. Its News and Outcomes pages show their proper
+empty states, and content can be added through the admin now.
 
 ---
 

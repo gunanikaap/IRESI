@@ -105,7 +105,7 @@ Not access, but outstanding, and each is a visible gap.
 | # | What I need | Blocked without it |
 | --- | --- | --- |
 | 5.1 | Confirmation of IRESI's **funding statement** wording, if it should carry one | Nothing. ADFLEX's reads "Funded by SEAI."; IRESI's footer currently has none |
-| 5.2 | **Legal pages** — Privacy, Cookies, Terms — reviewed by someone who can approve them | Nothing technically. A compliance risk while the site collects contact details |
+| 5.2 | **Legal pages** — Privacy, Cookies, Terms — reviewed by someone who can approve them | Nothing technically. A compliance risk while the contact form collects names, email addresses and free text. The deployment publishes none as of 13 Aug 2026: ADFLEX's three were taken down at the project's request because IRESI has no equivalents, so neither site now has one. ADFLEX's supplied wording is kept unrendered in `src/projects/adflex/content.ts` under `legal`, so restoring them is putting the route back, not transcribing them again |
 | 5.3 | Whether the homepage claim of **"50+ Scientific Publications"** should stay while the page lists 12 | Nothing. Carried over from the current site; flagging it rather than changing it |
 | 5.4 | A LinkedIn/X account list to confirm the footer links are current | Nothing. The existing links were carried over as-is |
 

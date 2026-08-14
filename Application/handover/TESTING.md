@@ -16,11 +16,22 @@ The site is already running. If it is still up from when this was written:
 
 | | |
 | --- | --- |
-| Username | `testeditor` |
-| Password | `TestPassw0rd!local` |
+| Login | `admin@iresi.eu` |
+| Password | `IresiAdmin2026!` |
 
-The username is deliberately **not** an email address — nothing is ever sent to
-it, so an email there would be a promise the site does not keep.
+> **This is a local test credential and must not be reused on the deployed
+> site.** It exists so this document is usable against a throwaway database on
+> your own machine. Set a real one before the site is public, with
+> `npm run db:user -- admin@iresi.eu "IRESI Administrator"`.
+
+The login accepts an email address, and this is the one the team asked for — but
+it is an **identifier, not an address**. Nothing is ever sent to it: there is no
+password reset by email, no notification and no verification. A forgotten
+password is reset by re-running `npm run db:user`, which is the only reset there
+is.
+
+An older account, `testeditor` / `TestPassw0rd!`, also works if you have it
+saved.
 
 ### If it is not running
 
@@ -47,7 +58,7 @@ docker run -d --name iresi-test-db -e POSTGRES_PASSWORD=testpw -e POSTGRES_DB=ir
 cd d:\IRESI\Application
 npm run db:setup
 npm run db:seed
-npm run db:user -- testeditor "Test Editor"
+npm run db:user -- admin@iresi.eu "IRESI Administrator"
 ```
 
 ### When you are finished
@@ -84,12 +95,21 @@ variables do.
 These are already on the list. Reporting them costs you time and tells me
 nothing new.
 
+Before that, one trap that is **not** a site fault and will waste an hour if you
+hit it: **never run two `npx next start` processes from the same folder.** They
+share one `.next` directory, and the second build renames the stylesheets the
+first one is still serving — every page then loads unstyled with 404s in the
+console. Stop one before starting the other. It cost me an hour during this
+build, twice.
+
 | Gap | Why |
 | --- | --- |
-| News and publications cannot be **written or edited** in the admin | Only publish/unpublish/delete work so far. The forms follow the same pattern as the project form and are the next piece of work. Both pages say so on screen |
+| **IRESI publications** cannot be written or edited | Only publish/unpublish/delete work there, and the page says so on screen. Everything else — news, projects, team, photographs, and all three ADFLEX types — has a full form |
+| **Projects, Publications and Messages are not in the admin menu** | Removed at the team's request on 14 Aug 2026. The pages still work if you type the address — `/admin/projects`, `/admin/publications`, `/admin/messages` — and the overview links to Messages while email is unconfigured. Putting any of them back is one line |
+| ADFLEX's News and Outcomes pages are **empty** | Its own database was not migrated into this one — there was no access to it. Both pages show their proper empty state, and content can be added through the admin |
 | Real IRESI email is not connected | Sending works and is tested, but against a local catcher. Only the real host, address and password are missing — items 3.1–3.5 on the access list |
 | No sitemap, no canonical links | Waiting on the confirmed staging address |
-| The team list, research topic pages, partner logos and standing page text are not editable in the admin | Deliberate — they change rarely and live in the code. See the README |
+| Research topic pages, partner logos and standing page text are not editable in the admin | Deliberate — they change rarely and live in the code. See the README. The team list and the About photographs **are** editable now |
 | "50+ Scientific Publications" on the home page while the page lists 12 | Carried over from the current live site. Flagged for the team to confirm |
 | The homepage stat says "EU-Funded" | Also carried over from the live IRESI site. Worth confirming with Paend |
 
@@ -274,11 +294,17 @@ without a developer?** Please be picky.
 
 ### 2.4 News, publications, messages
 
-Remember: only publish/unpublish/delete work here for now.
-
 - [ ] **News** list shows all 7 entries, with the one marked *hidden from the
       listing* flagged. That entry is deliberately reachable at its own address
       but kept off `/news-events` — check both
+- [ ] **Add news or an event** → write a news post, tick *Publish this*, save →
+      it appears on `/news-events`
+- [ ] Add one again choosing **Event — still to come**: the date, time, place and
+      booking fields appear. Save without a date → it is refused with a message
+      naming the field, and nothing you typed is lost
+- [ ] **Edit** an existing entry, change the title, save → the change shows on
+      the public page, and its photographs are still attached (choosing no new
+      files must leave the existing ones alone)
 - [ ] Unpublish a news entry → it disappears from `/news-events`
 - [ ] Publish it again → it comes back
 - [ ] **Publications** list shows 12, grouped names shown against each
@@ -286,7 +312,31 @@ Remember: only publish/unpublish/delete work here for now.
       `/publications`
 - [ ] **Messages** is empty until you use the contact form (next section)
 
-### 2.5 Contact form
+### 2.5 Team and photographs
+
+- [ ] **Team** lists 36 people in the same order as `/team`
+- [ ] **Add a person** with a name, a role and a photograph → they appear on
+      `/team` in the position you gave them
+- [ ] **Hide** somebody → they disappear from `/team` but stay in this list
+- [ ] **Edit** somebody and save *without* choosing a new photograph → their
+      existing photograph is still there. This is the one that would be easy to
+      get wrong
+- [ ] **Photographs** shows the 16 About-page pictures. Add one, move it up,
+      remove it → the strip on `/about-us` follows
+
+### 2.6 ADFLEX
+
+The same login opens both sites. ADFLEX is the last tab, set apart by a rule.
+
+- [ ] **ADFLEX** tab → the overview says its content is separate from IRESI's
+- [ ] **News & events** → empty, with an explanation
+- [ ] Add an ADFLEX news post and publish it → it appears on `/adflex/news`
+- [ ] It does **not** appear on `/news-events`, and does not appear in IRESI's
+      own News list in the admin. This separation is the thing most worth
+      checking — if it is wrong, the two sites' content is mixed
+- [ ] Conversely, none of IRESI's 7 news entries appear under ADFLEX
+
+### 2.7 Contact form
 
 - [ ] The page shows the **map of Maynooth University** at the bottom
 - [ ] Fill in the form on `/contact` and send it

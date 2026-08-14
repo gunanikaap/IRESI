@@ -116,6 +116,28 @@ This reverses an earlier decision, deliberately. While one deployment served one
 
 ---
 
+## Design systems
+
+| | |
+| --- | --- |
+| IRESI | `/design-system` |
+| ADFLEX | `/adflex/design-system` |
+
+Colour, type, spacing, components, the writing format, and measured contrast for
+every pair that carries text.
+
+**Both pages read the real stylesheets at build time** — `src/projects/iresi/theme.css`
+and `src/projects/adflex/tokens.css` — rather than repeating the values as data.
+The swatches are filled with the custom properties themselves and the specimens
+use the live classes, so neither page can drift from the site: change a token and
+the documentation changes with it. Contrast ratios are calculated, not asserted;
+`src/lib/design-tokens.test.mjs` covers the parser and the WCAG maths.
+
+Neither is linked from a site menu and both are `noindex` — they document the
+sites rather than being part of them.
+
+---
+
 ## Two kinds of content
 
 Knowing which is which is most of what makes this handover work.

@@ -1,0 +1,401 @@
+/*
+ * The design-system page's own furniture.
+ *
+ * Deliberately independent of both sites' stylesheets. Every value here is a
+ * literal, and the only tokens referenced are the ones being *demonstrated* —
+ * inside a swatch or a specimen, never in the page around them. A reference
+ * page built out of the thing it documents cannot show that thing breaking.
+ */
+
+.page {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 2.5rem;
+	max-width: 78rem;
+	margin: 0 auto;
+	padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 2.5rem) 5rem;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	line-height: 1.65;
+	color: #333d4b;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+.page *,
+.page *::before,
+.page *::after {
+	box-sizing: border-box;
+}
+
+@media (min-width: 60rem) {
+	.page {
+		grid-template-columns: 13rem minmax(0, 1fr);
+		gap: 3.5rem;
+		align-items: start;
+	}
+}
+
+/* --- Header --------------------------------------------------------------- */
+
+.header {
+	grid-column: 1 / -1;
+	border-bottom: 2px solid #10243e;
+	padding-bottom: 1.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.eyebrow {
+	display: inline-block;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: #5b6675;
+	margin: 0 0 0.5rem;
+}
+
+.title {
+	margin: 0 0 0.6rem;
+	font-size: clamp(1.75rem, 3vw, 2.5rem);
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -0.01em;
+	color: #10243e;
+}
+
+.lede {
+	margin: 0;
+	max-width: 62ch;
+	font-size: 1.0625rem;
+	color: #4a5563;
+}
+
+.sourceNote {
+	margin: 1.25rem 0 0;
+	padding: 0.85rem 1.1rem;
+	background: #f3f6f9;
+	border-left: 3px solid #0b5cab;
+	font-size: 0.875rem;
+	color: #45505f;
+	max-width: 70ch;
+}
+
+.sourceNote code {
+	font-size: 0.8125rem;
+}
+
+/* --- Contents ------------------------------------------------------------- */
+
+.toc {
+	font-size: 0.875rem;
+}
+
+@media (min-width: 60rem) {
+	.toc {
+		position: sticky;
+		top: 1.5rem;
+	}
+}
+
+.tocTitle {
+	margin: 0 0 0.6rem;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: #6b7684;
+}
+
+.toc ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-left: 1px solid #dde3ea;
+}
+
+.toc li + li {
+	margin-top: 0.1rem;
+}
+
+.toc a {
+	display: block;
+	padding: 0.3rem 0 0.3rem 0.8rem;
+	margin-left: -1px;
+	border-left: 2px solid transparent;
+	color: #45505f;
+	text-decoration: none;
+}
+
+.toc a:hover {
+	color: #0b5cab;
+	border-left-color: #0b5cab;
+}
+
+/* --- Sections ------------------------------------------------------------- */
+
+.section {
+	scroll-margin-top: 6rem;
+	padding-top: 2.25rem;
+}
+
+.section + .section {
+	border-top: 1px solid #e6eaef;
+}
+
+.sectionTitle {
+	margin: 0 0 0.5rem;
+	font-size: 1.375rem;
+	font-weight: 700;
+	color: #10243e;
+	letter-spacing: -0.005em;
+}
+
+.sectionIntro {
+	margin: 0 0 1.75rem;
+	max-width: 68ch;
+	color: #4a5563;
+}
+
+.subsection {
+	margin-top: 2rem;
+}
+
+.subsectionTitle {
+	margin: 0 0 0.9rem;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #6b7684;
+}
+
+/* --- Swatches ------------------------------------------------------------- */
+
+.swatchGrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+	gap: 1rem;
+}
+
+.swatch {
+	border: 1px solid #e0e5eb;
+	border-radius: 8px;
+	overflow: hidden;
+	background: #fff;
+}
+
+.swatchColour {
+	height: 4.5rem;
+	/* A chequerboard behind the fill, so a translucent token reads as
+	   translucent rather than as a slightly different solid. */
+	background-image: linear-gradient(45deg, #eceff3 25%, transparent 25%),
+		linear-gradient(-45deg, #eceff3 25%, transparent 25%),
+		linear-gradient(45deg, transparent 75%, #eceff3 75%),
+		linear-gradient(-45deg, transparent 75%, #eceff3 75%);
+	background-size: 14px 14px;
+	background-position: 0 0, 0 7px, 7px -7px, -7px 0;
+	border-bottom: 1px solid #e0e5eb;
+}
+
+/* Some tokens are white or near-white and vanish against the card. */
+.swatchOnDark {
+	box-shadow: inset 0 0 0 1px rgba(16, 36, 62, 0.12);
+}
+
+.swatchBody {
+	padding: 0.7rem 0.85rem 0.85rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+}
+
+.swatchToken {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: #10243e;
+	word-break: break-all;
+}
+
+.swatchValue {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.6875rem;
+	color: #6b7684;
+	word-break: break-all;
+}
+
+.swatchNote {
+	margin-top: 0.3rem;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	color: #55606f;
+}
+
+/* --- Tables --------------------------------------------------------------- */
+
+.tableWrap {
+	overflow-x: auto;
+	border: 1px solid #e0e5eb;
+	border-radius: 8px;
+}
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875rem;
+	min-width: 34rem;
+}
+
+.table caption {
+	text-align: left;
+	padding: 0.75rem 1rem;
+	font-size: 0.8125rem;
+	color: #6b7684;
+	border-bottom: 1px solid #e6eaef;
+}
+
+.table th,
+.table td {
+	text-align: left;
+	vertical-align: top;
+	padding: 0.6rem 1rem;
+	border-bottom: 1px solid #eef1f5;
+}
+
+.table thead th {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #6b7684;
+	background: #f7f9fb;
+	white-space: nowrap;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.table code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.8125rem;
+	color: #10243e;
+	font-weight: 500;
+	word-break: break-all;
+}
+
+.value {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.8125rem;
+	color: #45505f;
+	word-break: break-all;
+}
+
+.dash {
+	color: #9aa4b1;
+}
+
+.empty {
+	padding: 1rem;
+	border: 1px dashed #d5dce4;
+	border-radius: 8px;
+	color: #6b7684;
+}
+
+/* --- Contrast ------------------------------------------------------------- */
+
+.contrastSample {
+	display: inline-grid;
+	place-items: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 5px;
+	border: 1px solid rgba(16, 36, 62, 0.14);
+	font-weight: 700;
+	margin-right: 0.6rem;
+	vertical-align: middle;
+}
+
+.contrastPair {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 0.75rem !important;
+}
+
+.grade {
+	display: inline-block;
+	padding: 0.15rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	white-space: nowrap;
+}
+
+.gradePass {
+	background: #e3f3e8;
+	color: #1d6b39;
+}
+
+.gradeFail {
+	background: #fbe6e6;
+	color: #a3212a;
+}
+
+/* --- Specimens ------------------------------------------------------------ */
+
+.specimen {
+	margin: 0 0 1.25rem;
+	border: 1px solid #e0e5eb;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.specimenStage {
+	padding: 1.6rem;
+	background: #fff;
+}
+
+/* For anything that is only legible on a dark ground. */
+.specimenDark {
+	background: #1c2530;
+}
+
+.specimenCaption {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.15rem 0.75rem;
+	align-items: baseline;
+	padding: 0.6rem 1rem;
+	background: #f7f9fb;
+	border-top: 1px solid #e6eaef;
+	font-size: 0.8125rem;
+	color: #55606f;
+}
+
+.specimenCaption strong {
+	color: #10243e;
+	font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+/* --- Rules ---------------------------------------------------------------- */
+
+.rules {
+	margin-top: 2rem;
+	padding: 1.25rem 1.5rem;
+	background: #f7f9fb;
+	border: 1px solid #e6eaef;
+	border-radius: 8px;
+}
+
+.rules ul {
+	margin: 0;
+	padding-left: 1.1rem;
+}
+
+.rules li + li {
+	margin-top: 0.5rem;
+}

@@ -1,0 +1,15 @@
+-- --------------------------------------------------------------------------
+-- Extra mockups on a project page                             (13 August 2026)
+-- --------------------------------------------------------------------------
+-- RENEW, RES4CITY and FLOW each show four further screenshots below the main
+-- picture on the live site -- phone and laptop mockups of the platform. Ours
+-- carried only the one hero image, so those were missing.
+--
+-- Paths under /public, one per line, matching how `card_image` and `hero_image`
+-- already work on this table. These came from the old site as files rather than
+-- uploads; anything an editor adds afterwards goes through `project_images` and
+-- the media table like every other upload.
+--
+-- The two mechanisms coexist on purpose: this column is the content carried
+-- over, `project_images` is what the admin writes. A project page shows both.
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS gallery TEXT NOT NULL DEFAULT '';

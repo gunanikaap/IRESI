@@ -85,8 +85,8 @@ async function seedProjects() {
     await client.query(
       `INSERT INTO projects
          (slug, title, page_title, summary, intro, tags, body, card_image, hero_image,
-          website, website_label, vimeo_id, external_only, published, sort_order)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,true,$14)`,
+          website, website_label, vimeo_id, external_only, gallery, published, sort_order)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,true,$15)`,
       [
         p.slug,
         p.title,
@@ -101,6 +101,7 @@ async function seedProjects() {
         "See Platform",
         p.vimeoId,
         Boolean(p.externalOnly),
+        (p.gallery ?? []).join("\n"),
         p.order ?? 0,
       ],
     );
@@ -180,6 +181,88 @@ async function seedNews() {
   return added;
 }
 
+/**
+ * The team page.
+ *
+ * Portraits are stored as `photo_path` rather than uploaded into `media`: the
+ * files are already served from `public/images/team`, and copying thirty-six of
+ * them into the database to look identical would be work for its own sake. An
+ * editor who replaces someone's photograph through the admin uploads a real
+ * `media` row, and `photo_media_id` then takes precedence.
+ */
+async function seedTeam() {
+  const people = JSON.parse(
+    readFileSync(join(root, "src/projects/iresi/data/team.json"), "utf8"),
+  );
+  let added = 0;
+  for (const person of people) {
+    const { rows } = await client.query(
+      "SELECT id FROM team_members WHERE project_key = $1 AND name = $2",
+      [projectKey, person.name],
+    );
+    if (rows.length > 0) continue;
+    await client.query(
+      `INSERT INTO team_members
+         (project_key, name, role, photo_path, email, linkedin, sort_order, published)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, true)`,
+      [projectKey, person.name, person.role ?? "", person.photo ?? null,
+       person.email ?? null, person.linkedin ?? null, person.order ?? 0],
+    );
+    added++;
+  }
+  return added;
+}
+
+/**
+ * The About page's scrolling photographs.
+ *
+ * These *are* uploaded into `media`, unlike the portraits: the point of putting
+ * them here is that an editor can add and remove them, and a list that mixed
+ * database rows with hard-coded paths could not be reordered as one.
+ */
+async function seedAboutImages() {
+  /*
+   * Checked one picture at a time, by filename, rather than "does this slot have
+   * anything in it".
+   *
+   * The whole-slot check meant that once an editor had added a single photograph
+   * of their own, this could never restore the originals — which mattered on
+   * 14 August 2026, when a bug in the orphan sweep deleted all sixteen and the
+   * two the editor had uploaded were enough to make the seed skip the lot.
+   */
+  const { rows: present } = await client.query(
+    `SELECT m.filename
+     FROM page_images pi JOIN media m ON m.id = pi.media_id
+     WHERE pi.project_key = $1 AND pi.slot = 'about-collage'`,
+    [projectKey],
+  );
+  const have = new Set(present.map((row) => row.filename));
+
+  const { rows: last } = await client.query(
+    `SELECT COALESCE(MAX(sort_order), -1) AS n
+     FROM page_images WHERE project_key = $1 AND slot = 'about-collage'`,
+    [projectKey],
+  );
+  let position = Number(last[0].n) + 1;
+
+  let added = 0;
+  for (let i = 1; i <= 16; i++) {
+    const path = `/images/about/collage-${i}.jpg`;
+    if (have.has(path.split("/").pop())) continue;
+
+    const mediaId = await storeImage(path, "Life at the IRESI Centre");
+    if (mediaId === null) continue;
+    await client.query(
+      `INSERT INTO page_images (project_key, slot, media_id, sort_order)
+       VALUES ($1, 'about-collage', $2, $3)`,
+      [projectKey, mediaId, position],
+    );
+    position++;
+    added++;
+  }
+  return added;
+}
+
 try {
   await client.connect();
   await client.query("BEGIN");
@@ -187,12 +270,15 @@ try {
   const projects = await seedProjects();
   const publications = await seedPublications();
   const news = await seedNews();
+  const team = await seedTeam();
+  const aboutImages = await seedAboutImages();
 
   await client.query("COMMIT");
   console.log(
-    `Seeded "${projectKey}": ${projects} projects, ${publications} publications, ${news} news entries.`,
+    `Seeded "${projectKey}": ${projects} projects, ${publications} publications, ` +
+      `${news} news entries, ${team} team members, ${aboutImages} About photographs.`,
   );
-  if (projects + publications + news === 0) {
+  if (projects + publications + news + team + aboutImages === 0) {
     console.log("Nothing was added — every entry already exists.");
   }
 } catch (error) {

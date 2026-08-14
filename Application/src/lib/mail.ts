@@ -16,11 +16,11 @@ import { project } from "@/projects";
  * here than the package count:
  *
  *  - **It adds no data processor.** Everything a visitor types on the contact
- *    form is personal data, and the privacy policy names Maynooth University as
- *    the controller. Routing it through a commercial email service makes that
- *    service a processor, which needs an agreement, a transfer assessment if it
- *    is outside the EEA, and a line in the policy. Sending through a mailbox
- *    the project already owns needs none of that.
+ *    form is personal data, and Maynooth University is the controller for it.
+ *    Routing it through a commercial email service makes that service a
+ *    processor, which needs an agreement, a transfer assessment if it is
+ *    outside the EEA, and a line in the policy. Sending through a mailbox the
+ *    project already owns needs none of that.
  *  - **It works with what the project has.** IRESI already publishes
  *    a project address already. Any mailbox — institutional, Microsoft 365, Google
  *    Workspace — can relay this. No new account, no card, no domain to verify.

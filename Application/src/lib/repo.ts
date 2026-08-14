@@ -16,6 +16,28 @@ import { query, queryOne, safeRead, safeReadStatus, withTransaction, type ReadSt
  *    "your work is gone".
  */
 
+/* --------------------------------------------------------------------------
+ * Which site a row belongs to
+ * ----------------------------------------------------------------------- */
+
+/**
+ * One deployment serves both IRESI and the ADFLEX site at /adflex, from one
+ * database. Every public listing therefore has to say which site is asking, or
+ * /adflex/news lists IRESI's news. See migrations/007_site_scope.sql.
+ *
+ * Passed in rather than read from ambient state. The alternative — resolving it
+ * from the request URL inside the repository — would make the same call return
+ * different rows depending on where it was made from, which is exactly the kind
+ * of thing that is invisible in review and obvious in production.
+ *
+ * `PLATFORM_SITE` is the default on every read, so the IRESI call sites are
+ * unchanged and a forgotten argument fails safe: it shows the parent's content
+ * rather than merging the two.
+ */
+export type Site = string;
+
+export const PLATFORM_SITE: Site = "iresi";
+
 /**
  * How large an entry's images are drawn on the public page.
  *
@@ -254,26 +276,31 @@ const FINDING_COLUMNS = `
   ${filesJson("finding_files", "finding_id", "f")}
 `;
 
-export function listPublishedFindingsStatus(): Promise<ReadStatus<Finding[]>> {
+export function listPublishedFindingsStatus(
+  site: Site = PLATFORM_SITE,
+): Promise<ReadStatus<Finding[]>> {
   return safeReadStatus(
     () =>
-      query<Finding>(`
-        SELECT ${FINDING_COLUMNS}
-        FROM findings f
-        WHERE f.published
-        ORDER BY f.sort_order, f.created_at DESC
-      `),
+      query<Finding>(
+        `SELECT ${FINDING_COLUMNS}
+         FROM findings f
+         WHERE f.published AND f.project_key = $1
+         ORDER BY f.sort_order, f.created_at DESC`,
+        [site],
+      ),
     [],
     "findings",
   );
 }
 
-export function listAllFindings(): Promise<Finding[]> {
-  return query<Finding>(`
-    SELECT ${FINDING_COLUMNS}
-    FROM findings f
-    ORDER BY f.sort_order, f.created_at DESC
-  `);
+export function listAllFindings(site: Site = PLATFORM_SITE): Promise<Finding[]> {
+  return query<Finding>(
+    `SELECT ${FINDING_COLUMNS}
+     FROM findings f
+     WHERE f.project_key = $1
+     ORDER BY f.sort_order, f.created_at DESC`,
+    [site],
+  );
 }
 
 export function getFinding(id: number): Promise<Finding | null> {
@@ -299,11 +326,15 @@ export type FindingInput = {
   sortOrder: number;
 };
 
-export async function createFinding(input: FindingInput): Promise<number> {
+export async function createFinding(
+  input: FindingInput,
+  site: Site = PLATFORM_SITE,
+): Promise<number> {
   const row = await queryOne<{ id: number }>(
-    `INSERT INTO findings (title, summary, body, published, sort_order, image_size)
-     VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-    [input.title, input.summary, input.body, input.published, input.sortOrder, input.imageSize],
+    `INSERT INTO findings (title, summary, body, published, sort_order, image_size, project_key)
+     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
+    [input.title, input.summary, input.body, input.published, input.sortOrder,
+     input.imageSize, site],
   );
   await setFindingImages(row!.id, input.imageIds);
   await setFindingFiles(row!.id, input.fileIds);
@@ -372,25 +403,30 @@ const PUBLICATION_COLUMNS = `
   ${filesJson("publication_files", "publication_id", "p")}
 `;
 
-export function listPublishedPublicationsStatus(): Promise<ReadStatus<Publication[]>> {
+export function listPublishedPublicationsStatus(
+  site: Site = PLATFORM_SITE,
+): Promise<ReadStatus<Publication[]>> {
   return safeReadStatus(
     () =>
-      query<Publication>(`
-        SELECT ${PUBLICATION_COLUMNS}
-        FROM publications p
-        WHERE p.published
-        ORDER BY p.sort_order, p.year DESC NULLS LAST, p.title
-      `),
+      query<Publication>(
+        `SELECT ${PUBLICATION_COLUMNS}
+         FROM publications p
+         WHERE p.published AND p.project_key = $1
+         ORDER BY p.sort_order, p.year DESC NULLS LAST, p.title`,
+        [site],
+      ),
     [],
     "publications",
   );
 }
 
-export function listAllPublications(): Promise<Publication[]> {
-  return query<Publication>(`
-    SELECT ${PUBLICATION_COLUMNS} FROM publications p
-    ORDER BY p.sort_order, p.year DESC NULLS LAST, p.title
-  `);
+export function listAllPublications(site: Site = PLATFORM_SITE): Promise<Publication[]> {
+  return query<Publication>(
+    `SELECT ${PUBLICATION_COLUMNS} FROM publications p
+     WHERE p.project_key = $1
+     ORDER BY p.sort_order, p.year DESC NULLS LAST, p.title`,
+    [site],
+  );
 }
 
 export function getPublication(id: number): Promise<Publication | null> {
@@ -413,11 +449,15 @@ export type PublicationInput = {
   sortOrder: number;
 };
 
-export async function createPublication(input: PublicationInput): Promise<number> {
+export async function createPublication(
+  input: PublicationInput,
+  site: Site = PLATFORM_SITE,
+): Promise<number> {
   const row = await queryOne<{ id: number }>(
-    `INSERT INTO publications (title, authors, venue, year, doi, url, published, sort_order)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
-    [input.title, input.authors, input.venue, input.year, input.doi, input.url, input.published, input.sortOrder],
+    `INSERT INTO publications (title, authors, venue, year, doi, url, published, sort_order, project_key)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id`,
+    [input.title, input.authors, input.venue, input.year, input.doi, input.url,
+     input.published, input.sortOrder, site],
   );
   await setPublicationFiles(row!.id, input.fileIds);
   return row!.id;
@@ -622,15 +662,18 @@ const NEWS_ORDER = `
  * `safeReadStatus`. These exist so `/news` and `/outcomes` can say "nothing
  * published yet" only when that is true.
  */
-export function listPublishedNewsStatus(): Promise<ReadStatus<NewsItem[]>> {
+export function listPublishedNewsStatus(
+  site: Site = PLATFORM_SITE,
+): Promise<ReadStatus<NewsItem[]>> {
   return safeReadStatus(
     () =>
-      query<NewsItem>(`
-        SELECT ${NEWS_COLUMNS}
-        FROM news_items n
-        WHERE n.published
-        ${NEWS_ORDER}
-      `),
+      query<NewsItem>(
+        `SELECT ${NEWS_COLUMNS}
+         FROM news_items n
+         WHERE n.published AND n.project_key = $1
+         ${NEWS_ORDER}`,
+        [site],
+      ),
     [],
     "news",
   );
@@ -656,20 +699,22 @@ export function listPublishedNewsStatus(): Promise<ReadStatus<NewsItem[]>> {
  * unreachable one, the home page simply shows no announcement rather than
  * failing to render.
  */
-export function getNextUpcomingEvent(): Promise<NewsItem | null> {
+export function getNextUpcomingEvent(site: Site = PLATFORM_SITE): Promise<NewsItem | null> {
   return safeRead(
     () =>
-      queryOne<NewsItem>(`
-        SELECT ${NEWS_COLUMNS}
-        FROM news_items n
-        WHERE n.published
-          AND n.kind = 'upcoming'
-          AND NOT n.slots_filled
-          AND n.event_date IS NOT NULL
-          AND ${EVENT_START} > ${PROJECT_NOW}
-        ORDER BY ${EVENT_START}, n.id
-        LIMIT 1
-      `),
+      queryOne<NewsItem>(
+        `SELECT ${NEWS_COLUMNS}
+         FROM news_items n
+         WHERE n.published
+           AND n.project_key = $1
+           AND n.kind = 'upcoming'
+           AND NOT n.slots_filled
+           AND n.event_date IS NOT NULL
+           AND ${EVENT_START} > ${PROJECT_NOW}
+         ORDER BY ${EVENT_START}, n.id
+         LIMIT 1`,
+        [site],
+      ),
     null,
     "next event",
   );
@@ -680,12 +725,48 @@ export function getNextUpcomingEvent(): Promise<NewsItem | null> {
  * drops. An editor has to be able to see what has fallen off the page in order
  * to do anything about it.
  */
-export function listAllNews(): Promise<NewsItem[]> {
-  return query<NewsItem>(`
-    SELECT ${NEWS_COLUMNS}
-    FROM news_items n
-    ${NEWS_ORDER}
-  `);
+/**
+ * Turns every upcoming event whose end time has passed into a past one.
+ *
+ * ---------------------------------------------------------------------------
+ * THE DISPLAY NEVER NEEDED THIS
+ * ---------------------------------------------------------------------------
+ * `expired` is computed on every read, so a finished event stops being labelled
+ * "Upcoming", loses its booking button and drops out of the pinned group at the
+ * minute it ends, with nothing scheduled and no window in which the public page
+ * is wrong. That is still how the site behaves and it is the part that matters.
+ *
+ * What did not change was the stored `kind`. An editor opening a seminar that
+ * finished last week found "Event — still to come" selected in the form, which
+ * is the site telling them something the site does not believe. This settles the
+ * column so the record agrees with the page.
+ *
+ * Called from the admin layout, so it runs when somebody opens the admin and
+ * never on a public request: a read that writes would be wrong on the public
+ * path, and pointless there, since those pages are already correct.
+ *
+ * Returns how many rows moved, which is zero on almost every call.
+ */
+export async function settleFinishedEvents(): Promise<number> {
+  const rows = await query<{ id: number }>(
+    `UPDATE news_items n
+     SET kind = 'event', updated_at = now()
+     WHERE n.kind = 'upcoming'
+       AND n.event_date IS NOT NULL
+       AND ${EVENT_END} <= ${PROJECT_NOW}
+     RETURNING n.id`,
+  );
+  return rows.length;
+}
+
+export function listAllNews(site: Site = PLATFORM_SITE): Promise<NewsItem[]> {
+  return query<NewsItem>(
+    `SELECT ${NEWS_COLUMNS}
+     FROM news_items n
+     WHERE n.project_key = $1
+     ${NEWS_ORDER}`,
+    [site],
+  );
 }
 
 export function getNewsItem(id: number): Promise<NewsItem | null> {
@@ -711,6 +792,12 @@ export function getNewsItem(id: number): Promise<NewsItem | null> {
 export type NewsInput = {
   kind: NewsKind;
   title: string;
+  /**
+   * The entry's address. Never empty: `/[slug]` is the only route that serves a
+   * news entry, so a row without one is a row nothing can open — which is
+   * exactly what entries created through the admin used to be.
+   */
+  slug: string;
   summary: string;
   body: string;
   imageIds: number[];
@@ -732,18 +819,69 @@ export type NewsInput = {
   eventVideoUrl: string | null;
 };
 
-export async function createNewsItem(input: NewsInput): Promise<number> {
+/**
+ * Turns a title into an address.
+ *
+ * Emoji, punctuation and accents all go; what is left is lower-case words joined
+ * by hyphens. The titles carried over from the old site open with things like
+ * "🌟 Renew Team Represented…", so stripping to `[a-z0-9]` rather than escaping
+ * is the only thing that produces an address anybody would type.
+ *
+ * Returns an empty string when nothing survives — a title of pure emoji — and
+ * the caller is expected to fall back rather than write an empty slug.
+ */
+export function slugifyTitle(title: string): string {
+  return title
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80)
+    .replace(/-+$/g, "");
+}
+
+/**
+ * A slug nothing else is using.
+ *
+ * `news_slug_key` is unique, so a clash is an error at save time rather than a
+ * silently overwritten address. Suffixing is done here instead: an editor who
+ * writes two posts called "Annual Report" gets `annual-report` and
+ * `annual-report-2` rather than a failure they cannot act on.
+ */
+export async function availableNewsSlug(
+  desired: string,
+  excludeId: number | null = null,
+): Promise<string> {
+  const base = desired || "entry";
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const candidate = attempt === 0 ? base : `${base}-${attempt + 1}`;
+    const clash = await queryOne<{ id: number }>(
+      "SELECT id FROM news_items WHERE slug = $1 AND ($2::int IS NULL OR id <> $2)",
+      [candidate, excludeId],
+    );
+    if (!clash) return candidate;
+  }
+  // 50 entries with the same title is not a real case; a timestamp ends the
+  // loop rather than looping for ever or returning a slug that will fail.
+  return `${base}-${Date.now()}`;
+}
+
+export async function createNewsItem(
+  input: NewsInput,
+  site: Site = PLATFORM_SITE,
+): Promise<number> {
   // `published_on` is omitted so the column's CURRENT_DATE default applies.
   const row = await queryOne<{ id: number }>(
     `INSERT INTO news_items
        (kind, title, summary, body, event_date, location, published, image_size,
         booking_url, slots_filled, event_time, event_end_time, sort_order,
-        event_outcome, event_video_url)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING id`,
+        event_outcome, event_video_url, project_key, slug)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING id`,
     [input.kind, input.title, input.summary, input.body,
      input.eventDate, input.location, input.published, input.imageSize,
      input.bookingUrl, input.slotsFilled, input.eventTime, input.eventEndTime,
-     input.sortOrder, input.eventOutcome, input.eventVideoUrl],
+     input.sortOrder, input.eventOutcome, input.eventVideoUrl, site, input.slug],
   );
   await setNewsImages(row!.id, input.imageIds);
   return row!.id;
@@ -758,13 +896,13 @@ export async function updateNewsItem(id: number, input: NewsInput): Promise<void
          event_date = $6, location = $7, published = $8,
          image_size = $9, booking_url = $10, slots_filled = $11,
          event_time = $12, event_end_time = $13, sort_order = $14,
-         event_outcome = $15, event_video_url = $16,
+         event_outcome = $15, event_video_url = $16, slug = $17,
          updated_at = now()
      WHERE id = $1`,
     [id, input.kind, input.title, input.summary, input.body,
      input.eventDate, input.location, input.published, input.imageSize,
      input.bookingUrl, input.slotsFilled, input.eventTime, input.eventEndTime,
-     input.sortOrder, input.eventOutcome, input.eventVideoUrl],
+     input.sortOrder, input.eventOutcome, input.eventVideoUrl, input.slug],
   );
   await setNewsImages(id, input.imageIds);
   await deleteOrphanedUploads();
@@ -807,7 +945,12 @@ export async function deleteNewsItem(id: number): Promise<void> {
  * ----------------------------------------------------------------------- */
 
 /** The three tables carrying a `published` flag. */
-export type PublishableTable = "findings" | "publications" | "news_items" | "projects";
+export type PublishableTable =
+  | "findings"
+  | "publications"
+  | "news_items"
+  | "projects"
+  | "team_members";
 
 // Checked against, not interpolated blindly: the table name reaches this from a
 // form field, and an allow-list is what stops it reaching SQL as anything else.
@@ -816,6 +959,7 @@ const PUBLISHABLE: readonly PublishableTable[] = [
   "publications",
   "news_items",
   "projects",
+  "team_members",
 ];
 
 /**
@@ -944,6 +1088,25 @@ export async function deleteMedia(id: number): Promise<void> {
  * Deletes every upload that is no longer attached to anything, and reports how
  * many went.
  *
+ * ---------------------------------------------------------------------------
+ * EVERY TABLE THAT CAN HOLD AN IMAGE HAS TO BE LISTED HERE
+ * ---------------------------------------------------------------------------
+ * An upload this misses is an upload it deletes. That is not hypothetical: when
+ * `page_images` was added on 13 August 2026 it was not added here, and because
+ * its foreign key cascades, every save of a news entry silently deleted all
+ * sixteen photographs from the About page. Nothing reported an error; the strip
+ * simply emptied.
+ *
+ * So the list includes the join tables, the two `projects` columns that point at
+ * an image directly, and `team_members.photo_media_id`. That last one is
+ * `ON DELETE SET NULL` rather than a cascade, so missing it would not have
+ * removed anybody — it would have blanked their portrait instead, which is
+ * harder to notice and no better.
+ *
+ * **Adding a table that references `media` means adding a line here.** There is
+ * no way to make this automatic that is worth the indirection, so it is written
+ * down instead.
+ *
  * `finding_images`, `news_images`, `finding_files` and `publication_files` all
  * cascade, so deleting an entry takes its *attachments* with it — but the
  * `media` and `files` rows themselves survive, and each one carries the whole
@@ -977,6 +1140,13 @@ export async function deleteOrphanedUploads(): Promise<{ media: number; files: n
     DELETE FROM media m
     WHERE NOT EXISTS (SELECT 1 FROM news_images    ni WHERE ni.media_id = m.id)
       AND NOT EXISTS (SELECT 1 FROM finding_images fi WHERE fi.media_id = m.id)
+      AND NOT EXISTS (SELECT 1 FROM project_images pi WHERE pi.media_id = m.id)
+      AND NOT EXISTS (SELECT 1 FROM page_images    gi WHERE gi.media_id = m.id)
+      AND NOT EXISTS (
+        SELECT 1 FROM projects p
+        WHERE p.card_media_id = m.id OR p.hero_media_id = m.id
+      )
+      AND NOT EXISTS (SELECT 1 FROM team_members t WHERE t.photo_media_id = m.id)
     RETURNING m.id
   `);
   const files = await query<{ id: number }>(`
@@ -1004,6 +1174,24 @@ export async function deleteOrphanedUploads(): Promise<{ media: number; files: n
  * public when the last of them is unpublished or deleted. That also closes the
  * orphan case in the same test — an image whose entry was deleted is attached to
  * nothing, so it matches nothing here and is no longer served.
+ *
+ * Projects arrived after this was written and have three ways of holding an
+ * image — the gallery join table and the two single-image columns an editor
+ * sets from the project form — so all three are tested. A published project's
+ * card art is public even when the project is `external_only`: it has no page
+ * of its own, but its card is still on the listing.
+ *
+ * ---------------------------------------------------------------------------
+ * EVERY TABLE THAT CAN HOLD AN IMAGE HAS TO BE LISTED HERE TOO
+ * ---------------------------------------------------------------------------
+ * The same rule as `deleteOrphanedUploads`, and it has to be applied to both:
+ * one decides whether an upload is *kept*, this one whether it is *served*.
+ * `page_images` was added to that function and missed here, which meant the
+ * sixteen About-page photographs were stored, kept, listed in the admin — and
+ * answered 404 to every visitor who was not signed in. It looked correct from
+ * inside the admin, which is exactly why it survived a check.
+ *
+ * **When testing an image, test it signed out.**
  */
 export function isMediaPublic(id: number): Promise<boolean> {
   return safeRead(
@@ -1017,6 +1205,25 @@ export function isMediaPublic(id: number): Promise<boolean> {
            SELECT 1 FROM news_images ni
              JOIN news_items n ON n.id = ni.news_id AND n.published
            WHERE ni.media_id = $1
+           UNION ALL
+           SELECT 1 FROM project_images pi
+             JOIN projects p ON p.id = pi.project_id AND p.published
+           WHERE pi.media_id = $1
+           UNION ALL
+           SELECT 1 FROM projects p
+           WHERE p.published AND (p.card_media_id = $1 OR p.hero_media_id = $1)
+           UNION ALL
+           /*
+            * A page photograph has no published flag of its own — the slot it
+            * sits in is a public page, so being attached is what makes it
+            * public. Removing it from the slot is how it is taken down, and
+            * that also makes it an orphan for the sweep.
+            */
+           SELECT 1 FROM page_images gi WHERE gi.media_id = $1
+           UNION ALL
+           -- A hidden colleague's portrait is not public, which is why this
+           -- one does have a condition.
+           SELECT 1 FROM team_members t WHERE t.published AND t.photo_media_id = $1
          ) AS ok`,
         [id],
       );
@@ -1062,6 +1269,8 @@ export type Project = {
   published: boolean;
   sort_order: number;
   published_on: string;
+  /** Further screenshots shown below the hero image, one path per line. */
+  gallery: string[];
 };
 
 /** Stored as newline-separated text; empty lines are not entries. */
@@ -1072,17 +1281,26 @@ function splitLines(value: string | null): string[] {
     .filter(Boolean);
 }
 
-type ProjectRow = Omit<Project, "intro" | "tags"> & { intro: string; tags: string };
+type ProjectRow = Omit<Project, "intro" | "tags" | "gallery"> & {
+  intro: string;
+  tags: string;
+  gallery: string;
+};
 
 const PROJECT_COLUMNS = `
   id, slug, title, page_title, summary, intro, tags, body,
   card_image, hero_image, card_media_id, hero_media_id,
-  website, website_label, vimeo_id, external_only,
+  website, website_label, vimeo_id, external_only, gallery,
   published, sort_order, to_char(published_on, 'YYYY-MM-DD') AS published_on
 `;
 
 function toProject(row: ProjectRow): Project {
-  return { ...row, intro: splitLines(row.intro), tags: splitLines(row.tags) };
+  return {
+    ...row,
+    intro: splitLines(row.intro),
+    tags: splitLines(row.tags),
+    gallery: splitLines(row.gallery),
+  };
 }
 
 /**
@@ -1093,13 +1311,16 @@ function toProject(row: ProjectRow): Project {
  * blinked would otherwise tell visitors the centre runs no projects. Every
  * public read must distinguish "there is nothing" from "I could not find out".
  */
-export function listPublishedProjectsStatus(): Promise<ReadStatus<Project[]>> {
+export function listPublishedProjectsStatus(
+  site: Site = PLATFORM_SITE,
+): Promise<ReadStatus<Project[]>> {
   return safeReadStatus(
     async () => {
       const rows = await query<ProjectRow>(
         `SELECT ${PROJECT_COLUMNS} FROM projects
-         WHERE published
+         WHERE published AND project_key = $1
          ORDER BY sort_order, created_at DESC`,
+        [site],
       );
       return rows.map(toProject);
     },
@@ -1114,12 +1335,16 @@ export function listPublishedProjectsStatus(): Promise<ReadStatus<Project[]>> {
  * Unlisted entries are reachable here on purpose: "unlisted" means kept off the
  * listing, not withdrawn. An entry that is not `published` is not served at all.
  */
-export function getPublishedNewsBySlug(slug: string): Promise<NewsItem | null> {
+export function getPublishedNewsBySlug(
+  slug: string,
+  site: Site = PLATFORM_SITE,
+): Promise<NewsItem | null> {
   return safeRead(
     async () =>
       (await queryOne<NewsItem>(
-        `SELECT ${NEWS_COLUMNS} FROM news_items n WHERE n.slug = $1 AND n.published`,
-        [slug],
+        `SELECT ${NEWS_COLUMNS} FROM news_items n
+         WHERE n.slug = $1 AND n.published AND n.project_key = $2`,
+        [slug, site],
       )) ?? null,
     null,
     "news entry",
@@ -1143,13 +1368,16 @@ export async function listAllProjects(): Promise<Project[]> {
  * the same project, one of them nearly empty, and would not match the site this
  * replaces. The listing card is the only place they appear.
  */
-export function getPublishedProjectBySlug(slug: string): Promise<Project | null> {
+export function getPublishedProjectBySlug(
+  slug: string,
+  site: Site = PLATFORM_SITE,
+): Promise<Project | null> {
   return safeRead(
     async () => {
       const row = await queryOne<ProjectRow>(
         `SELECT ${PROJECT_COLUMNS} FROM projects
-         WHERE slug = $1 AND published AND NOT external_only`,
-        [slug],
+         WHERE slug = $1 AND published AND NOT external_only AND project_key = $2`,
+        [slug, site],
       );
       return row ? toProject(row) : null;
     },
@@ -1271,24 +1499,14 @@ export async function deleteProject(id: number): Promise<void> {
   await deleteOrphanedUploads();
 }
 
-/** The same test as `isMediaPublic`, extended to images attached to projects. */
-export function isProjectMediaPublic(id: number): Promise<boolean> {
-  return safeRead(
-    async () => {
-      const row = await queryOne<{ ok: boolean }>(
-        `SELECT EXISTS (
-           SELECT 1 FROM project_images pi
-             JOIN projects p ON p.id = pi.project_id AND p.published
-           WHERE pi.media_id = $1
-         ) AS ok`,
-        [id],
-      );
-      return row?.ok ?? false;
-    },
-    false,
-    "project media visibility",
-  );
-}
+/*
+ * `isProjectMediaPublic` was removed on 14 August 2026. It was never called,
+ * and its comment claimed it was "the same test as isMediaPublic, extended to
+ * projects" when it was strictly narrower — it checked `project_images` and
+ * nothing else. Anyone who had believed the comment and used it would have
+ * 404'd every news photograph on the site. `isMediaPublic` covers projects
+ * itself; there is one visibility test for images and this is not a second one.
+ */
 
 /** The same test for a downloadable document behind `/files/[id]`. */
 export function isFilePublic(id: number): Promise<boolean> {
@@ -1314,3 +1532,208 @@ export function isFilePublic(id: number): Promise<boolean> {
 }
 
 
+
+/* ==========================================================================
+ * TEAM
+ * ==========================================================================
+ * The people on the team page. Moved out of `content.ts` and into the database
+ * on 13 August 2026 so that adding a colleague stops being a code change — see
+ * migrations/008_team_and_page_images.sql.
+ * ======================================================================== */
+
+export type TeamMemberRow = {
+  id: number;
+  name: string;
+  role: string;
+  photo_media_id: number | null;
+  photo_path: string | null;
+  email: string | null;
+  linkedin: string | null;
+  sort_order: number;
+  published: boolean;
+};
+
+const TEAM_COLUMNS = `
+  id, name, role, photo_media_id, photo_path, email, linkedin, sort_order, published
+`;
+
+const TEAM_ORDER = "ORDER BY sort_order, id";
+
+/**
+ * The published team, for the public page.
+ *
+ * `ReadStatus` rather than a bare list for the usual reason: the page has to be
+ * able to tell "nobody has been added yet" from "the database did not answer".
+ */
+export function listPublishedTeamStatus(
+  site: Site = PLATFORM_SITE,
+): Promise<ReadStatus<TeamMemberRow[]>> {
+  return safeReadStatus(
+    () =>
+      query<TeamMemberRow>(
+        `SELECT ${TEAM_COLUMNS} FROM team_members
+         WHERE published AND project_key = $1
+         ${TEAM_ORDER}`,
+        [site],
+      ),
+    [],
+    "team",
+  );
+}
+
+/** Admin list: everyone, published or not. Deliberately not `safeRead`. */
+export function listAllTeam(site: Site = PLATFORM_SITE): Promise<TeamMemberRow[]> {
+  return query<TeamMemberRow>(
+    `SELECT ${TEAM_COLUMNS} FROM team_members WHERE project_key = $1 ${TEAM_ORDER}`,
+    [site],
+  );
+}
+
+export function getTeamMember(id: number): Promise<TeamMemberRow | null> {
+  return queryOne<TeamMemberRow>(
+    `SELECT ${TEAM_COLUMNS} FROM team_members WHERE id = $1`,
+    [id],
+  );
+}
+
+/**
+ * The position a new person takes when nobody says where they go.
+ *
+ * The end of the list, not the start. The form used to default the field to 0,
+ * and 0 sorts first — so somebody added without a position landed above the
+ * Director, which is not what "I did not fill that in" means.
+ */
+export async function nextTeamOrder(site: Site = PLATFORM_SITE): Promise<number> {
+  const row = await queryOne<{ next: number }>(
+    "SELECT COALESCE(MAX(sort_order), 0) + 1 AS next FROM team_members WHERE project_key = $1",
+    [site],
+  );
+  return row?.next ?? 1;
+}
+
+export type TeamMemberInput = {
+  name: string;
+  role: string;
+  email: string | null;
+  linkedin: string | null;
+  sortOrder: number;
+  published: boolean;
+  /** Undefined leaves the existing portrait alone; a number replaces it. */
+  photoMediaId?: number;
+};
+
+export async function createTeamMember(
+  input: TeamMemberInput,
+  site: Site = PLATFORM_SITE,
+): Promise<number> {
+  const row = await queryOne<{ id: number }>(
+    `INSERT INTO team_members
+       (project_key, name, role, email, linkedin, sort_order, published, photo_media_id)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+    [site, input.name, input.role, input.email, input.linkedin,
+     input.sortOrder, input.published, input.photoMediaId ?? null],
+  );
+  return row!.id;
+}
+
+export async function updateTeamMember(id: number, input: TeamMemberInput): Promise<void> {
+  /*
+   * The portrait is updated only when a new one was uploaded. Writing
+   * `photo_media_id = $8` unconditionally would clear the existing picture every
+   * time somebody corrected a job title, because the form sends no file when
+   * none was chosen.
+   */
+  await query(
+    `UPDATE team_members
+     SET name = $2, role = $3, email = $4, linkedin = $5,
+         sort_order = $6, published = $7,
+         photo_media_id = COALESCE($8, photo_media_id),
+         updated_at = now()
+     WHERE id = $1`,
+    [id, input.name, input.role, input.email, input.linkedin,
+     input.sortOrder, input.published, input.photoMediaId ?? null],
+  );
+}
+
+export async function deleteTeamMember(id: number): Promise<void> {
+  await query("DELETE FROM team_members WHERE id = $1", [id]);
+}
+
+/* ==========================================================================
+ * PAGE IMAGES
+ * ==========================================================================
+ * Photographs attached to a named place on a page rather than to an entry —
+ * the scrolling strip on the About page, for instance. `slot` names the place.
+ * ======================================================================== */
+
+/** The slots the admin offers. Anything else is refused rather than created. */
+export const PAGE_IMAGE_SLOTS = {
+  "about-collage": "About page — scrolling photographs",
+  "about-lead": "About page — main picture",
+} as const;
+
+export type PageImageSlot = keyof typeof PAGE_IMAGE_SLOTS;
+
+export function isPageImageSlot(value: string): value is PageImageSlot {
+  return Object.prototype.hasOwnProperty.call(PAGE_IMAGE_SLOTS, value);
+}
+
+export type PageImage = {
+  id: number;
+  media_id: number;
+  sort_order: number;
+  alt: string;
+};
+
+export function listPageImages(
+  slot: PageImageSlot,
+  site: Site = PLATFORM_SITE,
+): Promise<ReadStatus<PageImage[]>> {
+  return safeReadStatus(
+    () =>
+      query<PageImage>(
+        `SELECT pi.id, pi.media_id, pi.sort_order, m.alt
+         FROM page_images pi JOIN media m ON m.id = pi.media_id
+         WHERE pi.project_key = $1 AND pi.slot = $2
+         ORDER BY pi.sort_order, pi.id`,
+        [site, slot],
+      ),
+    [],
+    "page images",
+  );
+}
+
+export async function addPageImage(
+  slot: PageImageSlot,
+  mediaId: number,
+  sortOrder: number,
+  site: Site = PLATFORM_SITE,
+): Promise<void> {
+  await query(
+    `INSERT INTO page_images (project_key, slot, media_id, sort_order)
+     VALUES ($1, $2, $3, $4)`,
+    [site, slot, mediaId, sortOrder],
+  );
+}
+
+/** Deletes the row and, through the cascade, nothing else — the upload stays. */
+export async function deletePageImage(id: number): Promise<void> {
+  await query("DELETE FROM page_images WHERE id = $1", [id]);
+}
+
+export async function setPageImageOrder(id: number, sortOrder: number): Promise<void> {
+  await query("UPDATE page_images SET sort_order = $2 WHERE id = $1", [id, sortOrder]);
+}
+
+/** The highest position in a slot, so a new upload lands at the end. */
+export async function nextPageImageOrder(
+  slot: PageImageSlot,
+  site: Site = PLATFORM_SITE,
+): Promise<number> {
+  const row = await queryOne<{ next: number }>(
+    `SELECT COALESCE(MAX(sort_order), -1) + 1 AS next
+     FROM page_images WHERE project_key = $1 AND slot = $2`,
+    [site, slot],
+  );
+  return row?.next ?? 0;
+}

@@ -30,6 +30,9 @@ export type EnquiryFields = {
 export const ORIGINS: Record<string, string> = {
 	contact: "Website enquiry",
 	partners: "Partnership enquiry",
+	// One deployment serves both sites, so the subject line is the only thing
+	// telling the reader which of them a message came from.
+	adflex: "ADFLEX enquiry",
 };
 
 export const LIMITS = {

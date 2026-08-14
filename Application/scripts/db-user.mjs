@@ -3,10 +3,15 @@
  *
  *   npm run db:user -- ann "Ann McKeon"
  *
- * The account is identified by a **username**, not an email address. Nothing is
- * ever sent to it: there is no password reset by email, no notification and no
- * verification, so an address here would only have looked like a promise the
- * site does not keep.
+ * The account is identified by a login name. An email address is allowed and is
+ * what the IRESI team asked for — `admin@iresi.eu` — but understand what it is:
+ * an identifier, not an address. Nothing is ever sent to it. There is no
+ * password reset by email, no notification and no verification, so choosing an
+ * address that does not exist as a real mailbox is fine, and choosing one that
+ * does buys nothing.
+ *
+ * A forgotten password is recovered by re-running this command, which is the
+ * only reset there is.
  *
  * The password is asked for interactively and never appears in an argument, so
  * it does not land in shell history or a process list. Re-running for a username
@@ -32,17 +37,20 @@ if (!username || !name) {
 }
 
 /*
- * Letters, digits, dot, underscore and hyphen; 3 to 64 characters.
+ * Letters, digits, dot, underscore, hyphen and `@`; 3 to 64 characters.
  *
- * Deliberately narrow. The username is typed by hand into a login box, appears
- * in log lines, and is compared in lower case — so spaces, quotes and anything
- * that needs escaping are refused here rather than causing a puzzle later.
+ * Still deliberately narrow. The login is typed by hand into a box, appears in
+ * log lines and is compared in lower case, so spaces, quotes and anything that
+ * needs escaping are refused here rather than causing a puzzle later. `@` was
+ * added on 13 August 2026 so that `admin@iresi.eu` can be the login, which is
+ * what the team recognises — see the note above about what that does and does
+ * not mean.
  */
-if (!/^[a-zA-Z0-9._-]{3,64}$/.test(username)) {
+if (!/^[a-zA-Z0-9._@-]{3,64}$/.test(username)) {
   console.error(
-    `"${username}" is not a valid username.\n\n` +
-      "Use 3 to 64 characters: letters, digits, dot, underscore or hyphen.\n" +
-      "It is a name to sign in with, not an email address.",
+    `"${username}" is not a valid login name.\n\n` +
+      "Use 3 to 64 characters: letters, digits, dot, underscore, hyphen or @.\n" +
+      "An email address is allowed — it is an identifier, and nothing is sent to it.",
   );
   process.exit(1);
 }

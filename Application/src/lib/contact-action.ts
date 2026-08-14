@@ -36,7 +36,8 @@ import { composeEnquiry, tooLong } from "@/lib/enquiry";
  *    is the record, and deleting it there deletes it entirely.
  *
  * **This handles personal data.** Name, email and free text, with Maynooth
- * University as the controller named in the privacy policy. See docs/ADMIN.md.
+ * University as the controller. The deployment publishes no privacy policy as
+ * of 13 August 2026 — see the note in handover/ACCESS-NEEDED.md.
  */
 
 export type ContactState = { error?: string; sent?: boolean };
